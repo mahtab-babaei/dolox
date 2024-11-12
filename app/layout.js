@@ -1,15 +1,19 @@
 import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const digirastin = localFont({
+  src: "./fonts/digirastin.ttf",
+  variable: "--font-digirastin",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const vazirBold = localFont({
+  src: "./fonts/vazirbold.woff2",
+  variable: "--font-vazir-bold",
+});
+
+const vazir = localFont({
+  src: "./fonts/vazirnormal.woff2",
+  variable: "--font-vazir",
 });
 
 export const metadata = {
@@ -19,9 +23,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${digirastin.variable} ${vazirBold.variable} ${vazir.variable} antialiased`}
       >
         {children}
       </body>

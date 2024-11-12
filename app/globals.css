@@ -3,8 +3,23 @@
 @tailwind utilities;
 
 :root {
+  --font-digirastin: "Digirastin", sans-serif;
+  --font-vazir-bold: "VazirBold", sans-serif;
+  --font-vazir: "Vazir", sans-serif;
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.font-digirastin {
+  font-family: var(--font-digirastin);
+}
+
+.font-vazir-bold {
+  font-family: var(--font-vazir-bold);
+}
+
+.font-vazir {
+  font-family: var(--font-vazir);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,5 +32,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: digirastin;
 }
