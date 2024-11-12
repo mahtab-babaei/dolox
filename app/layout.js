@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
 const digirastin = localFont({
   src: "./fonts/digirastin.ttf",
@@ -27,7 +28,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${digirastin.variable} ${vazirBold.variable} ${vazir.variable} antialiased`}
       >
-        {children}
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   );
