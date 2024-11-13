@@ -7,15 +7,25 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        base: "864px",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: '#BC1526',
-        secondary: '#FA4505',
-        accent: '#0F141E',
-        neutral: '#EFF3FA',
+        primary: "#BC1526",
+        secondary: "#FA4505",
+        accent: "#0F141E",
+        neutral: "#EFF3FA",
+        'base-100': '#0F141E',
+        'base-200': '#EFF3FA',
+        'base-300': '#F6F6F6',
+        'base-content': '#8B7676',
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: false, // Disable DaisyUI themes
+  },
 };

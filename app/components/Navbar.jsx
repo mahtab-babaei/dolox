@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import SearchBox from "./SearchBox";
 
 const Navbar = () => {
   const [drawer, setDrawer] = useState(false);
@@ -25,11 +26,11 @@ const Navbar = () => {
 
   return (
     <nav className="w-full fixed bg-white z-50">
-      <div className="flex w-full p-4 max-w-screen-xl mx-auto justify-between items-end text-sm font-normal">
+      <div className="flex w-full py-2 px-4 max-w-screen-xl mx-auto justify-between items-center text-sm font-normal">
         {/* drawer btn */}
         <svg
           onClick={toggleDrawer}
-          className="md:hidden cursor-pointer"
+          className="base:hidden cursor-pointer"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -45,15 +46,15 @@ const Navbar = () => {
           />
         </svg>
 
-        <div className="flex gap-4 items-end">
+        <div className="flex items-center">
           <Image
             priority
-            className="md:mx-2 object-contain"
+            className="base:ml-2 object-contain"
             src={logo}
-            height={44}
+            height={60}
             alt="logo"
           />
-          <ul className="gap-4 hidden md:flex">
+          <ul className="gap-4 hidden base:flex">
             {links.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className={isActive(link.href)}>
@@ -66,13 +67,13 @@ const Navbar = () => {
 
         <div className="flex gap-4">
           <Link
-            className="px-3 py-3 text-center rounded-lg bg-primary border-primary text-white  hidden md:flex"
+            className="btn bg-primary border-primary text-white  hidden base:flex"
             href="/"
           >
             ثبت رایگان اتو گالری
           </Link>
           <Link
-            className="px-3 py-3 rounded-lg bg-secondary border-secondary text-white border-none hidden md:flex"
+            className="btn bg-secondary border-secondary text-white border-none hidden base:flex"
             href="/createad"
           >
             ثبت رایگان آگهی
@@ -95,6 +96,7 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
+      <SearchBox />
 
       {/* Drawer */}
       <div
@@ -118,13 +120,13 @@ const Navbar = () => {
 
         <div className="flex flex-col justify-end">
           <Link
-            className="px-3 py-3 text-center rounded-lg bg-primary border-primary text-white mb-2"
+            className="btn bg-primary border-primary text-white mb-2"
             href="/"
           >
             ثبت رایگان اتو گالری
           </Link>
           <Link
-            className="px-3 py-3 text-center rounded-lg bg-secondary border-secondary text-white"
+            className="btn bg-secondary border-secondary text-white"
             href="/createad"
           >
             ثبت رایگان آگهی
