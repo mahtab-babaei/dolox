@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/global/Navbar";
 
 const digirastin = localFont({
   src: "./fonts/digirastin.ttf",
