@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <nav className="w-full fixed bg-white z-50">
-      <div className="flex w-full py-2 px-4 max-w-screen-xl mx-auto justify-between items-center text-sm font-normal">
+      <div className="flex w-full py-2 px-4 max-w-screen-2xl mx-auto justify-between items-center text-sm font-normal">
         {/* drawer btn */}
         <svg
           onClick={toggleDrawer}
