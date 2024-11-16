@@ -4,6 +4,7 @@ import LastAds from "./components/home/LastAds";
 import { getAds } from "@/utils/Request";
 import { getAutogalleries } from "@/utils/Request";
 import LastAutoGalleries from "./components/home/LastAutoGalleries";
+import FreeAutoGallery from "./components/home/FreeAutoGallery";
 
 export default async function Home() {
   let ads = {};
@@ -22,6 +23,7 @@ export default async function Home() {
       <LastAds ads={ads.results || []} />
       <FreeAds />
       <LastAutoGalleries autogalleries={autoGalleries.results || []} />
+      <FreeAutoGallery />
     </>
   );
 }
