@@ -6,11 +6,11 @@ import LastAuctionItem from "../global/LastAuctionItem";
 
 const LastAuctions = ({ auctions }) => {
   return (
-    <section className="mx-auto bg-black mb-24">
+    <section className="mx-auto bg-black">
       <div className="mx-auto max-w-screen-xl text-white relative pb-24">
         <div className="w-full h-full z-30 relative bg-transparent">
           <h2 className="text-3xl w-full text-center pt-24">آخرین مزایده ها</h2>
-          <p className="text-center font-vazir pb-10">
+          <p className="text-center font-vazir pb-10 pt-3">
             کامل ترین مزایدات کشور در{" "}
             <span className="text-secondary">دولوکس</span>
           </p>

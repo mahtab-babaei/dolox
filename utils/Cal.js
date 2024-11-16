@@ -1,3 +1,5 @@
+import { toJalaali } from 'jalaali-js';
+
 // Function to filter for 'sale'
 export function filterSales(items) {
   return items.filter((item) => item.sale_or_rent === "sale");
@@ -20,4 +22,30 @@ export function calculateDaysLeft(endDateStr) {
   const daysLeft = Math.ceil(differenceInMillis / millisecondsPerDay);
 
   return daysLeft;
+}
+
+
+export function convertToShamsiAndGregorian(dateString) {
+  const date = new Date(dateString);
+
+  // Extract Gregorian date
+  const gregorianYear = date.getFullYear();
+  const gregorianMonth = date.getMonth() + 1; // Months are zero-indexed
+  const gregorianDay = date.getDate();
+
+  // Convert to Shamsi (Jalali) date
+  const jalaaliDate = toJalaali(gregorianYear, gregorianMonth, gregorianDay);
+
+  return {
+      gregorian: {
+          year: gregorianYear,
+          month: gregorianMonth,
+          day: gregorianDay,
+      },
+      shamsi: {
+          year: jalaaliDate.jy,
+          month: jalaaliDate.jm,
+          day: jalaaliDate.jd,
+      },
+  };
 }
