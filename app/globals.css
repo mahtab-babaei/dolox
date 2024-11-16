@@ -48,3 +48,7 @@ body {
   /* Adjust this value */
   border-right-color: transparent;
 }
+
+.bg-gradient-red{
+  background: linear-gradient(183deg, #BC1526 2.2%, #560A11 97.8%);
+ }

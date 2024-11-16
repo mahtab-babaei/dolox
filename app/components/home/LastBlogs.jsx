@@ -3,7 +3,7 @@ import BlogItem from "../global/BlogItem";
 
 const LastBlogs = ({ blogs }) => {
   return (
-    <section className="mx-auto bg-base-100 px-2 pb-48">
+    <section className="mx-auto bg-base-100 px-2 pb-72">
       <div className="mx-auto max-w-screen-xl text-white relative">
         <h2 className=" text-3xl w-full text-center pt-48 ">
           به‌روزترین اخبار دنیای خودرو در دولوکس

@@ -58,3 +58,20 @@ export const getBlogs = async () => {
     throw error;
   }
 };
+
+export const getBrandsByType = async (type) => {
+  try {
+    const response = await axios.get(
+      `${BackendURL}/ads/brand_type/?type=${type}`
+    );
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Request failed with status: " + response.status);
+    }
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
