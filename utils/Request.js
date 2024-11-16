@@ -14,3 +14,18 @@ export const getAds = async () => {
     throw error;
   }
 };
+
+export const getAutogalleries = async () => {
+  try {
+    const response = await axios.get(`${BackendURL}/ads/exhibition/`);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error("Request failed with status: " + response.status);
+    }
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+};
+

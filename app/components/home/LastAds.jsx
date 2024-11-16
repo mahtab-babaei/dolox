@@ -29,7 +29,7 @@ const LastAds = ({ ads }) => {
               همه
             </div>
             <div
-              className={`!font-["vazir"] cursor-pointer py-2 px-4 rounded-[8px] text-secondary ${
+              className={`!font-vazir cursor-pointer py-2 px-4 rounded-[8px] text-secondary ${
                 category === "فروشی"
                   ? "bg-secondary !text-white "
                   : "border border-secondary "
