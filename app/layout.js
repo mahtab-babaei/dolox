@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/global/Navbar";
+import Footer from "./components/global/Footer";
 
 const digirastin = localFont({
   src: "./fonts/digirastin.ttf",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
       >
         <Navbar />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
