@@ -1,3 +1,4 @@
+import FreeAds from "./components/home/FreeAds";
 import Hero from "./components/home/Hero";
 import LastAds from "./components/home/LastAds";
 import { getAds } from "@/utils/Request";
@@ -15,6 +16,7 @@ export default async function Home() {
     <>
       <Hero />
       <LastAds ads={ads.results || []} />
+      <FreeAds />
     </>
   );
 }
