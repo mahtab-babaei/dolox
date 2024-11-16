@@ -33,14 +33,14 @@ const Hero = () => {
   ];
   return (
     <section className="mx-auto pt-32 bg-base-100">
-      <div className="mx-auto max-w-screen-2xl text-white">
-        <Image
-          src={ImageURL + "homepagebanner.png"}
-          width={1440}
-          height={812}
-          alt="hero image"
-          className="w-full"
-        />
+      <Image
+        src={ImageURL + "homepagebanner.png"}
+        width={1440}
+        height={812}
+        alt="hero image"
+        className="w-full"
+      />
+      <div className="max-w-screen-xl mx-auto text-white">
         <h1 className="md:text-4xl text-2xl w-full text-center pt-16">
           به دنیای <span className="text-secondary">دولوکس</span> خوش آمدید
         </h1>

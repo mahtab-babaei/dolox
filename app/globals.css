@@ -34,3 +34,17 @@ body {
   background: var(--background);
   font-family: digirastin;
 }
+
+.cut-right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -30px;
+  border-top-width: 56px;
+  /* Adjust this value */
+  /* border-top-color: #FA4505; */
+  /* Same color as background */
+  border-right-width: 30px;
+  /* Adjust this value */
+  border-right-color: transparent;
+}
