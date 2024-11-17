@@ -173,3 +173,17 @@ export const verifyAccount = async (otp, phonenumber) => {
     }
   }
 };
+
+export const getUser = async (token, userId) => {
+  try {
+    const response = await axios.get(`${BackendURL}accounts/users/${userId}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    throw error;
+  }
+};
