@@ -5,20 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import SearchBox from "./SearchBox";
+import { links } from "@/utils/constants";
 
 const Navbar = () => {
   const [drawer, setDrawer] = useState(false);
   const currentPath = usePathname();
   const isActive = (href) =>
     currentPath === href ? "text-secondary" : "text-black";
-
-  const links = [
-    { label: "صفحه اصلی", href: "/" },
-    { label: "آگهی ها", href: "/ads" },
-    { label: "مزایده ها", href: "/auctions" },
-    { label: "اتوگالری", href: "/autogallery" },
-    { label: "اخبار", href: "https://blog.dolox.ir" },
-  ];
 
   const toggleDrawer = () => {
     setDrawer(!drawer);

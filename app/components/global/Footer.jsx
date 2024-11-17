@@ -2,16 +2,9 @@ import { ImageURL } from "@/utils/URL";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { links } from "@/utils/constants";
 
 const Footer = () => {
-  const links = [
-    { label: "صفحه اصلی", href: "/" },
-    { label: "آگهی ها", href: "/ads" },
-    { label: "مزایده ها", href: "/auctions" },
-    { label: "اتوگالری", href: "/autogallery" },
-    { label: "اخبار", href: "https://blog.dolox.ir" },
-  ];
-
   const userLinks = [
     { label: "ورود", href: "/login" },
     { label: "ثبت نام", href: "/register" },
