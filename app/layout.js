@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${digirastin.variable} ${vazirBold.variable} ${vazir.variable} antialiased`}
       >
-        <Navbar />
+        <Navbar user={user} />
         <main>
           {React.Children.map(children, (child) =>
             React.cloneElement(child, { user })
