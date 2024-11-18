@@ -1,5 +1,4 @@
 "use client";
-import { eyeIcon, eyeSlashIcon } from "@/utils/constants";
 import { loginReq } from "@/utils/Request"; // Assuming this is your login request function
 import { ImageURL } from "@/utils/URL";
 import { useFormik } from "formik";

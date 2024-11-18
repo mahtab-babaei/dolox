@@ -2,7 +2,7 @@ import { ImageURL } from "@/utils/URL";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { links } from "@/utils/constants";
+import { links } from "@/utils/Constants";
 
 const Footer = () => {
   const userLinks = [
