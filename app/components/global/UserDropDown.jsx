@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useReducer } from "react";
 import Link from "next/link";
+import { destroyCookie } from "nookies";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const UserDropDown = () => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    // Call the API route to remove cookies server-side
+    destroyCookie(null, "access");
+    destroyCookie(null, "refresh");
+    await fetch("/api/logout", { method: "POST" });
+
+    // Redirect to the login page after logout
+    await router.push("/login");
+    router.refresh();
+  };
+
   const menuItems = [
     {
       href: "/dashboard/profile",
@@ -47,6 +63,7 @@ const UserDropDown = () => {
           <Link
             className="flex gap-2 rounded-[10px] items-center h-10 pr-2 hover:bg-slate-300 duration-300"
             href={item.href}
+            onClick={item.label === "خروج" && handleLogout}
           >
             <svg
               width={12}
