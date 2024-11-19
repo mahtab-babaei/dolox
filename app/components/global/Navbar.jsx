@@ -9,7 +9,7 @@ import { links } from "@/utils/Constants";
 import UserDropDown from "./UserDropDown";
 import { userIcon } from "@/utils/Constants";
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user, setUser }) => {
   const userName = user?.first_name || user?.username || "ورود";
   const [drawer, setDrawer] = useState(false);
   const currentPath = usePathname();
@@ -89,7 +89,7 @@ const Navbar = ({ user }) => {
               >
                 <span className="font-vazir-bold font-bold">{userName}</span>
                 {userIcon}
-                <UserDropDown />
+                <UserDropDown setUser={setUser} />
               </div>
             </div>
           )}

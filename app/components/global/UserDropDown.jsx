@@ -4,18 +4,21 @@ import { destroyCookie } from "nookies";
 import { useRouter } from "next/navigation";
 import { menuItems } from "@/utils/Constants";
 
-const UserDropDown = () => {
+const UserDropDown = ({setUser}) => {
   const router = useRouter();
 
   const handleLogout = async () => {
     // Call the API route to remove cookies server-side
     destroyCookie(null, "access");
     destroyCookie(null, "refresh");
-    await fetch("/api/logout", { method: "POST" });
-
-    // Redirect to the login page after logout
-    await router.push("/login");
-    router.refresh();
+    const response = await fetch("/api/logout", { method: "POST" });
+    if (response.ok) {
+      // Redirect to the login page after logout
+      router.push("/login");
+      setUser(null);
+    } else {
+      console.error("Failed to log out");
+    }
   };
 
   return (
