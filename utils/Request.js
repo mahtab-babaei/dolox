@@ -197,3 +197,20 @@ export const getUser = async (token, userId) => {
     throw error;
   }
 };
+
+export const getProfile = async (userId, token) => {
+  try {
+    const response = await axios.get(
+      `${BackendURL}accounts/profile/${userId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    throw error;
+  }
+};
