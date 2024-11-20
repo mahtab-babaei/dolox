@@ -1,8 +1,9 @@
 import { BackendURL, WordPressURL } from "./URL";
 import axios from "axios";
+import { setCookie } from "nookies";
 
 const axiosInstance = axios.create({
-  timeout: 10000, 
+  timeout: 10000,
 });
 
 export const getAds = async () => {
@@ -93,6 +94,11 @@ export const loginReq = async (phonenumber, password) => {
       },
     });
     console.log("Status Code:", response.status); // Log the status code
+    setCookie(null, "access", response.access, {
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: "/",
+      secure: process.env.NODE_ENV === "production", // فقط در تولید امن باشد
+    });
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -187,7 +193,7 @@ export const getUser = async (token, userId) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error("Error fetching user data:", error);
     throw error;
   }
 };
