@@ -1,9 +1,8 @@
-"use client";
+import { UserProvider } from "@/context/UserContext";
 import { getUser } from "@/utils/Request";
 import jwt from "jsonwebtoken";
 import localFont from "next/font/local";
-import nookies from "nookies";
-import React, { useEffect, useState } from "react";
+import { cookies } from "next/headers";
 import Footer from "./components/global/Footer";
 import Navbar from "./components/global/Navbar";
 import "./globals.css";
@@ -23,46 +22,38 @@ const vazir = localFont({
   variable: "--font-vazir",
 });
 
-export default function RootLayout({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+const fetchUserFromServer = async (token) => {
+  try {
+    const decoded = jwt.decode(token); // Decode JWT
+    const userId = decoded?.user_id; // Extract user ID
+    if (!userId) throw new Error("Invalid token");
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const cookies = nookies.get(); // Get cookies
-      const token = cookies.access; // Access token from cookies
+    // Use getUser function
+    const user = await getUser(token, userId);
+    return user;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
+};
 
-      if (token) {
-        setIsAuthenticated(true);
+export default async function RootLayout({ children }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access")?.value;
 
-        // try {
-        const decoded = jwt.decode(token); // Decode the JWT
-        const userId = decoded.user_id; // Get user ID from token
-
-        // Fetch user data asynchronously
-        const userInfo = await getUser(token, userId);
-        setUser(userInfo);
-      } else {
-        setIsAuthenticated(false);
-        setUser(null);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  // Fetch user data using the token
+  const user = token ? await fetchUserFromServer(token) : null;
 
   return (
     <html lang="fa" dir="rtl">
       <body
         className={`${digirastin.variable} ${vazirBold.variable} ${vazir.variable} antialiased`}
       >
-        <Navbar user={user} setUser={setUser} />
-        <main>
-          {React.Children.map(children, (child) =>
-            React.cloneElement(child, { user })
-          )}
-        </main>
-        <Footer />
+        <UserProvider user={user}>
+          <Navbar user={user} />
+          <main>{children}</main>
+          <Footer />
+        </UserProvider>
       </body>
     </html>
   );

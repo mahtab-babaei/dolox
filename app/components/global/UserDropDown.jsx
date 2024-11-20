@@ -4,7 +4,7 @@ import { destroyCookie } from "nookies";
 import { useRouter } from "next/navigation";
 import { menuItems } from "@/utils/Constants";
 
-const UserDropDown = ({setUser}) => {
+const UserDropDown = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -15,7 +15,6 @@ const UserDropDown = ({setUser}) => {
     if (response.ok) {
       // Redirect to the login page after logout
       router.push("/login");
-      setUser(null);
     } else {
       console.error("Failed to log out");
     }

@@ -1,23 +1,33 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { menuItems } from "@/utils/Constants";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
+import { destroyCookie } from "nookies";
 
-const DashboardPanel = ({ user }) => {
+const DashboardPanel = () => {
+  const user = useUser();
+  const router = useRouter();
+
   const handleLogout = async () => {
     // Call the API route to remove cookies server-side
     destroyCookie(null, "access");
     destroyCookie(null, "refresh");
-    await fetch("/api/logout", { method: "POST" });
-
-    // Redirect to the login page after logout
-    await router.push("/login");
-    router.reload();
+    const response = await fetch("/api/logout", { method: "POST" });
+    if (response.ok) {
+      // Redirect to the login page after logout
+      router.push("/login");
+    } else {
+      console.error("Failed to log out");
+    }
   };
+
   return (
-    <aside className="bg-white w-3/12  max-w-[250px]  min-w-52  rounded-[34px] p-5 md:flex flex-col hidden ">
+    <aside className="bg-white w-3/12 max-w-[250px] min-w-52 rounded-[34px] p-5 md:flex flex-col hidden">
       <Image
-        className="rounded-[10px] mx-auto object-cover object-center w-28 h-28 mt-8 "
+        className="rounded-[10px] mx-auto object-cover object-center w-28 h-28 mt-8"
         src={user?.profile.picture}
         width={150}
         height={150}
@@ -33,7 +43,7 @@ const DashboardPanel = ({ user }) => {
         className="dropdown-content  bg-white rounded-box z-[1]  p-2  "
       >
         {menuItems.map((item, index) => (
-          <li key={index} className={item.label === "خروج" && "hidden"}>
+          <li key={index} className={item.label === "خروج" ? "hidden" : ""}>
             <Link
               className="flex gap-2 rounded-[10px] items-center h-10 pr-2 hover:bg-slate-300  duration-300"
               href={item.href}
@@ -53,7 +63,7 @@ const DashboardPanel = ({ user }) => {
       </ul>
 
       <div
-        className="cursor-pointer flex gap-2 rounded-[10px] items-center h-10 pr-2 hover:bg-slate-300  duration-300 mt-auto w-full justify-center"
+        className="cursor-pointer flex gap-2 rounded-[10px] items-center h-10 hover:bg-slate-300  duration-300 mt-auto w-full justify-center"
         onClick={handleLogout}
       >
         <svg
