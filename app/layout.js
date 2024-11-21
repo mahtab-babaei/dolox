@@ -2,7 +2,7 @@ import { UserProvider } from "@/context/UserContext";
 import { getUser } from "@/utils/Request";
 import jwt from "jsonwebtoken";
 import localFont from "next/font/local";
-import { cookies } from "next/headers";
+import { getToken } from "@/utils/Auth";
 import Footer from "./components/global/Footer";
 import Navbar from "./components/global/Navbar";
 import "./globals.css";
@@ -22,8 +22,12 @@ const vazir = localFont({
   variable: "--font-vazir",
 });
 
-const fetchUserFromServer = async (token) => {
+const fetchUserFromServer = async () => {
   try {
+    const token = await getToken(); // Use the getToken function
+    if (!token) {
+      throw new Error("Token not found");
+    }
     const decoded = jwt.decode(token); // Decode JWT
     const userId = decoded?.user_id; // Extract user ID
     if (!userId) throw new Error("Invalid token");
@@ -38,11 +42,7 @@ const fetchUserFromServer = async (token) => {
 };
 
 export default async function RootLayout({ children }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("access")?.value;
-
-  // Fetch user data using the token
-  const user = token ? await fetchUserFromServer(token) : null;
+  const user = await fetchUserFromServer();
 
   return (
     <html lang="fa" dir="rtl">
