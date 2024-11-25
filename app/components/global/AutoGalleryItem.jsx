@@ -6,7 +6,7 @@ const AutoGalleryItem = ({ autoGallery }) => {
       <div className="relative z-10">
         <Image
           className="mx-auto object-cover w-full object-center rounded-t-[30px]"
-          src={autoGallery.logo || "/default-logo.png"} // Provide a fallback image
+          src={autoGallery.logo || "default-logo.png"} // Provide a fallback image
           width={370}
           height={208}
           alt="car"
