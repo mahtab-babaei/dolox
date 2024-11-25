@@ -308,11 +308,11 @@ export const createAdReq = async (
 
     const response = await axios.post(`${BackendURL}/ads/`, formData, {
       headers: {
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Error Response:", error.response?.data || error.message);
     throw new Error(error.response?.data?.message || "Failed to create ad");
@@ -349,5 +349,46 @@ export const getModelsByBrand = async (brand) => {
   } catch (error) {
     console.error(error);
     throw error;
+  }
+};
+
+export const updateUserProfile = async (
+  token,
+  userId,
+  email,
+  picture,
+  city,
+  first,
+  last,
+  gender
+) => {
+  // Create FormData to handle both text and file data
+  const formData = new FormData();
+
+  // Append fields to the form data
+  formData.append("first_name", first);
+  formData.append("gender", gender);
+  formData.append("city", city);
+  formData.append("last_name", last);
+  formData.append("email", email);
+  if (picture) {
+    formData.append("picture", picture);
+  }
+
+  try {
+    const response = await axios.patch(
+      `${BackendURL}/accounts/profile/${userId}/`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error Response:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Failed to create ad");
   }
 };

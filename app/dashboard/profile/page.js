@@ -1,9 +1,8 @@
-import React from "react";
-import DashboardPanel from "./DashboardPanel";
-import DashboardAd from "./DashboardAd";
-import { getProfile } from "@/utils/Request";
-import jwt from "jsonwebtoken";
 import { getToken } from "@/utils/Auth";
+import { getProfile } from "@/utils/Request";
+import React from "react";
+import jwt from "jsonwebtoken";
+import ProfileData from "./ProfileData";
 
 const fetchProfileFromServer = async () => {
   try {
@@ -14,21 +13,16 @@ const fetchProfileFromServer = async () => {
     const decoded = jwt.decode(token); // Decode JWT
     const userId = decoded?.user_id; // Extract user ID
     const profile = await getProfile(userId, token);
-    return profile;
+    return { profile, token, userId };
   } catch (error) {
     console.error("Error fetching user data:", error);
     return null;
   }
 };
 
-const DashboardPage = async () => {
-  const profile = await fetchProfileFromServer();
-  return (
-      <div className="flex justify-start h-fit bg-base-200 w-full pt-40 pb-10 px-4">
-        <DashboardPanel />
-        <DashboardAd profile={profile} />
-      </div>
-  );
+const ProfilePage = async () => {
+  const data = await fetchProfileFromServer();
+  return <ProfileData data={data} />;
 };
 
-export default DashboardPage;
+export default ProfilePage;
