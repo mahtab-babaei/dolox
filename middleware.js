@@ -22,5 +22,5 @@ export function middleware(req) {
 
   // ادامه درخواست در صورتی که احراز هویت موفق باشد
   export const config = {
-  matcher: ["/dashboard/:path*"], // فقط مسیرهای داشبورد را هدف قرار می‌دهد
+  matcher: ["/dashboard/:path*", "/createad"], // فقط مسیرهای داشبورد را هدف قرار می‌دهد
 };

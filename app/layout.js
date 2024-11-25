@@ -26,11 +26,11 @@ const fetchUserFromServer = async () => {
   try {
     const token = await getToken(); // Use the getToken function
     if (!token) {
-      throw new Error("Token not found");
+      return null;
     }
     const decoded = jwt.decode(token); // Decode JWT
     const userId = decoded?.user_id; // Extract user ID
-    if (!userId) throw new Error("Invalid token");
+    if (!userId) return null;
 
     // Use getUser function
     const user = await getUser(token, userId);
