@@ -20,7 +20,7 @@ export function middleware(req) {
   return NextResponse.next(); // اجازه ادامه به درخواست
 }
 
-  // ادامه درخواست در صورتی که احراز هویت موفق باشد
-  export const config = {
-  matcher: ["/dashboard/:path*", "/createad"], // فقط مسیرهای داشبورد را هدف قرار می‌دهد
+// ادامه درخواست در صورتی که احراز هویت موفق باشد
+export const config = {
+  matcher: ["/dashboard/:path*", "/createad", "/auctions"], // فقط مسیرهای داشبورد را هدف قرار می‌دهد
 };

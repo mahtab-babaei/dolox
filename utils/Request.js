@@ -431,3 +431,35 @@ export const newpw = async (otp, password) => {
     throw new Error(error.response?.data?.message || "Failed to create newpw");
   }
 };
+
+export const getAuctionsByFilter = async (
+  token,
+  category,
+  priceRange,
+  city,
+  query
+) => {
+  try {
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await axios.get(`${BackendURL}/auction/`, {
+      params: {
+        auction_type: category,
+        base_price_max: priceRange.max,
+        base_price_min: priceRange.min,
+        city: city,
+        page: 1,
+        search: query,
+      },
+      headers,
+    });
+
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    } else {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

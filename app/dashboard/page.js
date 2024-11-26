@@ -11,6 +11,7 @@ const fetchProfileFromServer = async () => {
     if (!token) {
       throw new Error("Token not found");
     }
+    console.log(token)
     const decoded = jwt.decode(token); // Decode JWT
     const userId = decoded?.user_id; // Extract user ID
     const profile = await getProfile(userId, token);
@@ -22,6 +23,7 @@ const fetchProfileFromServer = async () => {
 };
 
 const DashboardPage = async () => {
+  
   const profile = await fetchProfileFromServer();
   return (
       <div className="flex justify-start h-fit bg-base-200 w-full pt-40 pb-10 px-4">
