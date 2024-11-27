@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { menuItems } from "@/utils/Constants";
+import { menuItems } from "@/utils/constants";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { destroyCookie } from "nookies";

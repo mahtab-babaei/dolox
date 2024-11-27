@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { destroyCookie } from "nookies";
 import { useRouter } from "next/navigation";
-import { menuItems } from "@/utils/Constants";
+import { menuItems } from "@/utils/constants";
 
 const UserDropDown = () => {
   const router = useRouter();

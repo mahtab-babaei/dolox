@@ -1,4 +1,4 @@
-import { cities } from "@/utils/Constants";
+import { cities } from "@/utils/constants";
 import React, { useState } from "react";
 import DoubleSlider from "./DoubleSlider";
 
@@ -89,7 +89,11 @@ const PhoneAuctionDrawer = ({
                 >
                   <option disabled value=""></option>
                   {cities.map((city, index) => (
-                    <option className="font-vazir" key={index} value={city === "همه شهر ها" ? "" : city}>
+                    <option
+                      className="font-vazir"
+                      key={index}
+                      value={city === "همه شهر ها" ? "" : city}
+                    >
                       {city}
                     </option>
                   ))}
@@ -156,7 +160,7 @@ const PhoneAuctionDrawer = ({
               className="btn mx-auto bg-primary text-white outline-none border-none w-full mb-4"
               onClick={() => {
                 setdrawer(false);
-                handleFilterApply()
+                handleFilterApply();
               }}
             >
               اعمال فیلتر

@@ -5,9 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import SearchBox from "./SearchBox";
-import { links } from "@/utils/Constants";
+import { links } from "@/utils/constants";
 import UserDropDown from "./UserDropDown";
-import { userIcon } from "@/utils/Constants";
+import { userIcon } from "@/utils/constants";
 
 const Navbar = ({ user }) => {
   const userName = user?.first_name || user?.username || "ورود";

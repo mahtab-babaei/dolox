@@ -1,4 +1,4 @@
-import { cities } from "@/utils/Constants";
+import { cities } from "@/utils/constants";
 import React, { useState } from "react";
 import ErrorMessage from "../components/global/ErrorMessage";
 

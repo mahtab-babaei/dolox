@@ -1,4 +1,4 @@
-import { cities } from "@/utils/Constants";
+import { cities } from "@/utils/constants";
 import React from "react";
 import DoubleSlider from "./DoubleSlider";
 

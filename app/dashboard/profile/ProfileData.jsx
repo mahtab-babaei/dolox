@@ -6,7 +6,7 @@ import ErrorMessage from "@/app/components/global/ErrorMessage";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { updateUserProfile } from "@/utils/Request";
-import { cities } from "@/utils/Constants";
+import { cities } from "@/utils/constants";
 import DashboardPanel from "../DashboardPanel";
 import { useState } from "react";
 
