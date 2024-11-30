@@ -1,8 +1,6 @@
 import { BackendURL } from "./URL";
 import axios from "axios";
 
-
-
 export const getUser = async (token, userId) => {
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
@@ -224,45 +222,6 @@ export const updateUserProfile = async (
   } catch (error) {
     console.error("Error Response:", error.response?.data || error.message);
     throw new Error(error.response?.data?.message || "Failed to create ad");
-  }
-};
-
-export const forgetpwReq = async (phonenumber) => {
-  try {
-    const response = await axios.post(
-      `${BackendURL}/accounts/auth/initiate-password-reset/`,
-      { phone: phonenumber }, // Request body as JSON
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data; // Return response data
-  } catch (error) {
-    console.error("Error in forgetpwReq:", error);
-    throw error;
-  }
-};
-
-export const newpw = async (otp, password) => {
-  try {
-    const response = await axios.post(
-      `${BackendURL}/accounts/auth/create-password/`,
-      {
-        otp: otp,
-        new_password: password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error Response:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Failed to create newpw");
   }
 };
 

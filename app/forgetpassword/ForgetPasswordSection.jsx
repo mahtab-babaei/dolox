@@ -1,8 +1,8 @@
-import { forgetpwReq } from "@/utils/Request";
+import { forgetpwReq } from "./page";
 import { ImageURL } from "@/utils/URL";
 import { useFormik } from "formik";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
 import ErrorMessage from "../components/global/ErrorMessage";
 

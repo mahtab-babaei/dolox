@@ -1,30 +1,62 @@
-'use client'
-import ForgetPasswordSection from './ForgetPasswordSection'
-import ForgetPWOTP from './ForgetPWOTP'
-import NewPW from './NewPW'
-import PasswordChanged from './PasswordChanged'
-import React, { useState } from 'react'
+import React from "react";
+import ForgetPassword from "./ForgetPassword";
+import { BackendURL } from "@/utils/URL";
 
-const Forgetpassword = () => {
-  const [phonenumber, setphonenumber] = useState();
-  const [OTP, setOTP] = useState(-1);
-  const [step, setStep] = useState(0);
-  return (
-      <div>
-      {step === 0 &&
-        <ForgetPasswordSection setphonenumber={setphonenumber} setStep={setStep} />
-      }
-      {step === 1 &&
-        <ForgetPWOTP setOTP={setOTP} setStep={setStep} />
-      }
-      {step === 2 &&
-        <NewPW OTP={OTP} setStep={setStep} />
-      }
-      {step === 3 &&
-        <PasswordChanged />
-      }
-   </div>
-  )
-}
+export const forgetpwReq = async (phonenumber) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    phone: phonenumber,
+  });
 
-export default Forgetpassword
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      BackendURL + "/accounts/auth/initiate-password-reset/",
+      requestOptions
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const newpw = async (otp, password) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    otp: otp,
+    new_password: password,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      BackendURL + "/accounts/auth/create-password/",
+      requestOptions
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const ForgetPasswordPage = () => {
+  return <ForgetPassword />;
+};
+
+export default ForgetPasswordPage;

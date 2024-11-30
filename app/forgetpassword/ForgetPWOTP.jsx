@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ForgetPWOTP = ({ setStep, setOTP }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
