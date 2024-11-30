@@ -5,7 +5,6 @@ import { toast } from "react-hot-toast";
 import ErrorMessage from "@/app/components/global/ErrorMessage";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { updateUserProfile } from "@/utils/Request";
 import { cities } from "@/utils/constants";
 import DashboardPanel from "../DashboardPanel";
 import { useState } from "react";
@@ -13,17 +12,15 @@ import { useState } from "react";
 const ProfileData = ({ data }) => {
   const [loading, setLoading] = useState(false);
 
-  const profileData = data.profile;
-
   const formik = useFormik({
     initialValues: {
-      firstName: profileData?.first_name || "",
-      lastName: profileData?.last_name || "",
-      email: profileData?.email || "",
-      phonenumber: profileData?.user?.phone_number || "",
-      city: profileData?.city || "",
-      gender: profileData?.gender || "",
-      profilePicture: profileData?.picture || null,
+      firstName: data?.first_name || "",
+      lastName: data?.last_name || "",
+      email: data?.email || "",
+      phonenumber: data?.user?.phone_number || "",
+      city: data?.city || "",
+      gender: data?.gender || "",
+      profilePicture: data?.picture || null,
       profilePicutreFile: "",
     },
     validationSchema: Yup.object({
@@ -39,25 +36,27 @@ const ProfileData = ({ data }) => {
     onSubmit: async (values) => {
       setLoading(true);
 
-      // Handle form submission
-      console.log(values.profilePicutreFile);
-      const result = await updateUserProfile(
-        data.token,
-        data.userId,
-        values.email,
-        values.profilePicutreFile,
-        values.city,
-        values.firstName,
-        values.lastName,
-        values.gender
-      );
+      try {
+        const response = await fetch("/api/profile/update", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        });
 
-      if (result.success) {
-        toast.success(result.message);
-      } else {
-        toast.error(result.message);
+        const result = await response.json();
+        if (result.success) {
+          toast.success(result.message);
+        } else {
+          toast.error(result.message);
+        }
+      } catch (error) {
+        toast.error("خطایی رخ داد.");
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     },
   });
 
