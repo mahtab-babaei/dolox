@@ -1,5 +1,5 @@
 "use client";
-import { loginReq } from "@/utils/Request"; // Assuming this is your login request function
+import { loginReq } from "./page";
 import { ImageURL } from "@/utils/URL";
 import { useFormik } from "formik";
 import Image from "next/image";
