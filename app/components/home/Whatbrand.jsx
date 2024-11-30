@@ -1,5 +1,5 @@
 "use client";
-import { getBrandsByType } from "@/utils/Request";
+import { getBrandsByType } from "@/app/page";
 import { ImageURL } from "@/utils/URL";
 import Image from "next/image";
 import Link from "next/link";

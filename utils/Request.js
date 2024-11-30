@@ -1,126 +1,56 @@
 import { BackendURL, WordPressURL } from "./URL";
 import axios from "axios";
-import { setCookie } from "nookies";
 
-export const getAds = async () => {
-  try {
-    const response = await axios.get(`${BackendURL}/ads/`);
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      throw new Error("Request failed with status: " + response.status);
-    }
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-};
+export const loginReq = async(phonenumber, password) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
 
-export const getAutogalleries = async () => {
-  try {
-    const response = await axios.get(`${BackendURL}/ads/exhibition/`);
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      throw new Error("Request failed with status: " + response.status);
-    }
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-};
+  const raw = JSON.stringify({
+      "phone_number": phonenumber,
+      "password": password
+  });
 
-export const getAuctions = async () => {
-  try {
-    const response = await axios.get(`${BackendURL}/auction/?page=1`);
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      throw new Error("Request failed with status: " + response.status);
-    }
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-};
-
-export const getBlogs = async () => {
-  try {
-    const response = await axios.get(
-      `${WordPressURL}/posts?orderby=date&order=desc&per_page=3`
-    );
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      throw new Error("Request failed with status: " + response.status);
-    }
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-};
-
-export const getBrandsByType = async (type) => {
-  try {
-    const response = await axios.get(
-      `${BackendURL}/ads/brand_type/?type=${type}`
-    );
-
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      throw new Error("Request failed with status: " + response.status);
-    }
-  } catch (error) {
-    console.error(error.message);
-    throw error;
-  }
-};
-
-export const loginReq = async (phonenumber, password) => {
-  const data = {
-    phone_number: phonenumber,
-    password: password,
+  const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
   };
 
-  try {
-    const response = await axios.post(BackendURL + "/accounts/token", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("Status Code:", response.status); // Log the status code
-    setCookie(null, "access", response.access, {
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-      path: "/",
-      secure: process.env.NODE_ENV === "production", // فقط در تولید امن باشد
-    });
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      // Handle server errors based on the status code
-      let errorMessage = "خطایی رخ داده است"; // Default error message
-      switch (error.response.status) {
-        case 400:
-          errorMessage = "درخواست اشتباه است. لطفا اطلاعات را بررسی کنید.";
-          break;
-        case 401:
-          errorMessage = "رمز یا شماره تلفن اشتباه است";
-          break;
-        case 403:
-          errorMessage = "دسترسی مجاز نیست. لطفا دوباره تلاش کنید";
-          break;
-        default:
-          errorMessage = "خطای ناشناخته. لطفا دوباره تلاش کنید";
-          break;
-      }
-      throw new Error(error.response.data.message || errorMessage);
-    } else {
-      // Handle network or other errors
-      console.error("Login error:", error);
-      throw new Error("رمز یا شماره اشتباه است");
-    }
-  }
+  return fetch(BackendURL + '/accounts/token', requestOptions)
+      .then(async response => {
+          console.log("Status Code:", response.status); // Log the status code
+
+          if (!response.ok) {
+              let errorMessage = "خطایی رخ داده است"; // Default error message
+              switch (response.status) {
+                  case 400:
+                      errorMessage = "درخواست اشتباه است. لطفا اطلاعات را بررسی کنید.";
+                      break;
+                  case 401:
+                      errorMessage = "رمز یا شماره تلفن اشتباه است";
+                      break;
+                  case 403:
+                      errorMessage = "دسترسی مجاز نیست. لطفا دوباره تلاش کنید";
+                      break;
+                  default:
+                      errorMessage = "خطای ناشناخته. لطفا دوباره تلاش کنید";
+                      break;
+              }
+
+              return response.json().then(errorData => {
+                  throw new Error(errorData.message || errorMessage);
+              });
+          }
+
+          // If everything is fine, return the response data
+          return response.json();
+      })
+      .catch(error => {
+          // Handle network or other errors
+          console.error('Login error:', error);
+          throw new Error("رمز یا شماره اشتباه است");
+      });
 };
 
 export const createUserReq = async (password, username, phonenumber) => {
@@ -181,16 +111,27 @@ export const verifyAccount = async (otp, phonenumber) => {
 };
 
 export const getUser = async (token, userId) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`);
+
+  const requestOptions = {
+    method: "GET", // Changed to GET for fetching user data
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
   try {
-    const response = await axios.get(
+    const response = await fetch(
       `${BackendURL}/accounts/users/${userId}/`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      requestOptions
     );
-    return response.data;
+
+    // Check if response is ok (status in range 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
   } catch (error) {
     console.error("Error fetching user data:", error);
     throw error;
