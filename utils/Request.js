@@ -1,62 +1,7 @@
-import { BackendURL, WordPressURL } from "./URL";
+import { BackendURL } from "./URL";
 import axios from "axios";
 
-export const createUserReq = async (password, username, phonenumber) => {
-  const data = {
-    phone_number: phonenumber, // Use the provided phone number
-    username: username, // Use the provided username
-    password: password, // Use the provided password
-  };
 
-  try {
-    const response = await axios.post(BackendURL + "/accounts/users/", data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.status === 200) {
-      return response.data;
-    } else if (response.status === 400) {
-      return { message: "کابر قبلا ثبت نام کرده" }; // Custom message for status 400
-    } else {
-      console.log(response.status);
-      throw new Error("Failed with status code: " + response.status);
-    }
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const verifyAccount = async (otp, phonenumber) => {
-  const data = {
-    otp: otp,
-    phone_number: phonenumber,
-  };
-
-  try {
-    const response = await axios.post(
-      BackendURL + "/accounts/auth/verify-account/",
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error during account verification:", error);
-
-    // If the error has a response, use the error response data
-    if (error.response) {
-      throw error.response.data || error;
-    } else {
-      throw error;
-    }
-  }
-};
 
 export const getUser = async (token, userId) => {
   const myHeaders = new Headers();

@@ -1,4 +1,4 @@
-import { createUserReq } from "@/utils/Request";
+import { createUserReq } from "./page";
 import { ImageURL } from "@/utils/URL";
 import { useFormik } from "formik";
 import Image from "next/image";

@@ -1,4 +1,4 @@
-import { verifyAccount } from "@/utils/Request";
+import { verifyAccount } from "./page";
 import React, { useRef, useState, useEffect } from "react";
 
 const OTP = ({ setstep, phonenumber }) => {
