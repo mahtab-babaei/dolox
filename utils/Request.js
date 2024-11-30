@@ -1,34 +1,6 @@
 import { BackendURL } from "./URL";
 import axios from "axios";
 
-export const getUser = async (token, userId) => {
-  const myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${token}`);
-
-  const requestOptions = {
-    method: "GET", // Changed to GET for fetching user data
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  try {
-    const response = await fetch(
-      `${BackendURL}/accounts/users/${userId}/`,
-      requestOptions
-    );
-
-    // Check if response is ok (status in range 200-299)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    throw error;
-  }
-};
-
 export const getProfile = async (userId, token) => {
   try {
     const response = await axios.get(

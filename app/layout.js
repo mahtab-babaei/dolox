@@ -1,8 +1,8 @@
 import { UserProvider } from "@/context/UserContext";
-import { getUser } from "@/utils/Request";
+import { getToken } from "@/utils/Auth";
+import { BackendURL } from "@/utils/URL";
 import jwt from "jsonwebtoken";
 import localFont from "next/font/local";
-import { getToken } from "@/utils/Auth";
 import Footer from "./components/global/Footer";
 import Navbar from "./components/global/Navbar";
 import "./globals.css";
@@ -22,7 +22,7 @@ const vazir = localFont({
   variable: "--font-vazir",
 });
 
-const fetchUserFromServer = async () => {
+const getUser = async () => {
   try {
     const token = await getToken(); // Use the getToken function
     if (!token) {
@@ -32,9 +32,27 @@ const fetchUserFromServer = async () => {
     const userId = decoded?.user_id; // Extract user ID
     if (!userId) return null;
 
-    // Use getUser function
-    const user = await getUser(token, userId);
-    return user;
+    // get user from server
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET", // Changed to GET for fetching user data
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    const response = await fetch(
+      `${BackendURL}/accounts/users/${userId}/`,
+      requestOptions
+    );
+
+    // Check if response is ok (status in range 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
   } catch (error) {
     console.error("Error fetching user data:", error);
     return null;
@@ -42,7 +60,7 @@ const fetchUserFromServer = async () => {
 };
 
 export default async function RootLayout({ children }) {
-  const user = await fetchUserFromServer();
+  const user = await getUser();
 
   return (
     <html lang="fa" dir="rtl">
