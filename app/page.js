@@ -31,7 +31,7 @@ const getAds = async () => {
   }
 };
 
-const getAuctions = async () => {
+export const getAuctions = async () => {
   const myHeaders = new Headers();
 
   const requestOptions = {

@@ -11,13 +11,8 @@ import Package from "./Package";
 import Price from "./Price";
 import Year from "./Year";
 import { getClientToken } from "@/utils/Help";
-import {
-  AdImages,
-  checkAds,
-  createAdReq,
-  getBrandsByType,
-  getColors,
-} from "@/utils/Request";
+import { AdImages, checkAds, createAdReq, getColors } from "@/utils/Request";
+import { getBrandsByType } from "../page";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";

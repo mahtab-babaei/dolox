@@ -32,19 +32,22 @@ export const AdImages = async (token, adID, images, setLoading) => {
 };
 
 export const checkAds = async (token) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${token}`); // Authorization header only
+  myHeaders.append("Content-Type", "application/json");
+  var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+  };
+ 
   try {
-    const response = await axios.get(`${BackendURL}/ads/check-athorization`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
+      const response = await fetch(`${BackendURL}/ads/check-athorization`, requestOptions);
+      return await response.json();
   } catch (error) {
-    console.error(error);
-    // throw error;
+      console.error(error);
+      // throw error;
   }
-};
+}
 
 export const createAdReq = async (
   token,
@@ -139,34 +142,4 @@ export const getModelsByBrand = async (brand) => {
   }
 };
 
-export const getAuctionsByFilter = async (
-  token,
-  category,
-  priceRange,
-  city,
-  query
-) => {
-  try {
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const response = await axios.get(`${BackendURL}/auction/`, {
-      params: {
-        auction_type: category,
-        base_price_max: priceRange.max,
-        base_price_min: priceRange.min,
-        city: city,
-        page: 1,
-        search: query,
-      },
-      headers,
-    });
 
-    if (response.status >= 200 && response.status < 300) {
-      return response.data;
-    } else {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
-  }
-};
