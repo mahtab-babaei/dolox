@@ -1,9 +1,19 @@
 import { calculateDaysLeft } from "@/utils/Cal";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const AuctionItem = ({ auction }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/auctions/${auction.id}`);
+  };
+
   return (
-    <div className="h-20 w-full flex items-center my-1  p-2 justify-center gap-2 border-black rounded-[10px] border-4 ">
+    <div
+      onClick={handleClick}
+      className="h-20 w-full flex items-center my-1 cursor-pointer p-2 justify-center gap-2 border-black rounded-[10px] border-4 "
+    >
       <h2 className="w-full tex-center">{auction.title}</h2>
       <div className="flex gap-1 w-full justify-center">
         <svg
