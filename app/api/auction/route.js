@@ -21,10 +21,6 @@ export async function GET(request) {
     }
 
     // Make the GET request
-    console.log(
-      "url req:",
-      `${BackendURL}/auction/?auction_type=${category}&base_price_max=${priceRangeMax}&base_price_min=${priceRangeMin}&city=${city}&page=${page}&search=${query}`
-    );
     const response = await fetch(
       `${BackendURL}/auction/?auction_type=${category}&base_price_max=${priceRangeMax}&base_price_min=${priceRangeMin}&city=${city}&page=${page}&search=${query}`,
       {

@@ -31,24 +31,6 @@ export const AdImages = async (token, adID, images, setLoading) => {
   }
 };
 
-export const checkAds = async (token) => {
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${token}`); // Authorization header only
-  myHeaders.append("Content-Type", "application/json");
-  var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-  };
- 
-  try {
-      const response = await fetch(`${BackendURL}/ads/check-athorization`, requestOptions);
-      return await response.json();
-  } catch (error) {
-      console.error(error);
-      // throw error;
-  }
-}
-
 export const createAdReq = async (
   token,
   brand,
@@ -108,38 +90,4 @@ export const createAdReq = async (
     throw new Error(error.response?.data?.message || "Failed to create ad");
   }
 };
-
-export const getColors = async () => {
-  try {
-    const response = await axios.get(`${BackendURL}/ads/colors/`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    // throw error;
-  }
-};
-
-export const getModelsByBrand = async (brand) => {
-  const data = {
-    brands: [brand],
-  };
-
-  try {
-    const response = await axios.post(`${BackendURL}/ads/brand-models/`, data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
 
