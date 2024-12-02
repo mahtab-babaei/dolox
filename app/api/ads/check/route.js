@@ -12,6 +12,9 @@ export async function GET(request) {
       );
     }
 
+    console.log("BackendURL:", BackendURL);
+    console.log("Token:", token);
+
     // Define headers
     const myHeaders = new Headers({
       Authorization: `Bearer ${token}`,
@@ -25,7 +28,9 @@ export async function GET(request) {
     });
 
     // Parse the response
+    console.log("Raw Response:", response);
     const result = await response.json();
+    console.log("Response Data:", result);
 
     if (response.ok) {
       return new Response(

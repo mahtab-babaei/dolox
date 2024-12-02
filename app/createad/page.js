@@ -58,14 +58,19 @@ export const getColors = async () => {
 
 export const checkAds = async () => {
   try {
-    const response = await fetch("/api/checkads");
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
+    const response = await fetch("/api/ads/check");
     const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.message || "خطای سرور هنگام بررسی مجوز",
+      };
+    }
+
     return data;
   } catch (error) {
-    console.error("Error checking ads authorization:", error);
+    console.error("Error checking ads authorization:", error.message);
     return { success: false, message: "خطای سرور هنگام بررسی مجوز" };
   }
 };
