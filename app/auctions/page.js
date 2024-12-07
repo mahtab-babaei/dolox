@@ -18,7 +18,7 @@ export const fetchAuctionsByFilter = async ({
       page,
     });
 
-    const response = await fetch(`/api/auction?${queryParams.toString()}`, {
+    const response = await fetch(`/api/auctions?${queryParams.toString()}`, {
       method: "GET",
     });
 

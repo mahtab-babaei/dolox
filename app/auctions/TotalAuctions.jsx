@@ -115,7 +115,7 @@ const TotalAuctions = () => {
         )}
         {/* Pagination buttons */}
         {!loading && auctionsData.length > 0 && (
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-4 mb-10">
             <button
               disabled={page === 1}
               onClick={() => handlePageChange(page - 1)}

@@ -1,47 +1,41 @@
-import { getToken } from "@/utils/Auth";
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import AuctionDetails from "./AuctionDetails";
-import { BackendURL } from "@/utils/URL";
+import { useParams } from "next/navigation";
+import LoadingComponent from "@/app/components/global/LoadingComponent";
 
-const getauctionDetails = async (auctionId) => {
-  try {
-    const token = await getToken(); // Use the getToken function
-    if (!token) {
-      throw new Error("Token not found");
+const AuctionDetailsPage = () => {
+  const { id } = useParams();
+  const [auctionDetails, setAuctionDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (id) {
+      setLoading(true);
+      fetch(`/api/auctions/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.message) {
+            setError(data.message);
+            setAuctionDetails(null);
+          } else {
+            setAuctionDetails(data);
+            setError(null);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching auction details:", err);
+          setError("خطا در برقراری ارتباط با سرور");
+          setAuctionDetails(null);
+        })
+        .finally(() => setLoading(false));
     }
+  }, [id]);
 
-    // get auction details from server
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
+  if (loading) return <LoadingComponent />;
 
-    const requestOptions = {
-      method: "GET", // Changed to GET for fetching user data
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    const response = await fetch(
-      `${BackendURL}/auction/${auctionId}/`,
-      requestOptions
-    );
-
-    // Check if response is ok (status in range 200-299)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching auction data:", error);
-    throw new Error("Failed to fetch auction details");
-  }
-};
-
-const AuctionDetailsPage = async ({ params }) => {
-  const { id } = params;
-  const auction = await getauctionDetails(id);
-
-  return <AuctionDetails auction={auction}/>;
+  return <AuctionDetails auction={auctionDetails} />;
 };
 
 export default AuctionDetailsPage;
