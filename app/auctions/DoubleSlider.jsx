@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 
-const DoubleSlider = ({ min, max, onChange }) => {
+const DoubleSlider = ({ min, max, onChange, hideValues }) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(min);
@@ -68,23 +68,33 @@ const DoubleSlider = ({ min, max, onChange }) => {
         }}
         className="thumb thumb--right"
       />
-
-      <div className="slider">
-        <div className="slider__track" />
-        <div ref={range} className="slider__range" />
-        <div className="slider__left-value font-vazir">10 میلیون</div>
-        <div className="slider__right-value font-vazir"> 100000 میلیون</div>
-      </div>
-      <div className="!bg-transparent text-black pt-10 gap-2 text-sm items-center flex mt-1">
-        <div className="!bg-transparent border w-1/2 border-black rounded-md font-vazir p-1 mt">
-          {maxVal}
+      {!hideValues ? (
+        <>
+          <div className="slider">
+            <div className="slider__track" />
+            <div ref={range} className="slider__range" />
+            <div className="slider__left-value font-vazir">10 میلیون</div>
+            <div className="slider__right-value font-vazir"> 100000 میلیون</div>
+          </div>
+          <div className="!bg-transparent text-black pt-10 gap-2 text-sm items-center flex mt-1">
+            <div className="!bg-transparent border w-1/2 border-black rounded-md font-vazir p-1 mt">
+              {maxVal}
+            </div>
+            <span className="font-vazir">تا</span>
+            <div className="!bg-transparent border w-1/2 border-black rounded-md font-vazir p-1 mt">
+              {minVal}
+            </div>
+            <span className="font-vazir">از</span>
+          </div>
+        </>
+      ) : (
+        <div className="slider">
+          <div className="slider__track" />
+          <div ref={range} className="slider__range" />
+          <div className="slider__left-value font-vazir">{minVal} کیلومتر</div>
+          <div className="slider__right-value font-vazir">{maxVal} کیلومتر</div>
         </div>
-        <span className="font-vazir">تا</span>
-        <div className="!bg-transparent border w-1/2 border-black rounded-md font-vazir p-1 mt">
-          {minVal}
-        </div>
-        <span className="font-vazir">از</span>
-      </div>
+      )}
     </div>
   );
 };

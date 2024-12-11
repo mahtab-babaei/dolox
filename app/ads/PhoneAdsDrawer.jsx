@@ -1,24 +1,20 @@
-import { cities } from "@/utils/constants";
 import React, { useState } from "react";
-import DoubleSlider from "./DoubleSlider";
+import { cities } from "@/utils/constants";
+import DoubleSlider from "../auctions/DoubleSlider";
 
-const PhoneAuctionDrawer = ({
-  setPriceRange,
-  setQuery,
-  query,
+const PhoneAdsDrawer = ({
   setCity,
-  setCategory,
-  setActiveAuctions,
-  activeAuctions,
+  setBrand,
+  setYearRange,
+  yearRange,
+  setKmRange,
+  setPriceRange,
   handleFilterApply,
+  brands,
 }) => {
   const [drawer, setdrawer] = useState(false);
   return (
     <div>
-      <div className="bg-primary h-28 flex justify-center items-center text-white flex-col rounded-[21px] md:hidden">
-        <h2 className="text-xl">پلن فعال شما</h2>
-        <p className="pt-4">تست رایگان 15 روزه </p>
-      </div>
       <div className="flex justify-end md:hidden ">
         <button
           className="flex bg-white gap-2 text-base-content p-2 my-2 rounded-full items-center"
@@ -64,22 +60,6 @@ const PhoneAuctionDrawer = ({
           <div className="px-4 font-vazir">
             <div className="collapse collapse-arrow ">
               <input type="checkbox" />
-              <div className="collapse-title text-md font-medium">جست وجو</div>
-              <div className="collapse-content">
-                <input
-                  type="text"
-                  placeholder="اینجا تایپ کنید"
-                  className="input w-full max-w-full text-black bg-white border-black border-2 font-vazir"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="h-[1px] w-full bg-black opacity-40" />
-
-            <div className="collapse collapse-arrow">
-              <input type="checkbox" />
               <div className="collapse-title text-md font-medium">شهر</div>
               <div className="collapse-content">
                 <select
@@ -103,30 +83,84 @@ const PhoneAuctionDrawer = ({
 
             <div className="h-[1px] w-full bg-black opacity-40" />
 
-            <div className="collapse collapse-arrow">
+            <div className="collapse collapse-arrow ">
               <input type="checkbox" />
-              <div className="collapse-title text-md font-medium">
-                دسته بندی
-              </div>
+              <div className="collapse-title text-md font-medium">برند</div>
               <div className="collapse-content">
                 <select
                   className="select select-bordered w-full text-black bg-white border-black border-2 selected font-vazir"
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => setBrand(e.target.value)}
                   defaultValue=""
                 >
-                  <option className="font-vazir" disabled value="">
-                    همه
-                  </option>
-                  <option className="font-vazir" value="متفرقه">
-                    متفرقه
-                  </option>
-                  <option className="font-vazir" value="ملک">
-                    ملک
-                  </option>
-                  <option className="font-vazir" value="ماشین">
-                    ماشین
-                  </option>
+                  <option defaultValue="">همه برند ها</option>
+                  {brands.map((brand) => (
+                    <option
+                      className="font-vazir"
+                      key={brand.id}
+                      value={brand.name}
+                    >
+                      {brand.name}
+                    </option>
+                  ))}
                 </select>
+              </div>
+            </div>
+
+            <div className="h-[1px] w-full bg-black opacity-40" />
+
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" />
+              <div className="collapse-title text-md font-medium">
+                سال تولید
+              </div>
+              <div className="collapse-content">
+                <div className="flex gap-4">
+                  <div className="text-sm flex items-center gap-2">
+                    <label>از سال</label>
+                    <input
+                      type="text"
+                      className="input border-black border-2 max-w-24 text-black"
+                      onChange={(e) =>
+                        setYearRange((prev) => ({
+                          ...prev,
+                          min: Number(e.target.value),
+                        }))
+                      }
+                      value={yearRange.min}
+                    />
+                  </div>
+                  <div className="text-sm flex items-center gap-2">
+                    <label>تا سال</label>
+                    <input
+                      type="text"
+                      className="input  border-black border-2 max-w-24 text-black"
+                      onChange={(e) =>
+                        setYearRange((prev) => ({
+                          ...prev,
+                          max: Number(e.target.value),
+                        }))
+                      }
+                      value={yearRange.max}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-[1px] w-full bg-black opacity-40" />
+
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" />
+              <div className="collapse-title text-md font-medium">کارکرد</div>
+              <div className="collapse-content">
+                <div className="h-20 flex justify-center">
+                  <DoubleSlider
+                    min={8000}
+                    max={1000000}
+                    onChange={setKmRange}
+                    hideValues={true}
+                  />
+                </div>
               </div>
             </div>
 
@@ -136,7 +170,7 @@ const PhoneAuctionDrawer = ({
               <input type="checkbox" />
               <div className="collapse-title text-md font-medium">قیمت ها</div>
               <div className="collapse-content">
-                <div className="h-20 flex justify-center">
+                <div className=" h-20 flex justify-center">
                   <DoubleSlider
                     max={100000}
                     min={10}
@@ -146,16 +180,6 @@ const PhoneAuctionDrawer = ({
               </div>
             </div>
 
-            <div className="h-[1px] w-full bg-black opacity-40" />
-            <div className="flex py-4 gap-1">
-              <input
-                type="checkbox"
-                className="checkbox [--chkbg:theme(colors.secondary)] [--chkfg:white]"
-                checked={activeAuctions}
-                onChange={() => setActiveAuctions(!activeAuctions)}
-              />
-              <p className="font-vazir">نمایش مزایده های جاری</p>
-            </div>
             <button
               className="btn mx-auto bg-primary text-white outline-none border-none w-full mb-4"
               onClick={() => {
@@ -172,4 +196,4 @@ const PhoneAuctionDrawer = ({
   );
 };
 
-export default PhoneAuctionDrawer;
+export default PhoneAdsDrawer;

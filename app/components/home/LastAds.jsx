@@ -60,9 +60,14 @@ const LastAds = ({ ads }) => {
           </Link>
         </div>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 items-center text-center mt-6 gap-4">
-          <AdsItem ad={lastads[0]} />
-          <AdsItem ad={lastads[1]} />
-          <AdsItem ad={lastads[2]} />
+          <AdsItem
+            bgColor="accent-light"
+            textColor="white"
+            fillColor="white"
+            ad={lastads[0]}
+          />
+          <AdsItem bgColor="accent-light" fillColor="white" ad={lastads[1]} />
+          <AdsItem bgColor="accent-light" fillColor="white" ad={lastads[2]} />
         </div>
 
         <div className="text-center py-10">
