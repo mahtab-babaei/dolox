@@ -76,11 +76,19 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
           </div>
 
           <div className="bg-secondary h-full text-white text-center align-middle flex items-center relative cut-right before:border-t-secondary">
-            <span className="ps-2 text-xs"> تومان</span>
-            <span className="font-medium font-vazir-bold min-w-16 base:min-w-24">
-              {ad.price}
-            </span>
-            <div className="absolute  text-xs -bottom-2  left-4  flex gap-2 ">
+            {ad.price ? (
+              <>
+                <span className="font-vazir-bold ps-2">تومان</span>
+                <span className="font-vazir-bold min-w-16 base:min-w-24">
+                  {ad.price}
+                </span>
+              </>
+            ) : (
+              <span className="font-vazir-bold min-w-16 base:min-w-24">
+                قیمت توافقی
+              </span>
+            )}
+            <div className="absolute text-xs -bottom-2  left-4  flex gap-2 ">
               {ad.is_negotiable && (
                 <div className="bg-primary text-white pt-1 px-2 pb-1 rounded-full font-vazir">
                   اقساطی

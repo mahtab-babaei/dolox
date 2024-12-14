@@ -47,9 +47,9 @@ const getUser = async () => {
       requestOptions
     );
 
-    // Check if response is ok (status in range 200-299)
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      console.warn(`Non-ok response status: ${response.status}`);
+      return null;
     }
 
     return await response.json();

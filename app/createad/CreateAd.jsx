@@ -1,5 +1,9 @@
 "use client";
 import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { getBrandsByType } from "../page";
 import Body from "./Body";
 import Brands from "./Brands";
 import CreateAdSteps from "./CreateAdSteps";
@@ -10,14 +14,7 @@ import Models from "./Models";
 import Package from "./Package";
 import Price from "./Price";
 import Year from "./Year";
-import { getClientToken } from "@/utils/Help";
-import { getColors } from "./page";
-import { AdImages, createAdReq } from "@/utils/Request";
-import { checkAds } from "./page";
-import { getBrandsByType } from "../page";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { AdImages, checkAds, createAdReq, getColors } from "./page";
 
 const CreateAd = () => {
   const router = useRouter();
@@ -74,38 +71,33 @@ const CreateAd = () => {
       if (step === 9) {
         try {
           setLoading(true);
-          const token = getClientToken();
-          console.log("TOKEN: ", token);
-          if (!token) {
-            throw new Error("Token not found");
-          }
-          const result = await createAdReq(
-            token,
+  
+          const result = await createAdReq({
             brand,
             model,
             year,
             body,
             description,
             kilometer,
-            price,
+            price: price !== null ? price : undefined,
             installments,
             rentorsale,
             city,
-            user.phone_number,
+            phone_number: user.phone_number,
             category,
             wheelnumber,
             weight,
-            maxweight
-          );
-
+            maxweight,
+          });
+  
           if (result.success) {
             console.log(images);
+  
             const imageResult = await AdImages(
-              token,
               result.message.id,
-              images,
-              setLoading
+              images
             );
+  
             if (imageResult.success) {
               setStep(10);
               toast.success("اطلاعات با موفقیت ثبت شد!");
@@ -119,14 +111,17 @@ const CreateAd = () => {
             setStep(11);
           }
         } catch (error) {
-          // Handle the error
           console.error("Error creating ad:", error);
+          setStep(11);
+        } finally {
+          setLoading(false);
         }
       }
     };
-
+  
     submitAd();
   }, [step]);
+  
 
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
