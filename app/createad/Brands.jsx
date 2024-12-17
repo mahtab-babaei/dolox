@@ -70,12 +70,12 @@ const Brands = ({
             سنگین
           </div>
         </div>
-        <div dir="ltr" className="py-2 md:max-w-lg mx-auto">
-          <label className="input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 rounded-[25px] text-black">
+        <div dir="ltr" className="py-8 md:max-w-lg mx-auto">
+          <label className="input flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 rounded-[25px] text-black">
             <input
               dir="rtl"
               type="text"
-              className="grow md:text-lg"
+              className="grow md:text-base"
               placeholder="جست وجو"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}

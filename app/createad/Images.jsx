@@ -51,7 +51,7 @@ const Images = ({ step, setStep, images, setImages }) => {
     <div>
       <div className='px-2 md:px-0 font-vazir'>
         <div dir="rtl" className="py-2 md:max-w-lg mx-auto px-4">
-          <div dir="ltr" className="justify-between w-full flex items-center">
+          <div dir="ltr" className="pt-6 pb-8 justify-between w-full flex items-center">
             <button
               type="submit"
               className="btn btn-sm bg-secondary text-white border-none"

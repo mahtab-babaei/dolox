@@ -41,8 +41,8 @@ const Body = ({ step, setStep, colors, setBody }) => {
   return (
     <div>
       <div className="px-2 md:px-0 font-vazir">
-        <div dir="rtl" className="py-2 md:max-w-lg mx-auto">
-          <div dir="ltr" className="justify-between w-full flex items-center">
+        <div dir="rtl" className="md:max-w-lg mx-auto">
+          <div dir="ltr" className="pt-8 pb-6 justify-between w-full flex items-center">
             <button
               className="btn btn-sm bg-secondary text-white border-none"
               onClick={formik.handleSubmit}
@@ -72,7 +72,7 @@ const Body = ({ step, setStep, colors, setBody }) => {
 
           <form onSubmit={formik.handleSubmit} className="px-4">
             {/* Body Condition */}
-            <label className="form-control w-full ">
+            <label className="form-control w-full">
               <div className="label">
                 <span className="label-text">وضعیت بدنه</span>
               </div>
@@ -81,7 +81,7 @@ const Body = ({ step, setStep, colors, setBody }) => {
                 className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
                 {...formik.getFieldProps("bodyCondition")}
               >
-                <option value="" label="انتخاب رنگ بدنه" />
+                <option value="" label="انتخاب وضعیت بدنه" />
 
                 <option value="بدون رنگ">بدون رنگ</option>
 

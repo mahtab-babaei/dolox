@@ -44,7 +44,7 @@ const Description = ({
     <div>
       <div className="px-2 md:px-0 font-vazir">
         <div dir="rtl" className="py-2 md:max-w-lg mx-auto px-4">
-          <div dir="ltr" className="justify-between w-full flex items-center ">
+          <div dir="ltr" className="py-6 justify-between w-full flex items-center ">
             <button
               type="submit"
               className="btn btn-sm bg-secondary text-white border-none"
@@ -80,7 +80,7 @@ const Description = ({
               </span>
             </div>
             <textarea
-              className="textarea textarea-bordered h-36 min-h-min flex items-center gap-2 mx-auto placeholder-base-content bg-base-200 focus:outline-secondary text-black w-full"
+              className="textarea h-36 min-h-min flex items-center gap-2 mx-auto placeholder-base-content bg-base-200 focus:outline-secondary text-black w-full"
               placeholder="توضیحات"
               {...formik.getFieldProps("description")}
             ></textarea>

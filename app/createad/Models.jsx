@@ -37,12 +37,12 @@ const Models = ({ brand, setStep, step, setModel }) => {
   return (
     <div>
       <div className="px-2 md:px-0">
-        <div dir="ltr" className="py-2 md:max-w-lg mx-auto">
-          <label className="mt-8 input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 rounded-[25px] text-black">
+        <div dir="ltr" className="my-8 md:max-w-lg mx-auto">
+          <label className="input flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 rounded-[25px] text-black">
             <input
               dir="rtl"
               type="text"
-              className="grow md:text-lg"
+              className="grow md:text-base"
               placeholder="جست وجو"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}

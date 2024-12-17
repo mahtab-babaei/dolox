@@ -34,8 +34,8 @@ const Year = ({ step, setStep, setYear }) => {
   if (step !== 2) return null;
   return (
     <div>
-      <div className='px-2 md:px-0 font-vazir'>
-        <div dir="rtl" className="py-2 md:max-w-lg mx-auto">
+      <div className="px-2 md:px-0 font-vazir">
+        <div dir="rtl" className="pt-8 md:max-w-lg mx-auto">
           <div dir="ltr" className="justify-between w-full flex items-center">
             <button
               className="btn btn-sm bg-secondary text-white border-none"
@@ -65,11 +65,11 @@ const Year = ({ step, setStep, setYear }) => {
           </div>
 
           <form onSubmit={formik.handleSubmit} className="px-4">
-            <label className="mt-8 input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 text-black">
+            <label className="mt-8 border-none input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 text-black">
               <input
                 dir="rtl"
                 type="text"
-                className="grow md:text-lg"
+                className="grow"
                 placeholder="سال تولید"
                 maxLength="4"
                 {...formik.getFieldProps("produceYear")}

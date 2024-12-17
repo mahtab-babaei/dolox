@@ -19,7 +19,7 @@ const Location = ({ step, setStep, setCity }) => {
   return (
     <div className="px-2 md:px-0 h-72">
       <div dir="ltr" className="py-2 md:max-w-lg mx-auto">
-        <div dir="ltr" className="justify-between w-full flex items-center">
+        <div dir="ltr" className="py-6 justify-between w-full flex items-center">
           <button
             className="btn btn-sm bg-secondary text-white border-none"
             onClick={handleNextStep} // Handle the next step logic here
