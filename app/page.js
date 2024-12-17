@@ -8,7 +8,7 @@ import LastAutoGalleries from "./components/home/LastAutoGalleries";
 import LastBlogs from "./components/home/LastBlogs";
 import WhatBrand from "./components/home/Whatbrand";
 
-const getAds = async () => {
+export const getAds = async () => {
   const myHeaders = new Headers();
 
   const requestOptions = {

@@ -1,10 +1,18 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const AdsItem = ({ ad, bgColor, fillColor }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/ads/${ad.id}`);
+  };
+
   if (ad === undefined) return <div className="h-72"></div>;
   return (
     <div
+      onClick={handleClick}
       className={`!rounded-[30px] bg-${bgColor} cursor-pointer ${
         bgColor === "white" &&
         "hover:shadow-orange-300 hover:shadow-xl transition-shadow duration-300"
