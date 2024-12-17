@@ -19,7 +19,6 @@ import { AdImages, checkAds, createAdReq, getColors } from "./page";
 const CreateAd = () => {
   const router = useRouter();
   const user = useUser();
-  console.log(user);
   const [step, setStep] = useState(0);
   const [category, setCategory] = useState("سواری");
   const [brand, setBrand] = useState(null);

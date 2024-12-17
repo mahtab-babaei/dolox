@@ -33,7 +33,6 @@ const Year = ({ step, setStep, setYear }) => {
   });
   if (step !== 2) return null;
   return (
-    <div>
       <div className="px-2 md:px-0 font-vazir">
         <div dir="rtl" className="pt-8 md:max-w-lg mx-auto">
           <div dir="ltr" className="justify-between w-full flex items-center">
@@ -84,7 +83,6 @@ const Year = ({ step, setStep, setYear }) => {
           </form>
         </div>
       </div>
-    </div>
   );
 };
 
