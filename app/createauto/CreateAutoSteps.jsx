@@ -10,7 +10,7 @@ const CreateAutoSteps = ({ step = 0 }) => {
     { id: 5, label: "مدارک" },
   ];
   return (
-    <div className="flex mx-auto w-full text-center justify-center md:gap-4 gap-2 pt-2 text-xs md:text-lg">
+    <div className="flex mx-auto w-full text-center justify-center md:gap-4 gap-2 pt-2 pb-6 text-xs md:text-lg">
       {stages.map((stage) => (
         <span
           key={stage.id}

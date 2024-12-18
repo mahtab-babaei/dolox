@@ -4,6 +4,7 @@ import { useState } from "react";
 import Phone from "./Phone";
 import CreateAutoSteps from "./CreateAutoSteps";
 import Specifications from "./Specifications";
+import Address from "./Address";
 
 const CreateAutogallery = () => {
   const [step, setStep] = useState(0);
@@ -14,6 +15,8 @@ const CreateAutogallery = () => {
   const [isSellDomestic, setIsSellDomestic] = useState(false);
   const [isSellChinese, setIsSellChinese] = useState(false);
   const [isSellForeign, setIsSellForeign] = useState(false);
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
 
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
@@ -39,6 +42,13 @@ const CreateAutogallery = () => {
           setIsSellChinese={setIsSellChinese}
           isSellForeign={isSellForeign}
           setIsSellForeign={setIsSellForeign}
+        />
+        <Address
+          step={step}
+          setStep={setStep}
+          setCity={setCity}
+          setAddress={setAddress}
+          city={city}
         />
       </div>
     </div>
