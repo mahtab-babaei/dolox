@@ -80,7 +80,7 @@ const Description = ({
               </span>
             </div>
             <textarea
-              className="textarea h-36 min-h-min flex items-center gap-2 mx-auto placeholder-base-content bg-base-200 focus:outline-secondary text-black w-full"
+              className="textarea h-36 min-h-min flex items-center gap-2 mx-auto placeholder-base-content bg-base-200 text-black w-full"
               placeholder="توضیحات"
               {...formik.getFieldProps("description")}
             ></textarea>

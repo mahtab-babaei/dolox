@@ -2,35 +2,53 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const Phone = ({ step, setStep, setContactPhone }) => {
+const Specifications = ({
+  step,
+  setStep,
+  setContactName,
+  setCompanyName,
+  setDescription,
+}) => {
   // validation schema
   const validationSchema = Yup.object({
-    contactPhone: Yup.string().required("لطفا شماره تلفن را وارد کنید"),
+    contactName: Yup.string().required("لطفا نام دارنده اتوگالری را وارد کنید"),
+    companyName: Yup.string().required("لطفا نام اتوگالری را وارد کنید"),
+    description: Yup.string().required("لطفا درباره اتوگالری توضیح دهید"),
   });
 
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      contactPhone: "",
+      contactName: "",
+      companyName: "",
+      description: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      setContactPhone(values.contactPhone);
-      setStep(1);
+      setContactName(values.contactName);
+      setCompanyName(values.companyName);
+      setDescription(values.description);
+      setStep(2);
     },
     validateOnChange: true,
   });
 
-  if (step !== 0) return null;
+  const renderError = (field) =>
+    formik.touched[field] &&
+    formik.errors[field] && (
+      <div className="text-red-500 mt-2">{formik.errors[field]}</div>
+    );
+
+  if (step !== 1) return null;
 
   return (
     <div className="px-2 md:px-0 font-vazir">
       <div dir="rtl" className="pt-8 md:max-w-lg mx-auto">
         <div dir="ltr" className="justify-between w-full flex items-center">
           <button
+            type="submit"
             className="btn btn-sm bg-secondary text-white border-none"
             onClick={formik.handleSubmit}
-            type="submit"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -46,27 +64,50 @@ const Phone = ({ step, setStep, setContactPhone }) => {
             </svg>
             <span className="font-vazir">ادامه</span>
           </button>
+
+          <button
+            onClick={() => setStep(step - 1)}
+            className="btn-sm text-secondary bg-transparent shadow-none border-none"
+          >
+            <span className="font-vazir font-bold">قبلی</span>
+          </button>
         </div>
 
         <form onSubmit={formik.handleSubmit} className="px-4">
-          <label className="mt-8 border-none input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300">
+          <label className="input mt-8 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300">
             <input
               dir="rtl"
               type="text"
               className="grow placeholder:text-base-content"
-              placeholder="شماره تماس دارنده اتوگالری"
-              maxLength="11"
-              {...formik.getFieldProps("contactPhone")}
+              placeholder="نام دارنده اتوگالری"
+              {...formik.getFieldProps("contactName")}
             />
           </label>
+          {renderError("contactName")}
 
-          {formik.touched.contactPhone && formik.errors.contactPhone ? (
-            <div className="text-red-500 mt-2">{formik.errors.contactPhone}</div>
-          ) : null}
+          <label className="input mt-8 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300">
+            <input
+              dir="rtl"
+              type="text"
+              className="grow placeholder:text-base-content"
+              placeholder="نام اتوگالری"
+              {...formik.getFieldProps("companyName")}
+            />
+          </label>
+          {renderError("companyName")}
+
+          <label className="form-control">
+            <textarea
+              className="text-base textarea mt-8 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300 placeholder:text-base-content w-full"
+              placeholder="درباره اتوگالری"
+              {...formik.getFieldProps("description")}
+            ></textarea>
+            {renderError("description")}
+          </label>
         </form>
       </div>
     </div>
   );
 };
 
-export default Phone;
+export default Specifications;
