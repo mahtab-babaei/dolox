@@ -28,7 +28,7 @@ const Address = ({ step, setStep, setCity, city, setAddress }) => {
   if (step !== 2) return null;
   return (
     <div className="px-2 md:px-0 font-vazir">
-      <div dir="ltr" className="py-2 md:max-w-lg mx-auto">
+      <div className="py-2 md:max-w-lg mx-auto">
         <StepButtons onSubmit={formik.handleSubmit} step={step} setStep={setStep} />
         <div className="pt-8">
           <label dir="rtl" className="form-control w-full font-vazir">

@@ -2,7 +2,7 @@ import React from "react";
 
 const StepButtons = ({ onSubmit, setStep, step }) => {
   return (
-    <div className="justify-between w-full flex items-center">
+    <div dir="ltr" className="justify-between w-full flex items-center">
       <button
         className="btn btn-sm bg-secondary text-white border-none"
         onClick={onSubmit}
