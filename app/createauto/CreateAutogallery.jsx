@@ -11,6 +11,9 @@ const CreateAutogallery = () => {
   const [contactName, setContactName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [description, setDescription] = useState("");
+  const [isSellDomestic, setIsSellDomestic] = useState(false);
+  const [isSellChinese, setIsSellChinese] = useState(false);
+  const [isSellForeign, setIsSellForeign] = useState(false);
 
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
@@ -30,6 +33,12 @@ const CreateAutogallery = () => {
           setContactName={setContactName}
           setCompanyName={setCompanyName}
           setDescription={setDescription}
+          isSellDomestic={isSellDomestic}
+          setIsSellDomestic={setIsSellDomestic}
+          isSellChinese={isSellChinese}
+          setIsSellChinese={setIsSellChinese}
+          isSellForeign={isSellForeign}
+          setIsSellForeign={setIsSellForeign}
         />
       </div>
     </div>

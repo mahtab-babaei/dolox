@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -8,6 +8,12 @@ const Specifications = ({
   setContactName,
   setCompanyName,
   setDescription,
+  isSellDomestic,
+  setIsSellDomestic,
+  isSellChinese,
+  setIsSellChinese,
+  isSellForeign,
+  setIsSellForeign,
 }) => {
   // validation schema
   const validationSchema = Yup.object({
@@ -104,6 +110,34 @@ const Specifications = ({
             ></textarea>
             {renderError("description")}
           </label>
+
+          <div className="flex gap-2 mt-8">
+            <input
+              type="checkbox"
+              checked={isSellDomestic}
+              onChange={() => setIsSellDomestic(!isSellDomestic)}
+              className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
+            />
+            <p>خودروی ایرانی میفروشم</p>
+          </div>
+          <div className="flex gap-2 mt-2">
+            <input
+              type="checkbox"
+              checked={isSellChinese}
+              onChange={() => setIsSellChinese(!isSellChinese)}
+              className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
+            />
+            <p>خودروی چینی میفروشم</p>
+          </div>
+          <div className="flex gap-2 mt-2">
+            <input
+              type="checkbox"
+              checked={isSellForeign}
+              onChange={() => setIsSellForeign(!isSellForeign)}
+              className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
+            />
+            <p>خودروی خارجی میفروشم</p>
+          </div>
         </form>
       </div>
     </div>
