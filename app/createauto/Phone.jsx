@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import ErrorMessage from "../components/global/ErrorMessage";
 
 const Phone = ({ step, setStep, setContactPhone }) => {
   // validation schema
@@ -49,7 +50,7 @@ const Phone = ({ step, setStep, setContactPhone }) => {
         </div>
 
         <form onSubmit={formik.handleSubmit} className="px-4">
-          <label className="mt-8 border-none input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300">
+          <label className="mt-8 mb-1 border-none input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral">
             <input
               dir="rtl"
               type="text"
@@ -61,7 +62,9 @@ const Phone = ({ step, setStep, setContactPhone }) => {
           </label>
 
           {formik.touched.contactPhone && formik.errors.contactPhone ? (
-            <div className="text-red-500 mt-2">{formik.errors.contactPhone}</div>
+            <ErrorMessage>
+              {formik.errors.contactPhone}
+            </ErrorMessage>
           ) : null}
         </form>
       </div>

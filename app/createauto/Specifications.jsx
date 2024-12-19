@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
+import ErrorMessage from "../components/global/ErrorMessage";
 
 const Specifications = ({
   step,
@@ -43,7 +44,7 @@ const Specifications = ({
   const renderError = (field) =>
     formik.touched[field] &&
     formik.errors[field] && (
-      <div className="text-red-500 mt-2">{formik.errors[field]}</div>
+      <ErrorMessage>{formik.errors[field]}</ErrorMessage>
     );
 
   if (step !== 1) return null;
@@ -58,7 +59,7 @@ const Specifications = ({
         />
 
         <form onSubmit={formik.handleSubmit} className="px-4">
-          <label className="input mt-8 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300">
+          <label className="input mt-8 mb-1 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral">
             <input
               dir="rtl"
               type="text"
@@ -69,7 +70,7 @@ const Specifications = ({
           </label>
           {renderError("contactName")}
 
-          <label className="input mt-8 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300">
+          <label className="input mt-8 mb-1 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral">
             <input
               dir="rtl"
               type="text"
@@ -82,7 +83,7 @@ const Specifications = ({
 
           <label className="form-control">
             <textarea
-              className="text-base textarea mt-8 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-base-300 placeholder:text-base-content w-full"
+              className="text-base textarea mt-8 mb-1 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
               placeholder="درباره اتوگالری"
               {...formik.getFieldProps("description")}
             ></textarea>

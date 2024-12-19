@@ -63,7 +63,7 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
                   <select
                     value={socialItem.social}
                     onChange={(e) => handleSelectChange(index, e)}
-                    className={`select text-base max-w-xs border-none w-full bg-base-300 font-vazir appearance-none ${
+                    className={`select text-base max-w-xs border-none w-full bg-neutral font-vazir appearance-none ${
                       socialItem.social === "" && "text-base-content"
                     }`}
                   >
@@ -91,7 +91,7 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
                   </select>
                 </label>
 
-                <label className="font-vazir input flex items-center gap-2 w-full md:max-w-screen-sm bg-base-300">
+                <label className="font-vazir input flex items-center gap-2 w-full md:max-w-screen-sm bg-neutral">
                   <input
                     type="text"
                     value={socialItem.link}

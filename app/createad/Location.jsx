@@ -22,19 +22,17 @@ const Location = ({ step, setStep, setCity }) => {
       <div dir="ltr" className="pb-2 pt-8 md:max-w-lg mx-auto">
         <StepButtons step={step} setStep={setStep} onSubmit={handleNextStep} />
 
-        <label dir="rtl" className="form-control w-full font-vazir">
-          <div className="label">
-            <span className="label-text pt-6">شهر خود را انتخاب کنید</span>
-          </div>
+        <label dir="rtl" className="form-control w-full font-vazir mt-8">
           <select
             id="bodyColor"
-            className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir"
+            className={`select text-base mb-1 border-none w-full bg-base-200 font-vazir ${
+              selectedCity === "" ? 'text-base-content' : 'text-black'}`}
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)} // Update selected city
           >
             <option value="" label="شهر خود را انتخاب کنید" />
             {cities.map((item) => (
-              <option key={item} value={item}>
+              <option className="text-black" key={item} value={item}>
                 {item}
               </option>
             ))}

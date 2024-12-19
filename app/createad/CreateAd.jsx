@@ -147,7 +147,7 @@ const CreateAd = () => {
           brand={brand}
         />
         <Year setStep={setStep} step={step} setYear={setYear} />
-        <Body setStep={setStep} step={step} colors={colors} setBody={setBody} />
+        <Body setStep={setStep} step={step} colors={colors} setBody={setBody} category={category} />
         <Description
           setStep={setStep}
           step={step}

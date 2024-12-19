@@ -51,12 +51,14 @@ const Images = ({ step, setStep, images, setImages }) => {
   return (
     <div>
       <div className='px-2 md:px-0 font-vazir'>
-        <div dir="rtl" className="pb-2 pt-8 md:max-w-lg mx-auto px-4">
+        <div dir="rtl" className="pb-2 md:max-w-lg mx-auto px-4">
+          <div className="pb-8 pt-2">
           <StepButtons onSubmit={() => setStep(7)} step={step} setStep={setStep}/>
-          <h2 className="text-base-content pt-8">
+          </div>
+          <span className="text-base-content text-sm">
             در آپلود عکس دقت کنید؛ تصاویر جذاب‌تر بازدید آگهی شما را افزایش
             می‌دهند.
-          </h2>
+          </span>
           <div
             className="h-36 border-dashed flex items-center bg-base-200 border-base-content border rounded-lg justify-center mt-2"
             onDrop={handleDrop}
@@ -86,7 +88,7 @@ const Images = ({ step, setStep, images, setImages }) => {
                   fill="#8B7676"
                 />
               </svg>
-              <span>برای آپلود عکس ها را اینجا رها کنید </span>
+              <span className="text-base-content">برای آپلود عکس ها را اینجا رها کنید </span>
             </label>
           </div>
           <div className="grid grid-cols-3 gap-2 mt-2">
@@ -135,13 +137,13 @@ const Images = ({ step, setStep, images, setImages }) => {
               </div>
             ))}
           </div>
-          <p className="mt-2">
+          {/* <p className="mt-2">
             {images.length < 1
               ? "حداقل یک تصویر انتخاب کنید."
               : images.length > 6
               ? "حداکثر 6 تصویر می‌توانید انتخاب  کنید."
               : `${images.length} تصویر انتخاب شده.`}
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

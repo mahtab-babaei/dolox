@@ -2,8 +2,9 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
+import ErrorMessage from "../components/global/ErrorMessage";
 
-const Body = ({ step, setStep, colors, setBody }) => {
+const Body = ({ step, setStep, colors, setBody, category }) => {
   const validationSchema = Yup.object({
     bodyCondition: Yup.string().required("وضعیت بدنه را انتخاب کنید"),
     bodyColor: Yup.string().required("رنگ بدنه را انتخاب کنید"),
@@ -49,217 +50,320 @@ const Body = ({ step, setStep, colors, setBody }) => {
             setStep={setStep}
           />
 
-          <form onSubmit={formik.handleSubmit} className="px-4 pt-6">
+          <form onSubmit={formik.handleSubmit} className="px-4 pt-6 text-base">
             {/* Body Condition */}
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">وضعیت بدنه</span>
-              </div>
-              <select
-                id="bodyCondition"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
-                {...formik.getFieldProps("bodyCondition")}
-              >
-                <option value="" label="انتخاب وضعیت بدنه" />
+            {category !== "موتورسیکلت" && (
+              <label className="form-control w-full pb-4">
+                <select
+                  id="bodyCondition"
+                  className={`select text-base  border-none w-full bg-neutral font-vazir ${
+                    formik.values.bodyCondition === ""
+                      ? "text-base-content"
+                      : "text-black"
+                  }`}
+                  {...formik.getFieldProps("bodyCondition")}
+                >
+                  <option
+                    className="text-black"
+                    value=""
+                    label="انتخاب وضعیت بدنه"
+                  />
 
-                <option value="بدون رنگ">بدون رنگ</option>
+                  <option className="text-black" value="بدون رنگ">
+                    بدون رنگ
+                  </option>
 
-                <option value="صافکاری بدون رنگ">صافکاری بدون رنگ</option>
+                  <option className="text-black" value="صافکاری بدون رنگ">
+                    صافکاری بدون رنگ
+                  </option>
 
-                <option value="یه لکه رنگ">یه لکه رنگ</option>
+                  <option className="text-black" value="یه لکه رنگ">
+                    یه لکه رنگ
+                  </option>
 
-                <option value="دو لکه رنگ">دو لکه رنگ</option>
+                  <option className="text-black" value="دو لکه رنگ">
+                    دو لکه رنگ
+                  </option>
 
-                <option value="سه لکه رنگ">سه لکه رنگ</option>
+                  <option className="text-black" value="سه لکه رنگ">
+                    سه لکه رنگ
+                  </option>
 
-                <option value="چند لکه رنگ">چند لکه رنگ</option>
+                  <option className="text-black" value="چند لکه رنگ">
+                    چند لکه رنگ
+                  </option>
 
-                <option value="کامل رنگ">کامل رنگ</option>
+                  <option className="text-black" value="کامل رنگ">
+                    کامل رنگ
+                  </option>
 
-                <option value="دور رنگ">دور رنگ</option>
+                  <option className="text-black" value="دور رنگ">
+                    دور رنگ
+                  </option>
 
-                <option value="تصادفی">تصادفی</option>
+                  <option className="text-black" value="تصادفی">
+                    تصادفی
+                  </option>
 
-                <option value="اتاق تعویض">اتاق تعویض</option>
+                  <option className="text-black" value="اتاق تعویض">
+                    اتاق تعویض
+                  </option>
 
-                <option value="سوخته">سوخته</option>
+                  <option className="text-black" value="سوخته">
+                    سوخته
+                  </option>
 
-                <option value="اوراقی">اوراقی</option>
-              </select>
-              {formik.touched.bodyCondition && formik.errors.bodyCondition ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.bodyCondition}
-                </div>
-              ) : null}
-            </label>
-
+                  <option className="text-black" value="اوراقی">
+                    اوراقی
+                  </option>
+                </select>
+                {formik.touched.bodyCondition && formik.errors.bodyCondition ? (
+                  <ErrorMessage>{formik.errors.bodyCondition}</ErrorMessage>
+                ) : null}
+              </label>
+            )}
             {/* Body Color */}
-            <label className="form-control w-full ">
-              <div className="label">
-                <span className="label-text">رنگ بدنه</span>
-              </div>
+            <label className="form-control w-full pb-4">
               <select
                 id="bodyColor"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
+                className={`select text-base  border-none w-full  bg-neutral font-vazir ${
+                  formik.values.bodyColor === ""
+                    ? "text-base-content"
+                    : "text-black"
+                }`}
                 {...formik.getFieldProps("bodyColor")}
               >
-                <option value="" label="انتخاب رنگ بدنه" />
+                <option
+                  className="text-black"
+                  value=""
+                  label="انتخاب رنگ بدنه"
+                />
                 {colors.map((item, index) => (
-                  <option key={index} value={item.name} label={item.name} />
+                  <option
+                    className="text-black"
+                    key={index}
+                    value={item.name}
+                    label={item.name}
+                  />
                 ))}
               </select>
               {formik.touched.bodyColor && formik.errors.bodyColor ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.bodyColor}
-                </div>
+                <ErrorMessage>{formik.errors.bodyColor}</ErrorMessage>
               ) : null}
             </label>
-
             {/* Gear Type */}
-            <label className="form-control w-full ">
-              <div className="label">
-                <span className="label-text">نوع دنده</span>
-              </div>
+            <label className="form-control w-full pb-4">
               <select
                 id="gearType"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
+                className={`select text-base  border-none w-full  bg-neutral font-vazir ${
+                  formik.values.gearType === ""
+                    ? "text-base-content"
+                    : "text-black"
+                }`}
                 {...formik.getFieldProps("gearType")}
               >
-                <option value="" label="انتخاب نوع دنده" />
-                <option value="دستی" label="دستی" />
-                <option value="اتوماتیک" label="اتوماتیک" />
+                <option
+                  className="text-black"
+                  value=""
+                  label="انتخاب نوع دنده"
+                />
+                <option className="text-black" value="دستی" label="دستی" />
+                <option
+                  className="text-black"
+                  value="اتوماتیک"
+                  label="اتوماتیک"
+                />
               </select>
               {formik.touched.gearType && formik.errors.gearType ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.gearType}
-                </div>
-              ) : null}
-            </label>
-
-            {/* Chassis Condition */}
-            <label className="form-control w-full ">
-              <div className="label">
-                <span className="label-text"> وضعیت شاسی جلو</span>
-              </div>
-              <select
-                id="frontChassisCondition"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
-                {...formik.getFieldProps("frontChassisCondition")}
-              >
-                <option value="" label="انتخاب وضعیت شاسی" />
-                <option value="ضربه خورده">ضربه خورده</option>
-
-                <option value="سالم">سالم</option>
-
-                <option value="رنگ شده">رنگ شده</option>
-              </select>
-              {formik.touched.frontChassisCondition &&
-              formik.errors.frontChassisCondition ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.frontChassisCondition}
-                </div>
+                <ErrorMessage>{formik.errors.gearType}</ErrorMessage>
               ) : null}
             </label>
             {/* Chassis Condition */}
-            <label className="form-control w-full ">
-              <div className="label">
-                <span className="label-text">وضعیت شاسی عقب</span>
-              </div>
-              <select
-                id="backChassisCondition"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
-                {...formik.getFieldProps("backChassisCondition")}
-              >
-                <option value="" label="انتخاب وضعیت شاسی" />
-                <option value="ضربه خورده">ضربه خورده</option>
-                <option value="سالم">سالم</option>
-                <option value="رنگ شده">رنگ شده</option>
-              </select>
-              {formik.touched.backChassisCondition &&
-              formik.errors.backChassisCondition ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.backChassisCondition}
-                </div>
-              ) : null}
-            </label>
+            {category !== "موتورسیکلت" && (
+              <>
+                <label className="form-control w-full pb-4">
+                  <select
+                    id="frontChassisCondition"
+                    className={`select text-base  border-none w-full  bg-neutral font-vazir ${
+                      formik.values.frontChassisCondition === ""
+                        ? "text-base-content"
+                        : "text-black"
+                    }`}
+                    {...formik.getFieldProps("frontChassisCondition")}
+                  >
+                    <option
+                      className="text-black"
+                      value=""
+                      label="انتخاب وضعیت شاسی جلو"
+                    />
+                    <option className="text-black" value="ضربه خورده">
+                      ضربه خورده
+                    </option>
+
+                    <option className="text-black" value="سالم">
+                      سالم
+                    </option>
+
+                    <option className="text-black" value="رنگ شده">
+                      رنگ شده
+                    </option>
+                  </select>
+                  {formik.touched.frontChassisCondition &&
+                  formik.errors.frontChassisCondition ? (
+                    <ErrorMessage>
+                      {formik.errors.frontChassisCondition}
+                    </ErrorMessage>
+                  ) : null}
+                </label>
+
+                <label className="form-control w-full pb-4">
+                  <select
+                    id="backChassisCondition"
+                    className={`select text-base  border-none w-full  bg-neutral font-vazir ${
+                      formik.values.backChassisCondition === ""
+                        ? "text-base-content"
+                        : "text-black"
+                    }`}
+                    {...formik.getFieldProps("backChassisCondition")}
+                  >
+                    <option
+                      className="text-black"
+                      value=""
+                      label="انتخاب وضعیت شاسی عقب"
+                    />
+                    <option className="text-black" value="ضربه خورده">
+                      ضربه خورده
+                    </option>
+                    <option className="text-black" value="سالم">
+                      سالم
+                    </option>
+                    <option className="text-black" value="رنگ شده">
+                      رنگ شده
+                    </option>
+                  </select>
+                  {formik.touched.backChassisCondition &&
+                  formik.errors.backChassisCondition ? (
+                    <ErrorMessage>
+                      {formik.errors.backChassisCondition}
+                    </ErrorMessage>
+                  ) : null}
+                </label>
+              </>
+            )}
             {/* Seat Condition */}
-            <label className="form-control w-full ">
-              <div className="label">
-                <span className="label-text">وضعیت صندلی‌ها</span>
-              </div>
-              <select
-                id="seatCondition"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
-                {...formik.getFieldProps("seatCondition")}
-              >
-                <option value="" label="انتخاب وضعیت صندلی‌ها" />
-                <option value="leather">روکش چرم</option>
-                <option value="none">بدون روکش</option>
-                <option value="fabric">روکش پارچه ای</option>
-              </select>
-              {formik.touched.seatCondition && formik.errors.seatCondition ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.seatCondition}
-                </div>
-              ) : null}
-            </label>
-            <label className="form-control w-full ">
-              <div className="label">
-                <span className="label-text">سوخت</span>
-              </div>
-              <select
-                id="gastype"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
-                {...formik.getFieldProps("gastype")}
-              >
-                <option value="" label="انتخاب نوع سوخت" />
-                <option value="بنزین">بنزین</option>
-                <option value="گازوئیل">گازوئیل</option>
-                <option value="هیبریدی">هیبریدی</option>
-                <option value="برقی">برقی</option>
-                <option value="دوگانه کارخانه">دوگانه کارخانه</option>
-                <option value="دوگانه دستی">دوگانه دستی</option>
-              </select>
-              {formik.touched.gastype && formik.errors.gastype ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.gastype}
-                </div>
-              ) : null}
-            </label>
-            <label className="form-control w-full ">
-              <div className="label">
-                <span className="label-text">اعتبار بیمه</span>
-              </div>
-              <select
-                id="insurance"
-                className="input focus:outline-secondary border-none w-full  bg-base-200 font-vazir"
-                {...formik.getFieldProps("insurance")}
-              >
-                <option
-                  value=""
-                  label="مقدار اعتبار بیمه خودرو را انتخاب کنید"
-                />
-                <option value="0" label="بدون اعتبار" />
-                <option value=" 1 " label=" 1 ماه" />
-                <option value="1" label="1 ماه " />
-                <option value="2" label="2 ماه " />
-                <option value="3" label="3 ماه " />
-                <option value="4" label="4 ماه " />
-                <option value="5" label="5 ماه " />
-                <option value="6" label="6 ماه " />
-                <option value="7" label="7 ماه " />
-                <option value="8" label="8 ماه " />
-                <option value="9" label="9 ماه " />
-                <option value="10" label="10 ماه " />
-                <option value="11" label="11 ماه " />
-                <option value="12" label="12 ماه " />
-              </select>
-              {formik.touched.insurance && formik.errors.insurance ? (
-                <div className="text-red-500 text-sm pt-1">
-                  {formik.errors.insurance}
-                </div>
-              ) : null}
-            </label>
+            {category === "سواری" && (
+              <label className="form-control w-full pb-4">
+                <select
+                  id="seatCondition"
+                  className={`select text-base  border-none w-full  bg-neutral font-vazir ${
+                    formik.values.seatCondition === ""
+                      ? "text-base-content"
+                      : "text-black"
+                  }`}
+                  {...formik.getFieldProps("seatCondition")}
+                >
+                  <option
+                    className="text-black"
+                    value=""
+                    label="انتخاب وضعیت صندلی‌ها"
+                  />
+                  <option className="text-black" value="leather">
+                    روکش چرم
+                  </option>
+                  <option className="text-black" value="none">
+                    بدون روکش
+                  </option>
+                  <option className="text-black" value="fabric">
+                    روکش پارچه ای
+                  </option>
+                </select>
+                {formik.touched.seatCondition && formik.errors.seatCondition ? (
+                  <ErrorMessage>{formik.errors.seatCondition}</ErrorMessage>
+                ) : null}
+              </label>
+            )}
+            {/* gas type */}
+            {category !== "ماشین‌آلات سنگین" && (
+              <label className="form-control w-full pb-4">
+                <select
+                  id="gastype"
+                  className={`select text-base  border-none w-full  bg-neutral font-vazir ${
+                    formik.values.gastype === ""
+                      ? "text-base-content"
+                      : "text-black"
+                  }`}
+                  {...formik.getFieldProps("gastype")}
+                >
+                  <option
+                    className="text-black"
+                    value=""
+                    label="انتخاب نوع سوخت"
+                  />
+                  <option className="text-black" value="بنزین">
+                    بنزین
+                  </option>
+                  <option className="text-black" value="گازوئیل">
+                    گازوئیل
+                  </option>
+                  <option className="text-black" value="هیبریدی">
+                    هیبریدی
+                  </option>
+                  <option className="text-black" value="برقی">
+                    برقی
+                  </option>
+                  <option className="text-black" value="دوگانه کارخانه">
+                    دوگانه کارخانه
+                  </option>
+                  <option className="text-black" value="دوگانه دستی">
+                    دوگانه دستی
+                  </option>
+                </select>
+                {formik.touched.gastype && formik.errors.gastype ? (
+                  <ErrorMessage>{formik.errors.gastype}</ErrorMessage>
+                ) : null}
+              </label>
+            )}
+            {/* Insurance Condition */}
+            {category !== "موتورسیکلت" && (
+              <label className="form-control w-full">
+                <select
+                  id="insurance"
+                  className={`select text-base  border-none w-full  bg-neutral font-vazir ${
+                    formik.values.insurance === ""
+                      ? "text-base-content"
+                      : "text-black"
+                  }`}
+                  {...formik.getFieldProps("insurance")}
+                >
+                  <option
+                    value=""
+                    label="مقدار اعتبار بیمه خودرو را انتخاب کنید"
+                    className="text-black"
+                  />
+                  <option
+                    className="text-black"
+                    value="0"
+                    label="بدون اعتبار"
+                  />
+                  <option className="text-black" value=" 1 " label=" 1 ماه" />
+                  <option className="text-black" value="1" label="1 ماه " />
+                  <option className="text-black" value="2" label="2 ماه " />
+                  <option className="text-black" value="3" label="3 ماه " />
+                  <option className="text-black" value="4" label="4 ماه " />
+                  <option className="text-black" value="5" label="5 ماه " />
+                  <option className="text-black" value="6" label="6 ماه " />
+                  <option className="text-black" value="7" label="7 ماه " />
+                  <option className="text-black" value="8" label="8 ماه " />
+                  <option className="text-black" value="9" label="9 ماه " />
+                  <option className="text-black" value="10" label="10 ماه " />
+                  <option className="text-black" value="11" label="11 ماه " />
+                  <option className="text-black" value="12" label="12 ماه " />
+                </select>
+                {formik.touched.insurance && formik.errors.insurance ? (
+                  <ErrorMessage>{formik.errors.insurance}</ErrorMessage>
+                ) : null}
+              </label>
+            )}
           </form>
         </div>
       </div>

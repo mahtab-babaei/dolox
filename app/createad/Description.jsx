@@ -2,6 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
+import ErrorMessage from "../components/global/ErrorMessage";
 
 const Description = ({
   step,
@@ -53,24 +54,22 @@ const Description = ({
 
           <label className="form-control pt-6">
             <div className="label">
-              <span className="label-text">
+              <span className="label-text text-base-content">
                 در توضیحات به نکات چشم گیر اشاره کنید
               </span>
             </div>
             <textarea
-              className="textarea h-36 min-h-min flex items-center gap-2 mx-auto placeholder-base-content bg-base-200 text-black w-full"
+              className="textarea text-base h-36 min-h-min flex items-center gap-2 mx-auto placeholder:text-base-content bg-neutral text-black w-full"
               placeholder="توضیحات"
               {...formik.getFieldProps("description")}
             ></textarea>
             {formik.touched.description && formik.errors.description ? (
-              <div className="text-red-500 text-sm">
-                {formik.errors.description}
-              </div>
+              <ErrorMessage>{formik.errors.description}</ErrorMessage>
             ) : null}
           </label>
 
           <div className="form-control w-full mt-4">
-            <div className="flex">
+            <div className="flex mb-4">
               <label className="flex items-center ml-4">
                 <input
                   type="radio"
@@ -97,9 +96,6 @@ const Description = ({
 
             {formik.values.status === "کارکرده" && (
               <label className="form-control w-full relative">
-                <div className="label">
-                  <span className="label-text">کارکرد</span>
-                </div>
                 <input
                   id="kilometer"
                   dir="ltr"
@@ -116,94 +112,10 @@ const Description = ({
                   }}
                 />
                 {formik.touched.kilometer && formik.errors.kilometer ? (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.kilometer}
-                  </div>
+                  <ErrorMessage>{formik.errors.kilometer}</ErrorMessage>
                 ) : null}
-                <span className="absolute top-12 right-6">کیلومتر</span>
+                <span className="absolute top-3 right-6">کیلومتر</span>
               </label>
-            )}
-            {category === "ماشین‌آلات سنگین" && (
-              <div>
-                <label className="form-control w-full relative">
-                  <div className="label">
-                    <span className="label-text">تعداد چرخ</span>
-                  </div>
-                  <input
-                    id="wheelnumber"
-                    dir="ltr"
-                    type="number"
-                    placeholder="200000"
-                    className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir"
-                    {...formik.getFieldProps("wheelnumber")}
-                    onBlur={(e) => {
-                      const value = e.target.value;
-                      formik.setFieldValue(
-                        "wheelnumber",
-                        value ? parseInt(value, 10) : ""
-                      ); // Removes leading zeros
-                    }}
-                  />
-                  {formik.touched.wheelnumber && formik.errors.wheelnumber ? (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.wheelnumber}
-                    </div>
-                  ) : null}
-                  {/* <span className='absolute top-12 right-6'>تعداد چرخ</span> */}
-                </label>
-                <label className="form-control w-full relative">
-                  <div className="label">
-                    <span className="label-text">وزن خودرو</span>
-                  </div>
-                  <input
-                    id="weight"
-                    dir="ltr"
-                    type="number"
-                    placeholder="200000"
-                    className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir"
-                    {...formik.getFieldProps("weight")}
-                    onBlur={(e) => {
-                      const value = e.target.value;
-                      formik.setFieldValue(
-                        "weight",
-                        value ? parseInt(value, 10) : ""
-                      ); // Removes leading zeros
-                    }}
-                  />
-                  {formik.touched.weight && formik.errors.weight ? (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.weight}
-                    </div>
-                  ) : null}
-                  <span className="absolute top-12 right-6">تن</span>
-                </label>
-                <label className="form-control w-full relative">
-                  <div className="label">
-                    <span className="label-text">حداکثر وزن مجاز </span>
-                  </div>
-                  <input
-                    id="maxweight"
-                    dir="ltr"
-                    type="number"
-                    placeholder="200000"
-                    className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir"
-                    {...formik.getFieldProps("maxweight")}
-                    onBlur={(e) => {
-                      const value = e.target.value;
-                      formik.setFieldValue(
-                        "maxweight",
-                        value ? parseInt(value, 10) : ""
-                      ); // Removes leading zeros
-                    }}
-                  />
-                  {formik.touched.maxweight && formik.errors.maxweight ? (
-                    <div className="text-red-500 text-sm">
-                      {formik.errors.maxweight}
-                    </div>
-                  ) : null}
-                  <span className="absolute top-12 right-6">تن</span>
-                </label>
-              </div>
             )}
           </div>
         </div>

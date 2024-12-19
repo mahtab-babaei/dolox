@@ -1,8 +1,8 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import toast from "react-hot-toast";
 import StepButtons from "../components/global/StepButtons";
+import ErrorMessage from "../components/global/ErrorMessage";
 
 const Year = ({ step, setStep, setYear }) => {
   // Validation schema
@@ -43,11 +43,11 @@ const Year = ({ step, setStep, setYear }) => {
         />
 
         <form onSubmit={formik.handleSubmit} className="px-4">
-          <label className="mt-8 border-none input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 text-black">
+          <label className="mt-8 mb-1 border-none input input-bordered flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral text-black">
             <input
               dir="rtl"
               type="text"
-              className="grow"
+              className="grow placeholder:text-base-content"
               placeholder="سال تولید"
               maxLength="4"
               {...formik.getFieldProps("produceYear")}
@@ -55,7 +55,7 @@ const Year = ({ step, setStep, setYear }) => {
           </label>
 
           {formik.touched.produceYear && formik.errors.produceYear ? (
-            <div className="text-red-500 mt-2">{formik.errors.produceYear}</div>
+            <ErrorMessage>{formik.errors.produceYear}</ErrorMessage>
           ) : null}
         </form>
       </div>

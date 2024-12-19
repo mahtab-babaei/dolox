@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import StepButtons from "../components/global/StepButtons";
+import ErrorMessage from "../components/global/ErrorMessage";
 
 // Yup schema for price validation
 const validationSchema = Yup.object().shape({
@@ -92,16 +93,16 @@ const Price = ({ step, setStep, setPrice, setInstallments, setRentorsale }) => {
                   dir="ltr"
                   type="number"
                   placeholder="200000"
-                  className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir placeholder:text-base-content"
                   value={formik.values.price}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
                 <span className="absolute top-12 right-6">تومان</span>
                 {formik.touched.price && formik.errors.price ? (
-                  <div className="text-red-500 text-sm">
+                  <ErrorMessage>
                     {formik.errors.price}
-                  </div>
+                  </ErrorMessage>
                 ) : null}
               </label>
             </div>
