@@ -1,25 +1,21 @@
+"use client";
 import Image from "next/image";
 import React, { useState } from "react";
 import StepButtons from "../components/global/StepButtons";
+import ErrorMessage from "../components/global/ErrorMessage";
 
 const Images = ({ step, setStep, images, setImages }) => {
-  // const handleImageUpload = (files) => {
-  //     if (files.length + images.length > 6) {
-  //         alert("You can only upload a maximum of 6 images.");
-  //         return;
-  //     }
-  //     const newImages = Array.from(files).map(file => URL.createObjectURL(file));
-  //     setImages(prevImages => [...prevImages, ...newImages]);
-  // };
+  const [error, setError] = useState("");
 
   const handleImageUpload = (files) => {
     if (files.length + images.length > 6) {
-      alert("You can only upload a maximum of 6 images.");
+      setError("شما می‌توانید حداکثر 6 تصویر آپلود کنید");
       return;
     }
 
     const newFiles = Array.from(files);
     setImages((prevImages) => [...prevImages, ...newFiles]); // Store file objects instead of URLs
+    setError("");
   };
 
   const handleDrop = (e) => {
@@ -47,13 +43,31 @@ const Images = ({ step, setStep, images, setImages }) => {
       return [image, ...filteredImages]; // Move the selected image to the front
     });
   };
+
+  const handleSubmit = () => {
+    if (images.length === 0) {
+      setError("حداقل باید یک تصویر آپلود کنید");
+      return;
+    }
+    if (images.length > 6) {
+      setError("شما می‌توانید حداکثر 6 تصویر آپلود کنید");
+      return;
+    }
+    setError("");
+    setStep(7);
+  };
+
   if (step !== 6) return null;
   return (
     <div>
-      <div className='px-2 md:px-0 font-vazir'>
+      <div className="px-2 md:px-0 font-vazir">
         <div dir="rtl" className="pb-2 md:max-w-lg mx-auto px-4">
           <div className="pb-8 pt-2">
-          <StepButtons onSubmit={() => setStep(7)} step={step} setStep={setStep}/>
+            <StepButtons
+              onSubmit={handleSubmit}
+              step={step}
+              setStep={setStep}
+            />
           </div>
           <span className="text-base-content text-sm">
             در آپلود عکس دقت کنید؛ تصاویر جذاب‌تر بازدید آگهی شما را افزایش
@@ -88,9 +102,12 @@ const Images = ({ step, setStep, images, setImages }) => {
                   fill="#8B7676"
                 />
               </svg>
-              <span className="text-base-content">برای آپلود عکس ها را اینجا رها کنید </span>
+              <span className="text-base-content">
+                برای آپلود عکس ها را اینجا رها کنید{" "}
+              </span>
             </label>
           </div>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
           <div className="grid grid-cols-3 gap-2 mt-2">
             {images.map((image, index) => (
               <div
@@ -137,13 +154,7 @@ const Images = ({ step, setStep, images, setImages }) => {
               </div>
             ))}
           </div>
-          {/* <p className="mt-2">
-            {images.length < 1
-              ? "حداقل یک تصویر انتخاب کنید."
-              : images.length > 6
-              ? "حداکثر 6 تصویر می‌توانید انتخاب  کنید."
-              : `${images.length} تصویر انتخاب شده.`}
-          </p> */}
+          
         </div>
       </div>
     </div>
