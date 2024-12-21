@@ -4,7 +4,6 @@ import StepButtons from "../components/global/StepButtons";
 const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
   if (step !== 3) return null;
 
-  // ابتدا 4 فیلد شبکه اجتماعی تعریف می‌کنیم
   const [socialData, setSocialData] = useState([
     { social: "", link: "" },
     { social: "", link: "" },
@@ -12,7 +11,6 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
     { social: "", link: "" },
   ]);
 
-  // مدیریت تغییرات select
   const handleSelectChange = (index, e) => {
     if (e.target.label === "انتخاب شبکه اجتماعی") {
       e.target.style.color = "#8B7676";
@@ -22,7 +20,6 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
     setSocialData(newData);
   };
 
-  // مدیریت تغییرات input
   const handleInputChange = (index, e) => {
     const newData = [...socialData];
     newData[index] = { ...newData[index], link: e.target.value };
@@ -41,7 +38,7 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
           setStep={setStep}
           onSubmit={() => {
             setSocialMediaLinks(filteredSocialData);
-            console.log(filteredSocialData);
+            setStep(4);
           }}
         />
         <div className="pt-8">

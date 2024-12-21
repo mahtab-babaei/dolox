@@ -6,6 +6,7 @@ import CreateAutoSteps from "./CreateAutoSteps";
 import Specifications from "./Specifications";
 import Address from "./Address";
 import SocialMedia from "./SocialMedia";
+import Banner from "./Banner";
 
 const CreateAutogallery = () => {
   const [step, setStep] = useState(0);
@@ -18,7 +19,8 @@ const CreateAutogallery = () => {
   const [isSellForeign, setIsSellForeign] = useState(false);
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [socialMediaLinks, setSocialMediaLinks] = useState([])
+  const [socialMediaLinks, setSocialMediaLinks] = useState([]);
+  const [logo, setLogo] = useState(null)
 
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
@@ -52,7 +54,12 @@ const CreateAutogallery = () => {
           setAddress={setAddress}
           city={city}
         />
-        <SocialMedia step={step} setStep={setStep} setSocialMediaLinks={setSocialMediaLinks} />
+        <SocialMedia
+          step={step}
+          setStep={setStep}
+          setSocialMediaLinks={setSocialMediaLinks}
+        />
+        <Banner step={step} setStep={setStep} setLogo={setLogo} />
       </div>
     </div>
   );

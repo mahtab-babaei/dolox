@@ -6,7 +6,7 @@ const CreateAutoSteps = ({ step = 0 }) => {
     { id: 1, label: "مشخصات اتوگالری" },
     { id: 2, label: "آدرس" },
     { id: 3, label: "شبکه های اجتماعی" },
-    { id: 4, label: "عکس ها" },
+    { id: 4, label: "انتخاب بنر" },
     { id: 5, label: "مدارک" },
   ];
 
