@@ -47,7 +47,6 @@ const Banner = ({ step, setStep, setLogo }) => {
             onSubmit={() => {
               setStep(5);
               setLogo(selectedBanner);
-              console.log(selectedBanner);
             }}
             step={step}
             setStep={setStep}

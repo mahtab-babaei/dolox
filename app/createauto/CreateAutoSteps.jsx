@@ -7,7 +7,7 @@ const CreateAutoSteps = ({ step = 0 }) => {
     { id: 2, label: "آدرس" },
     { id: 3, label: "شبکه های اجتماعی" },
     { id: 4, label: "انتخاب بنر" },
-    { id: 5, label: "مدارک" },
+    { id: 5, label: "ویدیو" },
   ];
 
   const currentStage = stages.find((stage) => stage.id === step);
@@ -30,7 +30,9 @@ const CreateAutoSteps = ({ step = 0 }) => {
       </div>
 
       <div className="flex sm:hidden justify-center pt-2">
-        <span className=" text-secondary underline underline-offset-8">{currentStage?.label}</span>
+        <span className=" text-secondary underline underline-offset-8">
+          {currentStage?.label}
+        </span>
       </div>
     </>
   );

@@ -7,6 +7,7 @@ import Specifications from "./Specifications";
 import Address from "./Address";
 import SocialMedia from "./SocialMedia";
 import Banner from "./Banner";
+import Videos from "./Videos";
 
 const CreateAutogallery = () => {
   const [step, setStep] = useState(0);
@@ -20,15 +21,14 @@ const CreateAutogallery = () => {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [socialMediaLinks, setSocialMediaLinks] = useState([]);
-  const [logo, setLogo] = useState(null)
+  const [logo, setLogo] = useState(null);
+  const [video, setVideo] = useState([]);
 
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
       <div className="max-w-screen-sm mx-auto bg-white py-10 rounded-[34px]">
         <h1 className="text-center text-xl">ثبت اتوگالری</h1>
-        {(step !== 6 || adable.success) && (
-          <CreateAutoSteps step={step} setStep={setStep} />
-        )}
+        {step !== 6 && <CreateAutoSteps step={step} setStep={setStep} />}
         <Phone
           step={step}
           setStep={setStep}
@@ -60,6 +60,7 @@ const CreateAutogallery = () => {
           setSocialMediaLinks={setSocialMediaLinks}
         />
         <Banner step={step} setStep={setStep} setLogo={setLogo} />
+        <Videos step={step} setStep={setStep} setVideo={setVideo} />
       </div>
     </div>
   );
