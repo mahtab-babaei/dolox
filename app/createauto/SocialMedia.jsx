@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import StepButtons from "../components/global/StepButtons";
 
 const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
@@ -11,24 +11,33 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
     { social: "", link: "" },
   ]);
 
-  const handleSelectChange = (index, e) => {
-    if (e.target.label === "انتخاب شبکه اجتماعی") {
-      e.target.style.color = "#8B7676";
-    }
-    const newData = [...socialData];
-    newData[index] = { ...newData[index], social: e.target.value };
-    setSocialData(newData);
-  };
-
-  const handleInputChange = (index, e) => {
-    const newData = [...socialData];
-    newData[index] = { ...newData[index], link: e.target.value };
-    setSocialData(newData);
-  };
-
-  const filteredSocialData = socialData.filter(
-    (item) => item.social && item.link
+  // استفاده از useCallback برای جلوگیری از ایجاد توابع جدید در هر رندر
+  const handleSelectChange = useCallback(
+    (index, e) => {
+      const updatedData = [...socialData];
+      updatedData[index].social = e.target.value;
+      setSocialData(updatedData);
+    },
+    [socialData]
   );
+
+  const handleInputChange = useCallback(
+    (index, e) => {
+      const updatedData = [...socialData];
+      updatedData[index].link = e.target.value;
+      setSocialData(updatedData);
+    },
+    [socialData]
+  );
+
+  // فیلتر کردن و تبدیل به رشته با فرمت خاص
+  const convertToFormattedString = (data) => {
+    const formatted = data
+      .filter((item) => item.social && item.link) // فقط موارد با مقدار social و link
+      .map((item) => `${item.social}: ${item.link}`) // تبدیل به فرمت کلید: مقدار
+      .join(","); // جدا کردن با ویرگول
+    return `{${formatted}}`; // افزودن {} در ابتدا و انتها
+  };
 
   return (
     <div className="px-2 md:px-0 font-vazir">
@@ -37,7 +46,8 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
           step={step}
           setStep={setStep}
           onSubmit={() => {
-            setSocialMediaLinks(filteredSocialData);
+            const socialMediaString = convertToFormattedString(socialData);
+            setSocialMediaLinks(socialMediaString);
             setStep(4);
           }}
         />

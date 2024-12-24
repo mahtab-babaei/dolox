@@ -1,10 +1,9 @@
 import { BackendURL } from "@/utils/URL";
-import { getToken } from "@/utils/Auth";
 import { NextResponse } from "next/server";
+import { getToken } from "@/utils/Auth";
 
-export async function POST(req, { params }) {
+export async function POST(req) {
   try {
-    const { adId } = params;
     const formData = await req.formData();
 
     const token = await getToken();
@@ -15,23 +14,21 @@ export async function POST(req, { params }) {
       );
     }
 
-    const backendResponse = await fetch(
-      `${BackendURL}/ads/cars/${adId}/images/`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
+    // Forward the request to the backend
+    const backendResponse = await fetch(`${BackendURL}/ads/exhibition/`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
     const data = await backendResponse.json();
     return NextResponse.json(data, { status: backendResponse.status });
   } catch (error) {
-    console.error("Error uploading images:", error);
+    console.error("Error:", error);
     return NextResponse.json(
-      { success: false, message: "Upload failed" },
+      { success: false, message: "Internal Server Error" },
       { status: 500 }
     );
   }

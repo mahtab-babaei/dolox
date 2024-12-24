@@ -88,7 +88,8 @@ const CreateAd = () => {
             weight,
             maxweight,
           });
-  
+          console.log("Response from createAdReq:", result);
+
           if (result.success) {
             console.log(images);
   

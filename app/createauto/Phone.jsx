@@ -6,7 +6,9 @@ import ErrorMessage from "../components/global/ErrorMessage";
 const Phone = ({ step, setStep, setContactPhone }) => {
   // validation schema
   const validationSchema = Yup.object({
-    contactPhone: Yup.string().required("لطفا شماره تلفن را وارد کنید"),
+    contactPhone: Yup.string()
+      .matches(/^[0-9]+$/, "شماره تلفن باید شامل عدد باشد")
+      .required("لطفا شماره تلفن را وارد کنید"),
   });
 
   // Formik setup
@@ -62,9 +64,7 @@ const Phone = ({ step, setStep, setContactPhone }) => {
           </label>
 
           {formik.touched.contactPhone && formik.errors.contactPhone ? (
-            <ErrorMessage>
-              {formik.errors.contactPhone}
-            </ErrorMessage>
+            <ErrorMessage>{formik.errors.contactPhone}</ErrorMessage>
           ) : null}
         </form>
       </div>

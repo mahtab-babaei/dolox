@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import StepButtons from "../components/global/StepButtons";
 
 const Videos = ({ step, setStep, setVideo }) => {
   if (step !== 5) return null;
 
+  const [error, setError] = useState("");
   const [videoForms, setVideoForms] = useState([
-    { title: "", description: "", videoFile: null },
+    { title: "", description: "", video_file: null },
   ]);
 
   // Add new form
@@ -13,7 +14,7 @@ const Videos = ({ step, setStep, setVideo }) => {
     if (videoForms.length < 6) {
       setVideoForms([
         ...videoForms,
-        { title: "", description: "", videoFile: null },
+        { title: "", description: "", video_file: null },
       ]);
     }
   };
@@ -28,23 +29,24 @@ const Videos = ({ step, setStep, setVideo }) => {
   // Handle file upload
   const handleFileChange = (e, index) => {
     const updatedForms = [...videoForms];
-    updatedForms[index].videoFile = e.target.files[0];
+    updatedForms[index].video_file = e.target.files[0];
     setVideoForms(updatedForms);
   };
 
   // Handle form submit
   const handleSubmit = () => {
     const validVideos = videoForms.filter((form) => {
-      return (
-        (form.videoFile && (!form.title || !form.description)) ||
-        (form.title && form.description && form.videoFile)
-      );
+      const isEmptyForm = !form.title && !form.description && !form.video_file;
+      const isCompleteForm = form.title && form.description && form.video_file;
+
+      return isEmptyForm || isCompleteForm;
     });
 
-    if (validVideos.length > 0) {
-      setVideo(validVideos);
-      console.log(validVideos);
+    if (validVideos.length !== videoForms.length) {
+      setError("لطفاً تمام فیلدهای فرم را تکمیل کنید یا فرم را خالی بگذارید");
+      return;
     }
+    setVideo(validVideos.filter((form) => form.video_file));
     setStep(6);
   };
 
@@ -54,6 +56,7 @@ const Videos = ({ step, setStep, setVideo }) => {
         <StepButtons step={step} setStep={setStep} onSubmit={handleSubmit} />
 
         <form className="px-4">
+          {error && <div className="mt-2 text-red-500 text-center text-sm">{error}</div>}
           {videoForms.map((form, index) => (
             <div key={index} className="mb-4">
               <label className="input mt-8 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral">
@@ -87,6 +90,7 @@ const Videos = ({ step, setStep, setVideo }) => {
               <div className="h-36 border-dashed flex items-center bg-base-200 border-base-content border rounded-lg justify-center mt-4">
                 <input
                   type="file"
+                  accept="video/*"
                   id={`file-upload-${index}`}
                   style={{ display: "none" }}
                   onChange={(e) => handleFileChange(e, index)}
@@ -112,12 +116,12 @@ const Videos = ({ step, setStep, setVideo }) => {
                   </span>
                 </label>
               </div>
-              {form.videoFile && (
+
+              {form.video_file && (
                 <div className="mt-2 text-base-content text-sm">
                   ویدیوی شما با موفقیت بارگذاری شد
                 </div>
               )}
-
               <div className="flex justify-center">
                 <button
                   type="button"

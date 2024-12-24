@@ -1,26 +1,36 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import StepButtons from "../components/global/StepButtons";
 
 const Banner = ({ step, setStep, setLogo }) => {
   const [selectedBanner, setSelectedBanner] = useState(null);
+  const [error, setError] = useState("");
 
   const handleImageUpload = (files) => {
     if (files && files[0]) {
       const file = files[0];
+      setLogo(file); // Set the uploaded file
       const imageUrl = URL.createObjectURL(file);
-      setSelectedBanner(imageUrl);
+      setSelectedBanner(imageUrl); // Set preview for the uploaded image
+      setError("");
     }
   };
 
   const handleRemoveImage = () => {
     setSelectedBanner(null);
+    setLogo(null); // Clear the uploaded file
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
     const files = e.dataTransfer.files;
+    if (files.length > 1) {
+      setError("فقط یک بنر می‌توانید آپلود کنید");
+      return;
+    }
     handleImageUpload(files);
   };
 
@@ -31,8 +41,8 @@ const Banner = ({ step, setStep, setLogo }) => {
 
   useEffect(() => {
     return () => {
-      if (selectedBanner?.imageUrl) {
-        URL.revokeObjectURL(selectedBanner.imageUrl);
+      if (selectedBanner) {
+        URL.revokeObjectURL(selectedBanner); // Cleanup object URL
       }
     };
   }, [selectedBanner]);
@@ -45,8 +55,11 @@ const Banner = ({ step, setStep, setLogo }) => {
         <div className="pb-8 pt-2">
           <StepButtons
             onSubmit={() => {
+              if (!selectedBanner) {
+                setError("لطفاً یک بنر آپلود کنید");
+                return;
+              }
               setStep(5);
-              setLogo(selectedBanner);
             }}
             step={step}
             setStep={setStep}
@@ -89,6 +102,8 @@ const Banner = ({ step, setStep, setLogo }) => {
             </span>
           </label>
         </div>
+
+        {error && <div className="text-red-500 mt-2">{error}</div>}
 
         {selectedBanner && (
           <div className="grid grid-cols-1 gap-2 mt-2">
