@@ -21,16 +21,20 @@ const ProfileAd = ({ ad }) => {
           height={100}
           alt="ad"
         ></Image>
-        <div className=" justify-between w-full  text-white">
+        <div className="justify-between w-full text-white">
           <h2 className="p-4">{ad.model + " " + ad.brand}</h2>
 
           <div className="text-white text-center align-middle items-center w-full justify-end p-4 flex">
-            <div>
-              <span className="px-2 text-xs"> تومان</span>
-              <span className=" font-medium font-vazir-bold px-2 min-w-24">
-                {ad.price}
-              </span>
-            </div>
+            {ad.price ? (
+              <div>
+                <span className="px-2 text-xs"> تومان</span>
+                <span className="font-medium font-vazir-bold px-2 min-w-24">
+                  {ad.price}
+                </span>
+              </div>
+            ) : (
+              <span className="px-2 text-xs">قیمت توافقی</span>
+            )}
           </div>
         </div>
       </div>
