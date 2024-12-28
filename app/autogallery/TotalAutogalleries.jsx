@@ -5,12 +5,13 @@ import DekstopAutogalleryPanel from "./DekstopAutogalleryPanel";
 import { fetchAutosByFilter } from "./page";
 import PhoneAUtogalleryDrawer from "./PhoneAUtogalleryDrawer";
 
-const TotalAutogalleries = ({ initialData }) => {
+const TotalAutogalleries = ({ initialData, next, prev }) => {
   const [autosData, setAutosData] = useState(initialData);
   const [loading, setLoading] = useState(false);
   const [city, setCity] = useState("");
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
+  const [nextPage, setNextPage] = useState(next);
+  const [prevPage, setPrevPage] = useState(prev);
   const [sellsDomestic, setSellsDomestic] = useState(false);
   const [sellsChinese, setSellsChinese] = useState(false);
   const [sellsForeign, setSellsForeign] = useState(false);
@@ -28,6 +29,28 @@ const TotalAutogalleries = ({ initialData }) => {
     console.log("Flitereddata:", filterData);
     const filteredAutos = await fetchAutosByFilter(filterData);
     setAutosData(filteredAutos?.data.results || []);
+    setNextPage(filteredAutos?.data.next);
+    setPrevPage(filteredAutos?.data.previous);
+    setLoading(false);
+  };
+
+  const handlePageChange = async (newPage) => {
+    setLoading(true);
+    setPage(newPage);
+
+    const filterData = {
+      city,
+      page: newPage,
+      sellsDomestic,
+      sellsChinese,
+      sellsForeign,
+    };
+
+    const paginatedAuctions = await fetchAutosByFilter(filterData);
+
+    setAutosData(filteredAutos?.data.results || []);
+    setNextPage(filteredAutos?.data.next);
+    setPrevPage(filteredAutos?.data.previous);
     setLoading(false);
   };
 
@@ -70,6 +93,25 @@ const TotalAutogalleries = ({ initialData }) => {
             {autosData.map((autoGallery, index) => (
               <AutoGalleryItem key={index} autoGallery={autoGallery} />
             ))}
+          </div>
+        )}
+        {/* Pagination buttons */}
+        {!loading && (nextPage || prevPage) && (
+          <div className="flex justify-between mt-4 mb-10">
+            <button
+              disabled={!prevPage}
+              onClick={() => handlePageChange(page - 1)}
+              className="btn bg-primary text-white"
+            >
+              صفحه قبل
+            </button>
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              className="btn bg-primary text-white"
+              disabled={!nextPage}
+            >
+              صفحه بعد
+            </button>
           </div>
         )}
       </div>

@@ -13,7 +13,8 @@ const TotalAuctions = () => {
   });
   const [city, setCity] = useState("");
   const [page, setPage] = useState(1);
-  const [TotalPage, setTotalPage] = useState(1);
+  const [nextPage, setNextPage] = useState(null);
+  const [prevPage, setPrevPage] = useState(null);
   const [category, setCategory] = useState("");
   const [query, setQuery] = useState("");
   const [activeAuctions, setActiveAuctions] = useState(false);
@@ -30,7 +31,8 @@ const TotalAuctions = () => {
         page: 1,
       });
       setAuctionsData(initialData?.results || []);
-      setTotalPage(Math.ceil(initialData.count / 10));
+      setNextPage(initialData?.next);
+      setPrevPage(initialData?.previous);
       setLoading(false);
     };
 
@@ -51,7 +53,8 @@ const TotalAuctions = () => {
 
     const filteredAuctions = await fetchAuctionsByFilter(filterData);
     setAuctionsData(filteredAuctions?.results || []);
-    setTotalPage(Math.ceil(filteredAuctions.count / 10));
+    setNextPage(filteredAuctions?.next);
+    setPrevPage(filteredAuctions?.previous);
     setLoading(false);
   };
 
@@ -70,7 +73,8 @@ const TotalAuctions = () => {
     const paginatedAuctions = await fetchAuctionsByFilter(filterData);
 
     setAuctionsData(paginatedAuctions?.results || []);
-    setTotalPage(Math.ceil(paginatedAuctions.count / 10));
+    setNextPage(paginatedAuctions?.next);
+    setPrevPage(paginatedAuctions?.previous);
     setLoading(false);
   };
 
@@ -114,10 +118,10 @@ const TotalAuctions = () => {
           ))
         )}
         {/* Pagination buttons */}
-        {!loading && auctionsData.length > 0 && (
+        {!loading && (nextPage || prevPage) && (
           <div className="flex justify-between mt-4 mb-10">
             <button
-              disabled={page === 1}
+              disabled={!prevPage}
               onClick={() => handlePageChange(page - 1)}
               className="btn bg-primary text-white"
             >
@@ -126,7 +130,7 @@ const TotalAuctions = () => {
             <button
               onClick={() => handlePageChange(page + 1)}
               className="btn bg-primary text-white"
-              disabled={page === TotalPage || 0}
+              disabled={!nextPage}
             >
               صفحه بعد
             </button>
