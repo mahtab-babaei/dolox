@@ -8,7 +8,7 @@ const ProfileAuto = ({ exhibition, picture }) => (
       <Image
         className="h-24 w-24 object-cover m-2 rounded-[16px] bg-gray-200"
         src={picture}
-        width={96} // متناسب با کلاس‌های w-24 و h-24
+        width={96} 
         height={96}
         alt="ad"
       />

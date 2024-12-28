@@ -1,19 +1,20 @@
 import Image from "next/image";
+import logo from "@/public/images/sampleautogallery.png";
 
 const AutoGalleryItem = ({ autoGallery }) => {
   return (
-    <div className="!rounded-[30px] shadow">
+    <div className="!rounded-[30px] shadow bg-white">
       <div className="relative z-10">
         <Image
-          className="mx-auto object-cover w-full object-center rounded-t-[30px]"
-          src={autoGallery.logo || "default-logo.png"} // Provide a fallback image
+          className="aspect-video object-cover w-full object-center rounded-t-[30px]"
+          src={autoGallery.logo || logo} // Provide a fallback image
+          alt="car"
           width={370}
           height={208}
-          alt="car"
         />
         <div className="absolute bottom-0 w-full h-14 flex pr-2 gap-2 items-center rounded-tr-[30px] rounded-bl-[14px] justify-between">
           <div className="flex items-center gap-2"></div>
-          <div className="bg-secondary h-full px-16 gap-2 text-white text-center align-middle flex items-center relative cut-right before:border-t-secondary">
+          <div className="bg-secondary h-full px-8 gap-2 text-white text-center align-middle flex items-center relative cut-right before:border-t-secondary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -26,16 +27,16 @@ const AutoGalleryItem = ({ autoGallery }) => {
                 fill="white"
               />
             </svg>
-            <span>{autoGallery.city || "نامشخص"}</span>
+            <span>{autoGallery?.city}</span>
           </div>
         </div>
       </div>
-      <div className="bg-white w-full text-right py-4 px-6 rounded-b-[30px]">
-        <h2>{autoGallery.company_name || "نام اتوگالری"}</h2>
-        <p className="font-vazir h-36 overflow-hidden">
-          {autoGallery.description || "توضیحات در دسترس نیست"}
+      <div className="bg-white w-full text-right pt-4 px-6 rounded-b-[30px]">
+        <h2>{autoGallery.company_name}</h2>
+        <p className="font-vazir h-fit overflow-hidden py-4">
+          {autoGallery.description}
         </p>
-        <div className="flex gap-2 text-secondary pt-4">
+        <div className="flex gap-2 text-secondary pb-4">
           {autoGallery.sells_domestic_cars && (
             <div className="w-1/3 font-vazir border-secondary border text-center rounded-full py-2">
               داخلی
