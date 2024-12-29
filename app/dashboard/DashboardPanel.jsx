@@ -26,13 +26,15 @@ const DashboardPanel = () => {
 
   return (
     <aside className="bg-white w-3/12 max-w-[250px] min-w-52 rounded-[34px] p-5 md:flex flex-col hidden">
-      <Image
-        className="rounded-[10px] mx-auto object-cover object-center w-28 h-28 mt-8"
-        src={user?.profile.picture}
-        width={150}
-        height={150}
-        alt="profile pic"
-      />
+      {user?.profile?.picture && (
+        <Image
+          className="rounded-[10px] mx-auto object-cover object-center w-28 h-28 mt-8"
+          src={user?.profile.picture}
+          width={150}
+          height={150}
+          alt="profile pic"
+        />
+      )}
       <h2 className="w-full text-center pt-4 pb-4 text-md">
         {" "}
         {user?.profile?.first_name} خوش آمدید 👋{" "}

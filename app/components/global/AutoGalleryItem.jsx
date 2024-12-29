@@ -1,9 +1,19 @@
+"use client";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/images/sampleautogallery.png";
 
 const AutoGalleryItem = ({ autoGallery }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/autogallery/${autoGallery.id}`);
+  };
   return (
-    <div className="!rounded-[30px] shadow bg-white">
+    <div
+      onClick={handleClick}
+      className="!rounded-[30px] shadow bg-white cursor-pointer hover:shadow-lg"
+    >
       <div className="relative z-10">
         <Image
           className="aspect-video object-cover w-full object-center rounded-t-[30px]"
