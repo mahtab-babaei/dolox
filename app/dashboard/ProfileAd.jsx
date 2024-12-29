@@ -40,7 +40,7 @@ const ProfileAd = ({ ad }) => {
       </div>
       <div className="md:border-r-2  flex-col flex items-center justify-center py-3 px-6 md:w-52 rounded-l-[6px]">
         <Link
-          href="/managead"
+          href={`/dashboard/managead/${ad.id}`}
           className="btn bg-white text-black border-none hover:text-white"
         >
           مدیریت اگهی
