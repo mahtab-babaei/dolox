@@ -91,6 +91,7 @@ export const createAdReq = async ({
   wheelnumber,
   weight,
   maxweight,
+  exhibition,
 }) => {
   try {
     const formData = new FormData();
@@ -116,6 +117,10 @@ export const createAdReq = async ({
 
     if (price !== undefined) {
       formData.append("price", price);
+    }
+
+    if (exhibition > 0) {
+      formData.append("exhibition", exhibition);
     }
 
     if (category === "ماشین‌آلات سنگین") {

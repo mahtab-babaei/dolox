@@ -15,6 +15,7 @@ import Package from "./Package";
 import Price from "./Price";
 import Year from "./Year";
 import { AdImages, checkAds, createAdReq, getColors } from "./page";
+import { getProfile } from "../dashboard/page";
 
 const CreateAd = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const CreateAd = () => {
   const [packagePlan, setPackagePlan] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [esxhibitionId, setExhibitionId] = useState(0);
   const [adable, setAdable] = useState({});
   const [brands, setBrands] = useState([]);
   const [colors, setColors] = useState([]);
@@ -46,19 +48,22 @@ const CreateAd = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [adableRes, brandsRes, colorsRes] = await Promise.all([
+        const [adableRes, brandsRes, colorsRes, profile] = await Promise.all([
           checkAds(),
           getBrandsByType("سواری"),
           getColors(),
+          getProfile(),
         ]);
 
         setAdable(adableRes);
         setBrands(brandsRes);
         setColors(colorsRes.results);
+        setExhibitionId(profile.exhibition[0].id);
       } catch (error) {
         setAdable({});
         setBrands([]);
         setColors([]);
+        setExhibitionId(null);
       }
     };
 
@@ -70,7 +75,7 @@ const CreateAd = () => {
       if (step === 9) {
         try {
           setLoading(true);
-  
+
           const result = await createAdReq({
             brand,
             model,
@@ -87,17 +92,15 @@ const CreateAd = () => {
             wheelnumber,
             weight,
             maxweight,
+            exhibition: esxhibitionId,
           });
           console.log("Response from createAdReq:", result);
 
           if (result.success) {
             console.log(images);
-  
-            const imageResult = await AdImages(
-              result.message.id,
-              images
-            );
-  
+
+            const imageResult = await AdImages(result.message.id, images);
+
             if (imageResult.success) {
               setStep(10);
               toast.success("اطلاعات با موفقیت ثبت شد!");
@@ -118,10 +121,9 @@ const CreateAd = () => {
         }
       }
     };
-  
+
     submitAd();
   }, [step]);
-  
 
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
@@ -148,7 +150,13 @@ const CreateAd = () => {
           brand={brand}
         />
         <Year setStep={setStep} step={step} setYear={setYear} />
-        <Body setStep={setStep} step={step} colors={colors} setBody={setBody} category={category} />
+        <Body
+          setStep={setStep}
+          step={step}
+          colors={colors}
+          setBody={setBody}
+          category={category}
+        />
         <Description
           setStep={setStep}
           step={step}
