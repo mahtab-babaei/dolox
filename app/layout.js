@@ -6,6 +6,8 @@ import localFont from "next/font/local";
 import Footer from "./components/global/Footer";
 import Navbar from "./components/global/Navbar";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 
 const digirastin = localFont({
   src: "../public/fonts/digirastin.ttf",
@@ -72,6 +74,7 @@ export default async function RootLayout({ children }) {
           <main>{children}</main>
           <Footer />
         </UserProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
