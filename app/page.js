@@ -8,151 +8,44 @@ import LastAutoGalleries from "./components/home/LastAutoGalleries";
 import LastBlogs from "./components/home/LastBlogs";
 import WhatBrand from "./components/home/Whatbrand";
 
-export const getAds = async () => {
-  const myHeaders = new Headers();
+export const revalidate = 3600; // ISR: update every 1 hour
 
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
+async function fetchData(url) {
   try {
-    const response = await fetch(BackendURL + "/ads/", requestOptions);
-    if (response.status === 200) {
-      return await response.json(); // Return the parsed JSON
-    } else {
-      console.log(response.status);
-      throw new Error("Failed to fetch ads, status code: " + response.status);
-    }
+    const response = await fetch(url, { method: "GET", cache: "force-cache" });
+    if (response.ok) return await response.json();
+    throw new Error(`HTTP error! status: ${response.status}`);
   } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const getAuctions = async () => {
-  const myHeaders = new Headers();
-
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  try {
-    const response = await fetch(
-      BackendURL + "/auction/?page=1",
-      requestOptions
-    );
-    if (response.status === 200) {
-      return await response.json(); // Return the parsed JSON
-    } else {
-      console.log(response.status);
-      throw new Error("Failed to fetch ads, status code: " + response.status);
-    }
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-const getAutogalleries = async () => {
-  const myHeaders = new Headers();
-
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  try {
-    const response = await fetch(
-      BackendURL + "/ads/exhibition/",
-      requestOptions
-    );
-    if (response.status === 200) {
-      return await response.json(); // Return the parsed JSON
-    } else {
-      console.log(response.status);
-      // throw new Error("Failed to fetch ads, status code: " + response.status);
-      return null;
-    }
-  } catch (error) {
-    console.error(error);
-    // throw error;
+    console.error(`Failed to fetch data from ${url}:`, error);
     return null;
   }
-};
+}
 
-const getBlogs = async () => {
-  const myHeaders = new Headers();
-
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  try {
-    const response = await fetch(
-      WordPressURL + "/posts?orderby=date&order=desc&per_page=3",
-      requestOptions
-    );
-    if (response.status === 200) {
-      return await response.json(); // Return the parsed JSON
-    } else {
-      console.log(response.status);
-      throw new Error("Failed to fetch ads, status code: " + response.status);
-    }
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const getBrandsByType = async (type) => {
-  const myHeaders = new Headers();
-
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  try {
-    const response = await fetch(
-      `${BackendURL}/ads/brand_type/?type=${type}`,
-      requestOptions
-    );
-
-    // Check if response is ok (status in range 200-299)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    // throw error;
-  }
-};
+const getAds = () => fetchData(`${BackendURL}/ads/`);
+const getAuctions = () => fetchData(`${BackendURL}/auction/?page=1`);
+const getAutogalleries = () => fetchData(`${BackendURL}/ads/exhibition/`);
+const getBlogs = () =>
+  fetchData(`${WordPressURL}/posts?orderby=date&order=desc&per_page=3`);
+export const getBrandsByType = (type) =>
+  fetchData(`${BackendURL}/ads/brand_type/?type=${type}`);
 
 export default async function Home() {
-  const ads = await getAds();
-  const autoGalleries = await getAutogalleries();
-  const auction = await getAuctions();
-  const blogs = await getBlogs();
-  const brands = await getBrandsByType("سواری");
+  const [ads, autoGalleries, auctions, blogs, brands] = await Promise.all([
+    getAds(),
+    getAutogalleries(),
+    getAuctions(),
+    getBlogs(),
+    getBrandsByType("سواری"),
+  ]);
 
   return (
     <>
       <Hero />
-      <LastAds ads={ads.results || []} />
+      <LastAds ads={ads?.results || []} />
       <FreeAds />
       <LastAutoGalleries autogalleries={autoGalleries?.results || []} />
       <FreeAutoGallery />
-      <LastAuctions auctions={auction.results || []} />
+      <LastAuctions auctions={auctions?.results || []} />
       <LastBlogs blogs={blogs || []} />
       <WhatBrand initBrands={brands || []} />
     </>
