@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const AdExhibition = () => {
   return (
-    <div className="grid md:flex bg-white p-8 rounded-2xl w-full gap-4 items-center">
+    <div className="grid md:flex bg-white text-black p-8 rounded-2xl w-full gap-4 items-center">
       <div className="flex justify-center">
         <Image
           alt="exhibitionImage"

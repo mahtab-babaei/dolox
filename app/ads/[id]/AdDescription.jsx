@@ -8,7 +8,7 @@ const AdDescription = ({
   exhibition,
 }) => {
   return (
-    <div className="bg-white p-8 rounded-2xl w-full">
+    <div className="bg-white p-8 rounded-2xl w-full text-black">
       <h1 className="mb-2 text-[18px]">توضیحات</h1>
       <p className="font-vazir mb-2">{description}</p>
       <div className="flex items-center gap-1">

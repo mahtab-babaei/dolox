@@ -10,7 +10,6 @@ const AdCondition = ({
   upholstery,
   fuel,
 }) => {
-  // آیکون‌های SVG برای هر ویژگی
   const icons = {
     kilometer: (
       <svg
@@ -149,7 +148,6 @@ const AdCondition = ({
     ),
   };
 
-  // داده‌های وضعیت خودرو
   const conditions = [
     { label: "کارکرد", value: kilometer, icon: icons.kilometer },
     { label: "گیربکس", value: transmission, icon: icons.transmission },
@@ -171,7 +169,7 @@ const AdCondition = ({
   ];
 
   return (
-    <div className="bg-white p-4 rounded-2xl">
+    <div className="bg-white p-4 rounded-2xl text-black">
       <h1 className="text-center mb-8">وضعیت خودرو</h1>
       <div className="grid grid-cols-2 gap-2">
         {conditions.map((condition, index) => (

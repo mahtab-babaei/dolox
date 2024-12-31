@@ -58,7 +58,7 @@ const AutoDetailsPage = () => {
 
   return (
     <div className="px-6 pt-40 bg-neutral">
-      <div className="max-w-screen-xl mx-auto">
+      <div className="max-w-screen-xl mx-auto text-black">
         {error ? (
           <div className="text-base-content px-6 pt-40 font-vazir text-center bg-neutral">
             {error}
@@ -83,7 +83,7 @@ const AutoDetailsPage = () => {
                       className="aspect-square object-cover rounded-2xl"
                     />
                   </div>
-                  <button className="btn text-nowrap px-2 sm:px-4 my-2 bg-secondary text-white">
+                  <button className="btn border-none text-nowrap px-2 sm:px-4 my-2 bg-secondary text-white">
                     <div className="flex items-center justify-center gap-1">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

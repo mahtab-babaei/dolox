@@ -4,7 +4,7 @@ import Link from "next/link";
 const AdTitle = ({ model, year, city, price }) => {
   return (
     <div className="bg-white p-4 rounded-2xl">
-      <h1 className="mb-2 text-[18px]">{model}</h1>
+      <h1 className="mb-2 text-[18px] ">{model}</h1>
       <p className="text-base-content font-vazir-bold">{year}</p>
       <div className="flex justify-between items-center font-vazir-bold mb-2">
         <span className="text-base-content flex items-center gap-1">
@@ -24,16 +24,16 @@ const AdTitle = ({ model, year, city, price }) => {
           {city}
         </span>
         {price ? (
-          <div>
+          <div className="text-black">
             <span>تومان</span>
             <span className="text-[20px]"> {price} </span>
           </div>
         ) : (
-          <span>قیمت توافقی</span>
+          <span className="text-black">قیمت توافقی</span>
         )}
       </div>
       <div className="flex gap-2 justify-center items-center mb-2">
-        <button className="btn px-2 sm:px-4 bg-secondary text-white">
+        <button className="btn px-2 sm:px-4 bg-secondary text-white border-none">
           <div className="flex items-center justify-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"

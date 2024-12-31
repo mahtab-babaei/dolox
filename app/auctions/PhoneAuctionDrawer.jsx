@@ -14,7 +14,7 @@ const PhoneAuctionDrawer = ({
 }) => {
   const [drawer, setdrawer] = useState(false);
   return (
-    <div>
+    <div className="text-black">
       <div className="bg-primary h-28 flex justify-center items-center text-white flex-col rounded-[21px] md:hidden">
         <h2 className="text-xl">پلن فعال شما</h2>
         <p className="pt-4">تست رایگان 15 روزه </p>

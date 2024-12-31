@@ -25,7 +25,7 @@ const AuctionDetails = ({ auction }) => {
 
   return (
     <div className="px-6 pt-40 py-10 bg-neutral">
-      <div className="max-w-screen-xl mx-auto">
+      <div className="max-w-screen-xl mx-auto text-black">
         <div
           className={`${
             auction.image
@@ -38,7 +38,7 @@ const AuctionDetails = ({ auction }) => {
               auction.image && `md:max-w-80 md:flex-[25%]`
             }`}
           >
-            <h1 className="text-center py-2">خودرو سواری پژو 405</h1>
+            <h1 className="text-center py-2">{auction.title}</h1>
             {auctionItems.map((item, index) => (
               <div
                 key={index}

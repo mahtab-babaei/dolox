@@ -75,7 +75,7 @@ const Navbar = ({ user }) => {
             ثبت رایگان آگهی
           </Link>
           {!user && (
-            <Link className="flex items-center gap-2" href="/login">
+            <Link className="flex items-center gap-2 text-black" href="/login">
               {userIcon}
               <span>{userName}</span>
             </Link>

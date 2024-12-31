@@ -61,7 +61,7 @@ const PhoneSortDrawer = ({ onOrderChange }) => {
       {drawer && (
         <div className="fixed rounded-t-3xl w-screen h-[50%] bottom-0 left-0 z-50 bg-white pt-6 duration-300">
           <div className="flex items-center gap-2 justify-between mb-4 px-8">
-            <h2 className="text-xl">مرتب سازی بر اساس</h2>
+            <h2 className="text-xl text-black">مرتب سازی بر اساس</h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

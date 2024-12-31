@@ -111,7 +111,7 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
           </div>
         </div>
       </div>
-      <div className="w-full text-right p-4 rounded-b-[30px]">
+      <div className={`w-full text-right text-${fillColor} p-4 rounded-b-[30px]`}>
         <h2>{ad.model}</h2>
 
         <div className="flex justify-between">
