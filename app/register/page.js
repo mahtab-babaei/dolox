@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import React from "react";
 import RegisterPage from "./RegisterPage";
 import { BackendURL } from "@/utils/URL";

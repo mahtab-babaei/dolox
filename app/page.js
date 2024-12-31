@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { BackendURL, WordPressURL } from "@/utils/URL";
 import FreeAds from "./components/home/FreeAds";
 import FreeAutoGallery from "./components/home/FreeAutoGallery";
@@ -75,11 +76,13 @@ const getAutogalleries = async () => {
       return await response.json(); // Return the parsed JSON
     } else {
       console.log(response.status);
-      throw new Error("Failed to fetch ads, status code: " + response.status);
+      // throw new Error("Failed to fetch ads, status code: " + response.status);
+      return null;
     }
   } catch (error) {
     console.error(error);
-    throw error;
+    // throw error;
+    return null;
   }
 };
 
@@ -148,7 +151,7 @@ export default async function Home() {
       <Hero />
       <LastAds ads={ads.results || []} />
       <FreeAds />
-      <LastAutoGalleries autogalleries={autoGalleries.results || []} />
+      <LastAutoGalleries autogalleries={autoGalleries?.results || []} />
       <FreeAutoGallery />
       <LastAuctions auctions={auction.results || []} />
       <LastBlogs blogs={blogs || []} />

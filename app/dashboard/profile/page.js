@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 import React from "react";
 import ProfileData from "./ProfileData";
 import { useState, useEffect } from "react";

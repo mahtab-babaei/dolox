@@ -7,7 +7,7 @@ const AutoGalleryItem = ({ autoGallery }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/autogallery/${autoGallery.id}`);
+    router.push(`/autogallery/${autoGallery?.id}`);
   };
   return (
     <div
@@ -17,7 +17,7 @@ const AutoGalleryItem = ({ autoGallery }) => {
       <div className="relative z-10">
         <Image
           className="aspect-video object-cover w-full object-center rounded-t-[30px]"
-          src={autoGallery.logo || logo} // Provide a fallback image
+          src={autoGallery?.logo || logo} // Provide a fallback image
           alt="car"
           width={370}
           height={208}
@@ -42,22 +42,22 @@ const AutoGalleryItem = ({ autoGallery }) => {
         </div>
       </div>
       <div className="bg-white w-full text-right pt-4 px-6 rounded-b-[30px]">
-        <h2>{autoGallery.company_name}</h2>
+        <h2>{autoGallery?.company_name}</h2>
         <p className="font-vazir h-fit overflow-hidden py-4">
-          {autoGallery.description}
+          {autoGallery?.description}
         </p>
         <div className="flex gap-2 text-secondary pb-4">
-          {autoGallery.sells_domestic_cars && (
+          {autoGallery?.sells_domestic_cars && (
             <div className="w-1/3 font-vazir border-secondary border text-center rounded-full py-2">
               داخلی
             </div>
           )}
-          {autoGallery.sells_foreign_cars && (
+          {autoGallery?.sells_foreign_cars && (
             <div className="w-1/3 font-vazir border-secondary border text-center rounded-full py-2">
               خارجی
             </div>
           )}
-          {autoGallery.sells_chinese_cars && (
+          {autoGallery?.sells_chinese_cars && (
             <div className="w-1/3 font-vazir border-secondary border text-center rounded-full py-2">
               چینی
             </div>

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import LoginSection from "./LoginSection";
 import React from "react";
 import { BackendURL } from "@/utils/URL";

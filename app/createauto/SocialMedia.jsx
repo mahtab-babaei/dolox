@@ -2,8 +2,6 @@ import React, { useState, useCallback } from "react";
 import StepButtons from "../components/global/StepButtons";
 
 const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
-  if (step !== 3) return null;
-
   const [socialData, setSocialData] = useState([
     { social: "", link: "" },
     { social: "", link: "" },
@@ -11,7 +9,6 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
     { social: "", link: "" },
   ]);
 
-  // استفاده از useCallback برای جلوگیری از ایجاد توابع جدید در هر رندر
   const handleSelectChange = useCallback(
     (index, e) => {
       const updatedData = [...socialData];
@@ -30,14 +27,15 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
     [socialData]
   );
 
-  // فیلتر کردن و تبدیل به رشته با فرمت خاص
   const convertToFormattedString = (data) => {
     const formatted = data
-      .filter((item) => item.social && item.link) // فقط موارد با مقدار social و link
-      .map((item) => `${item.social}: ${item.link}`) // تبدیل به فرمت کلید: مقدار
-      .join(","); // جدا کردن با ویرگول
-    return `{${formatted}}`; // افزودن {} در ابتدا و انتها
+      .filter((item) => item.social && item.link) 
+      .map((item) => `${item.social}: ${item.link}`) 
+      .join(","); 
+    return `{${formatted}}`; 
   };
+
+  if (step !== 3) return null;
 
   return (
     <div className="px-2 md:px-0 font-vazir">

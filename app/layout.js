@@ -8,17 +8,17 @@ import Navbar from "./components/global/Navbar";
 import "./globals.css";
 
 const digirastin = localFont({
-  src: "./fonts/digirastin.ttf",
+  src: "../public/fonts/digirastin.ttf",
   variable: "--font-digirastin",
 });
 
 const vazirBold = localFont({
-  src: "./fonts/vazirbold.woff2",
+  src: "../public/fonts/vazirbold.woff2",
   variable: "--font-vazir-bold",
 });
 
 const vazir = localFont({
-  src: "./fonts/vazirnormal.woff2",
+  src: "../public/fonts/vazirnormal.woff2",
   variable: "--font-vazir",
 });
 

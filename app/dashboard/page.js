@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import DashboardAd from "./DashboardAd";
 import DashboardPanel from "./DashboardPanel";
 

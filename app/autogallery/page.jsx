@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import React from "react";
 import TotalAutogalleries from "./TotalAutogalleries";
 import { BackendURL } from "@/utils/URL";
@@ -37,11 +38,6 @@ export const fetchAutosByFilter = async ({
       }
     );
     const result = await response.json();
-    console.log({
-      success: true,
-      data: result || { results: [] },
-    });
-
     return {
       success: true,
       data: result || { results: [] },

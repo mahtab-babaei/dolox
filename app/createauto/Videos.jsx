@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import StepButtons from "../components/global/StepButtons";
 
 const Videos = ({ step, setStep, setVideo }) => {
-  if (step !== 5) return null;
-
   const [error, setError] = useState("");
   const [videoForms, setVideoForms] = useState([
     { title: "", description: "", video_file: null },
@@ -49,6 +47,8 @@ const Videos = ({ step, setStep, setVideo }) => {
     setVideo(validVideos.filter((form) => form.video_file));
     setStep(6);
   };
+
+  if (step !== 5) return null;
 
   return (
     <div className="px-2 md:px-0 font-vazir">
