@@ -86,14 +86,14 @@ const Price = ({ step, setStep, setPrice, setInstallments, setRentorsale }) => {
             <div className="form-control w-full mt-4">
               <label className="form-control w-full relative">
                 <div className="label">
-                  <span className="label-text">قیمت</span>
+                  <span className="label-text text-black">قیمت</span>
                 </div>
                 <input
                   id="price"
                   dir="ltr"
                   type="number"
                   placeholder="200000"
-                  className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir placeholder:text-base-content"
+                  className="input text-black focus:outline-secondary border-none w-full bg-base-200 font-vazir placeholder:text-base-content"
                   value={formik.values.price}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -116,7 +116,7 @@ const Price = ({ step, setStep, setPrice, setInstallments, setRentorsale }) => {
               onChange={() => setIsRent(!isRent)}
               className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
             />
-            <p>خودرو را اجاره هم می دهم</p>
+            <p className="text-black">خودرو را اجاره هم می دهم</p>
           </div>
         </div>
       </div>

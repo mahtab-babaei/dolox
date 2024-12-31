@@ -70,7 +70,7 @@ const Description = ({
 
           <div className="form-control w-full mt-4">
             <div className="flex mb-4">
-              <label className="flex items-center ml-4">
+              <label className="flex items-center ml-4 text-black">
                 <input
                   type="radio"
                   name="status"
@@ -81,7 +81,7 @@ const Description = ({
                 />
                 <span className="mr-2">صفر</span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center text-black">
                 <input
                   type="radio"
                   name="status"
@@ -101,7 +101,7 @@ const Description = ({
                   dir="ltr"
                   type="number"
                   placeholder="200000"
-                  className="input focus:outline-secondary border-none w-full bg-base-200 font-vazir"
+                  className="input text-black focus:outline-secondary border-none w-full bg-base-200 font-vazir"
                   {...formik.getFieldProps("kilometer")}
                   onBlur={(e) => {
                     const value = e.target.value;

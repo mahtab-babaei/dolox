@@ -27,7 +27,7 @@ const Phone = ({ step, setStep, setContactPhone }) => {
   if (step !== 0) return null;
 
   return (
-    <div className="px-2 md:px-0 font-vazir">
+    <div className="px-2 md:px-0 font-vazir text-black">
       <div dir="rtl" className="pt-2 md:max-w-lg mx-auto">
         <div dir="ltr" className="justify-between w-full flex items-center">
           <button

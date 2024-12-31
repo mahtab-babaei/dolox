@@ -72,7 +72,7 @@ const Models = ({ brand, setStep, step, setModel }) => {
                 }}
               >
                 <div className="flex gap-2">
-                  <h2 className="font-vazir-bold">{model.title}</h2>
+                  <h2 className="font-vazir-bold text-black">{model.title}</h2>
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -6,7 +6,7 @@ const CreateAutoSteps = ({ step = 0 }) => {
     { id: 1, label: "مشخصات اتوگالری" },
     { id: 2, label: "آدرس" },
     { id: 3, label: "شبکه های اجتماعی" },
-    { id: 4, label: "انتخاب بنر" },
+    { id: 4, label: "انتخاب لوگو" },
     { id: 5, label: "ویدیو" },
   ];
 
@@ -21,7 +21,7 @@ const CreateAutoSteps = ({ step = 0 }) => {
             className={`${
               step === stage.id
                 ? "underline text-secondary underline-offset-8"
-                : ""
+                : "text-black"
             } cursor-pointer`}
           >
             {stage.label}

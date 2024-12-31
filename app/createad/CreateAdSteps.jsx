@@ -23,7 +23,7 @@ const CreateAdSteps = ({ step = 0 }) => {
             className={`${
               step === stage.id
                 ? "underline text-secondary underline-offset-8"
-                : ""
+                : "text-black"
             } cursor-pointer `}
           >
             {stage.label}

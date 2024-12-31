@@ -63,7 +63,7 @@ const Specifications = ({
             <input
               dir="rtl"
               type="text"
-              className="grow placeholder:text-base-content"
+              className="grow placeholder:text-base-content text-black"
               placeholder="نام دارنده اتوگالری"
               {...formik.getFieldProps("contactName")}
             />
@@ -74,7 +74,7 @@ const Specifications = ({
             <input
               dir="rtl"
               type="text"
-              className="grow placeholder:text-base-content"
+              className="grow placeholder:text-base-content text-black"
               placeholder="نام اتوگالری"
               {...formik.getFieldProps("companyName")}
             />
@@ -83,8 +83,8 @@ const Specifications = ({
 
           <label className="form-control">
             <textarea
-              className="text-base textarea mt-8 mb-1 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
-              placeholder="درباره اتوگالری"
+              className="text-base text-black textarea mt-8 mb-1 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
+              placeholder="درباره اتوگالری" 
               {...formik.getFieldProps("description")}
             ></textarea>
             {renderError("description")}
@@ -97,7 +97,7 @@ const Specifications = ({
               onChange={() => setIsSellDomestic(!isSellDomestic)}
               className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
             />
-            <p>خودروی ایرانی میفروشم</p>
+            <p className="text-black">خودروی ایرانی میفروشم</p>
           </div>
           <div className="flex gap-2 mt-2">
             <input
@@ -106,7 +106,7 @@ const Specifications = ({
               onChange={() => setIsSellChinese(!isSellChinese)}
               className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
             />
-            <p>خودروی چینی میفروشم</p>
+            <p className="text-black">خودروی چینی میفروشم</p>
           </div>
           <div className="flex gap-2 mt-2">
             <input
@@ -115,7 +115,7 @@ const Specifications = ({
               onChange={() => setIsSellForeign(!isSellForeign)}
               className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
             />
-            <p>خودروی خارجی میفروشم</p>
+            <p className="text-black">خودروی خارجی میفروشم</p>
           </div>
         </form>
       </div>

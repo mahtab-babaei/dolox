@@ -112,7 +112,7 @@ const Brands = ({
                     width={25}
                     height={25}
                   />
-                  <h2 className="font-vazir-bold">{brand.name}</h2>
+                  <h2 className="font-vazir-bold text-black">{brand.name}</h2>
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

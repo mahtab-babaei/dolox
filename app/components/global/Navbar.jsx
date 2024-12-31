@@ -87,7 +87,7 @@ const Navbar = ({ user }) => {
                 role="button"
                 className="m-1 flex items-center gap-1"
               >
-                <span className="font-vazir-bold font-bold">{userName}</span>
+                <span className="font-vazir-bold font-bold text-black">{userName}</span>
                 {userIcon}
                 <UserDropDown />
               </div>
@@ -117,7 +117,7 @@ const Navbar = ({ user }) => {
           ))}
         </ul>
 
-        <div className="flex flex-col justify-end mb-6">
+        <div className="flex flex-col justify-end mb-8">
           <Link
             className="btn bg-primary border-primary text-white mb-2"
             href="/"

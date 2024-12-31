@@ -42,7 +42,7 @@ const PhoneAUtogalleryDrawer = ({
       {drawer && (
         <div className="fixed w-screen h-screen top-0 left-0 z-50 bg-white pt-6 duration-300">
           <div className="flex items-center gap-2 justify-between px-8">
-            <h2 className="text-xl">فیلترها</h2>
+            <h2 className="text-xl text-black">فیلترها</h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -58,7 +58,7 @@ const PhoneAUtogalleryDrawer = ({
             </svg>
           </div>
 
-          <div className="px-4 font-vazir text-black">
+          <div className="px-4 font-vazir">
             <div className="collapse collapse-arrow ">
               <input type="checkbox" />
               <div className="collapse-title text-md font-medium">شهر</div>
@@ -92,7 +92,7 @@ const PhoneAUtogalleryDrawer = ({
                 checked={sellsDomestic}
                 onChange={() => setSellsDomestic(!sellsDomestic)}
               />
-              <p className="font-vazir">فروشنده خودروهای ایرانی</p>
+              <p className="font-vazir text-black">فروشنده خودروهای ایرانی</p>
             </div>
 
             <div className="h-[1px] w-full bg-black opacity-40" />
@@ -104,7 +104,7 @@ const PhoneAUtogalleryDrawer = ({
                 checked={sellsChinese}
                 onChange={() => setSellsChinese(!sellsChinese)}
               />
-              <p className="font-vazir">فروشنده خودروهای چینی</p>
+              <p className="font-vazir text-black">فروشنده خودروهای چینی</p>
             </div>
 
             <div className="h-[1px] w-full bg-black opacity-40" />
@@ -116,7 +116,7 @@ const PhoneAUtogalleryDrawer = ({
                 checked={sellsForeign}
                 onChange={() => setSellsForeign(!sellsForeign)}
               />
-              <p className="font-vazir">فروشنده خودروهای خارجی</p>
+              <p className="font-vazir text-black">فروشنده خودروهای خارجی</p>
             </div>
 
             <button

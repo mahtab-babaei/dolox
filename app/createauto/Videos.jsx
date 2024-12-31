@@ -69,7 +69,7 @@ const Videos = ({ step, setStep, setVideo }) => {
                     updatedForms[index].title = e.target.value;
                     setVideoForms(updatedForms);
                   }}
-                  className="grow placeholder:text-base-content"
+                  className="grow placeholder:text-base-content text-black"
                   placeholder="عنوان"
                 />
               </label>
@@ -82,7 +82,7 @@ const Videos = ({ step, setStep, setVideo }) => {
                     updatedForms[index].description = e.target.value;
                     setVideoForms(updatedForms);
                   }}
-                  className="text-base textarea mt-4 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
+                  className="text-base text-black textarea mt-4 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
                   placeholder="توضیحات"
                 ></textarea>
               </label>

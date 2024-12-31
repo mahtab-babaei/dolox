@@ -65,12 +65,12 @@ const ProfileData = ({ data }) => {
     formik.setFieldValue("profilePicutreFile", event.currentTarget.files[0]);
   };
   return (
-    <div className="flex justify-start  h-fit bg-base-200 w-full pt-40 pb-10 px-4 ">
+    <div className="flex justify-start h-fit bg-base-200 w-full pt-40 pb-10 px-4 ">
       <DashboardPanel />
-      <div className=" h-full w-full  px-4 ">
+      <div className=" h-full w-full px-4 ">
         <form
           onSubmit={formik.handleSubmit}
-          className=" bg-white md:max-w-xl  max-w-screen-lg   h-fit rounded-[34px] p-8 flex flex-col  "
+          className=" bg-white md:max-w-xl max-w-screen-lg text-black h-fit rounded-[34px] p-8 flex flex-col  "
         >
           <div className="flex items-center justify-between ">
             <h1 className="text-xl font-digirastin">مشخصات کاربری</h1>
@@ -220,7 +220,7 @@ const ProfileData = ({ data }) => {
 
             {/* Profile Picture Upload */}
             <div className="flex md:w-1/2  ">
-              <div className="w-fit">
+              <div className="w-fit flex flex-col items-center text-center">
                 <div className="label ">
                   <span className="label-text">عکس پروفایل</span>
                 </div>

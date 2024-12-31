@@ -128,7 +128,7 @@ const CreateAd = () => {
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
       <div className="max-w-screen-sm mx-auto bg-white py-10 rounded-[34px]">
-        <h1 className="text-center text-xl">ثبت اگهی</h1>
+        <h1 className="text-center text-xl text-black">ثبت اگهی</h1>
         {/* steps */}
         {(step !== 9 || adable.success) && (
           <CreateAdSteps step={step} setStep={setStep} />

@@ -68,7 +68,7 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
                   <select
                     value={socialItem.social}
                     onChange={(e) => handleSelectChange(index, e)}
-                    className={`select text-base max-w-xs border-none w-full bg-neutral font-vazir appearance-none ${
+                    className={`select text-base text-black max-w-xs border-none w-full bg-neutral font-vazir appearance-none ${
                       socialItem.social === "" && "text-base-content"
                     }`}
                   >
@@ -101,7 +101,7 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
                     type="text"
                     value={socialItem.link}
                     onChange={(e) => handleInputChange(index, e)}
-                    className="grow placeholder:text-base-content"
+                    className="text-black grow placeholder:text-base-content"
                     placeholder="لینک"
                   />
                 </label>

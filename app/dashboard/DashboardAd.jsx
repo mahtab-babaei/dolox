@@ -31,7 +31,7 @@ const DashboardAd = () => {
   return (
     <div className="h-full w-full px-4">
       <div className="bg-white w-full max-w-screen-lg h-fit rounded-[34px] p-8 flex flex-col">
-        <h1 className="text-xl">آگهی‌های من</h1>
+        <h1 className="text-xl text-black">آگهی‌های من</h1>
         {loading ? (
           <div className="text-sm text-base-content text-center font-vazir p-6">
             در حال بارگذاری...

@@ -9,7 +9,7 @@ const DashboardAuto = ({ profile }) => {
     <div className="h-full w-full px-4">
       <div className="bg-white w-full max-w-screen-lg h-fit rounded-[34px] p-8 flex flex-col">
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-center mb-6">
-          <h1 className="text-xl ">اتوگالری های من</h1>
+          <h1 className="text-xl text-black">اتوگالری های من</h1>
           <Link
             className="btn bg-secondary border-secondary text-white border-none"
             href="/createauto"

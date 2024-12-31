@@ -28,7 +28,7 @@ const Banner = ({ step, setStep, setLogo }) => {
     e.stopPropagation();
     const files = e.dataTransfer.files;
     if (files.length > 1) {
-      setError("فقط یک بنر می‌توانید آپلود کنید");
+      setError("فقط یک لوگو می‌توانید آپلود کنید");
       return;
     }
     handleImageUpload(files);
@@ -56,7 +56,7 @@ const Banner = ({ step, setStep, setLogo }) => {
           <StepButtons
             onSubmit={() => {
               if (!selectedBanner) {
-                setError("لطفاً یک بنر آپلود کنید");
+                setError("لطفاً یک لوگو آپلود کنید");
                 return;
               }
               setStep(5);
@@ -66,7 +66,7 @@ const Banner = ({ step, setStep, setLogo }) => {
           />
         </div>
         <span className="text-base-content text-sm">
-          آپلود کردن بنر به جذاب شدن اتوگالری شما کمک می‌کند
+          آپلود کردن لوگو به جذاب شدن اتوگالری شما کمک می‌کند
         </span>
 
         <div

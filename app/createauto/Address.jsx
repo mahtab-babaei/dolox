@@ -59,7 +59,7 @@ const Address = ({ step, setStep, setCity, city, setAddress }) => {
 
           <label className="form-control" dir="rtl">
             <textarea
-              className="text-base textarea mt-8 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
+              className="text-base text-black textarea mt-8 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
               placeholder="آدرس"
               {...formik.getFieldProps("address")}
             ></textarea>
