@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import { BackendURL, WordPressURL } from "@/utils/URL";
 import FreeAds from "./components/home/FreeAds";
 import FreeAutoGallery from "./components/home/FreeAutoGallery";

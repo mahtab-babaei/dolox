@@ -61,10 +61,10 @@ const PhoneAUtogalleryDrawer = ({
           <div className="px-4 font-vazir">
             <div className="collapse collapse-arrow ">
               <input type="checkbox" />
-              <div className="collapse-title text-md font-medium">شهر</div>
+              <div className="collapse-title text-md font-medium text-black">شهر</div>
               <div className="collapse-content">
                 <select
-                  className="select select-bordered w-full bg-white border-black border-2 selected font-vazir"
+                  className="select text-black select-bordered w-full bg-white border-black border-2 selected font-vazir"
                   onChange={(e) => setCity(e.target.value)}
                   defaultValue=""
                 >
@@ -88,7 +88,7 @@ const PhoneAUtogalleryDrawer = ({
             <div className="flex py-4 gap-1">
               <input
                 type="checkbox"
-                className="checkbox [--chkbg:theme(colors.secondary)]"
+                className="checkbox text-white [--chkbg:theme(colors.secondary)]"
                 checked={sellsDomestic}
                 onChange={() => setSellsDomestic(!sellsDomestic)}
               />
@@ -100,7 +100,7 @@ const PhoneAUtogalleryDrawer = ({
             <div className="flex py-4 gap-1">
               <input
                 type="checkbox"
-                className="checkbox [--chkbg:theme(colors.secondary)]"
+                className="checkbox text-white [--chkbg:theme(colors.secondary)]"
                 checked={sellsChinese}
                 onChange={() => setSellsChinese(!sellsChinese)}
               />
