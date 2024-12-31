@@ -58,13 +58,13 @@ const PhoneAUtogalleryDrawer = ({
             </svg>
           </div>
 
-          <div className="px-4 font-vazir">
+          <div className="px-4 font-vazir text-black">
             <div className="collapse collapse-arrow ">
               <input type="checkbox" />
               <div className="collapse-title text-md font-medium">شهر</div>
               <div className="collapse-content">
                 <select
-                  className="select select-bordered w-full text-black bg-white border-black border-2 selected font-vazir"
+                  className="select select-bordered w-full bg-white border-black border-2 selected font-vazir"
                   onChange={(e) => setCity(e.target.value)}
                   defaultValue=""
                 >
@@ -128,7 +128,6 @@ const PhoneAUtogalleryDrawer = ({
             >
               اعمال فیلتر
             </button>
-            <div className="mt-auto rounded-t-3xl h-4 bg-base-200 w-24 mx-auto" />
           </div>
         </div>
       )}

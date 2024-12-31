@@ -39,7 +39,7 @@ const PhoneAdsDrawer = ({
         </button>
       </div>
       {drawer && (
-        <div className="fixed w-screen h-screen top-0 left-0 z-50 bg-white pt-6 duration-300">
+        <div className="text-black fixed w-screen h-screen top-0 left-0 z-50 bg-white pt-6 duration-300">
           <div className="flex items-center gap-2 justify-between px-8">
             <h2 className="text-xl">فیلترها</h2>
             <svg

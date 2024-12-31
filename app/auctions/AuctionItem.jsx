@@ -15,7 +15,7 @@ const AuctionItem = ({ auction }) => {
       className="text-sm text-black sm:text-base h-20 w-full flex items-center my-1 cursor-pointer p-2 justify-center gap-2 border-black rounded-[10px] border-4 "
     >
       <h2 className="w-full tex-center">{auction.title}</h2>
-      <div className="flex gap-1 w-full justify-center">
+      <div className="flex items-center gap-1 w-full justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -30,7 +30,7 @@ const AuctionItem = ({ auction }) => {
         </svg>
         <p className="w-full">{auction.city}</p>
       </div>
-      <div className="flex gap-1 w-full justify-center">
+      <div className="flex items-center gap-1 w-full justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -48,7 +48,7 @@ const AuctionItem = ({ auction }) => {
           {calculateDaysLeft(auction?.end_date)} روز باقی مانده
         </p>
       </div>
-      <div className="flex gap-1 w-full justify-center">
+      <div className="flex items-center gap-1 w-full justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

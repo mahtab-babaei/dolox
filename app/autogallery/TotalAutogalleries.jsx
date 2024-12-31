@@ -101,13 +101,13 @@ const TotalAutogalleries = ({ initialData, next, prev }) => {
             <button
               disabled={!prevPage}
               onClick={() => handlePageChange(page - 1)}
-              className="btn bg-primary text-white"
+              className="btn border-none bg-primary text-white disabled:text-white"
             >
               صفحه قبل
             </button>
             <button
               onClick={() => handlePageChange(page + 1)}
-              className="btn bg-primary text-white"
+              className="btn border-none bg-primary text-white disabled:text-white"
               disabled={!nextPage}
             >
               صفحه بعد

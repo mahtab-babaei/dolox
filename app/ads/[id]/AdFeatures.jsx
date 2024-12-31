@@ -3,8 +3,8 @@ import React from "react";
 
 const AdFeatures = () => {
   return (
-    <div className="bg-white py-4 px-8 rounded-2xl">
-      <h1 className="text-center mb-8 text-black">مشخصات فنی</h1>
+    <div className="bg-white py-4 px-8 rounded-2xl text-black">
+      <h1 className="text-center mb-8">مشخصات فنی</h1>
       <div className="grid grid-cols-2 gap-5">
         <div className="flex flex-col items-center">
           <span className="text-base-content font-vazir">حجم موتور</span>

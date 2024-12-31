@@ -4,7 +4,7 @@ import Link from "next/link";
 const AdTitle = ({ model, year, city, price }) => {
   return (
     <div className="bg-white p-4 rounded-2xl">
-      <h1 className="mb-2 text-[18px] ">{model}</h1>
+      <h1 className="mb-2 text-[18px] text-black">{model}</h1>
       <p className="text-base-content font-vazir-bold">{year}</p>
       <div className="flex justify-between items-center font-vazir-bold mb-2">
         <span className="text-base-content flex items-center gap-1">

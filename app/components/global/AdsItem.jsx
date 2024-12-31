@@ -92,7 +92,7 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
                 </span>
               </>
             ) : (
-              <span className="font-vazir-bold min-w-16 base:min-w-24">
+              <span className="font-vazir-bold px-2 min-w-16 base:min-w-24">
                 قیمت توافقی
               </span>
             )}
