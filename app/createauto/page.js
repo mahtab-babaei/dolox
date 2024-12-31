@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import React from "react";
 import CreateAutogallery from "./CreateAutogallery";
 
@@ -27,8 +26,6 @@ export const createAutoReq = async ({
     formData.append("sells_foreign_cars", isSellForeign);
     formData.append("city", city);
     formData.append("address", address);
-    // formData.append("logo", logo);
-    // formData.append("video", video);
     formData.append("is_deleted", isDeleted);
     if (socialMediaLinks !== undefined) {
       formData.append("social_media_links", socialMediaLinks);
@@ -36,10 +33,6 @@ export const createAutoReq = async ({
     if (logo !== undefined) {
       formData.append("logo", logo);
     }
-
-    // if (video !== undefined) {
-    //   formData.append("video", video);
-    // }
 
     const response = await fetch(`/api/auto/create`, {
       method: "POST",

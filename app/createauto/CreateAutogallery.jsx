@@ -1,15 +1,15 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
-import Phone from "./Phone";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+const Phone = dynamic(() => import("./Phone"));
+const Specifications = dynamic(() => import("./Specifications"));
+const Address = dynamic(() => import("./Address"));
+const SocialMedia = dynamic(() => import("./SocialMedia"));
+const Banner = dynamic(() => import("./Banner"));
+const Videos = dynamic(() => import("./Videos"));
 import CreateAutoSteps from "./CreateAutoSteps";
-import Specifications from "./Specifications";
-import Address from "./Address";
-import SocialMedia from "./SocialMedia";
-import Banner from "./Banner";
-import Videos from "./Videos";
-import { createAutoReq, autoVideos } from "./page";
 import toast from "react-hot-toast";
+import { autoVideos, createAutoReq } from "./page";
 
 const CreateAutogallery = () => {
   const [loading, setLoading] = useState(false);
@@ -82,38 +82,50 @@ const CreateAutogallery = () => {
       <div className="max-w-screen-sm mx-auto bg-white py-10 rounded-[34px] text-black">
         <h1 className="text-center text-xl">ثبت اتوگالری</h1>
         {step !== 6 && <CreateAutoSteps step={step} setStep={setStep} />}
-        <Phone
-          step={step}
-          setStep={setStep}
-          setContactPhone={setContactPhone}
-        />
-        <Specifications
-          step={step}
-          setStep={setStep}
-          setContactName={setContactName}
-          setCompanyName={setCompanyName}
-          setDescription={setDescription}
-          isSellDomestic={isSellDomestic}
-          setIsSellDomestic={setIsSellDomestic}
-          isSellChinese={isSellChinese}
-          setIsSellChinese={setIsSellChinese}
-          isSellForeign={isSellForeign}
-          setIsSellForeign={setIsSellForeign}
-        />
-        <Address
-          step={step}
-          setStep={setStep}
-          setCity={setCity}
-          setAddress={setAddress}
-          city={city}
-        />
-        <SocialMedia
-          step={step}
-          setStep={setStep}
-          setSocialMediaLinks={setSocialMediaLinks}
-        />
-        <Banner step={step} setStep={setStep} setLogo={setLogo} />
-        <Videos step={step} setStep={setStep} setVideo={setVideo} />
+        {step === 0 && (
+          <Phone
+            step={step}
+            setStep={setStep}
+            setContactPhone={setContactPhone}
+          />
+        )}
+        {step === 1 && (
+          <Specifications
+            step={step}
+            setStep={setStep}
+            setContactName={setContactName}
+            setCompanyName={setCompanyName}
+            setDescription={setDescription}
+            isSellDomestic={isSellDomestic}
+            setIsSellDomestic={setIsSellDomestic}
+            isSellChinese={isSellChinese}
+            setIsSellChinese={setIsSellChinese}
+            isSellForeign={isSellForeign}
+            setIsSellForeign={setIsSellForeign}
+          />
+        )}
+        {step === 2 && (
+          <Address
+            step={step}
+            setStep={setStep}
+            setCity={setCity}
+            setAddress={setAddress}
+            city={city}
+          />
+        )}
+        {step === 3 && (
+          <SocialMedia
+            step={step}
+            setStep={setStep}
+            setSocialMediaLinks={setSocialMediaLinks}
+          />
+        )}
+        {step === 4 && (
+          <Banner step={step} setStep={setStep} setLogo={setLogo} />
+        )}
+        {step === 5 && (
+          <Videos step={step} setStep={setStep} setVideo={setVideo} />
+        )}
         {step === 7 && (
           <div>
             <p className="px-6 sm:px-28 text-center font-vazir py-36 max-full">
@@ -132,9 +144,7 @@ const CreateAutogallery = () => {
             <p className="text-lg font-vazir w-full  mx-auto font-bold ">
               در حال ثبت درخواست
             </p>
-            <p className="text-sm font-vazir w-full  mx-auto">
-              لطفا صبر کنید
-            </p>
+            <p className="text-sm font-vazir w-full  mx-auto">لطفا صبر کنید</p>
             <span className="loading loading-ball loading-lg"></span>
           </div>
         )}

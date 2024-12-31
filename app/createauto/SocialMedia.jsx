@@ -29,10 +29,10 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
 
   const convertToFormattedString = (data) => {
     const formatted = data
-      .filter((item) => item.social && item.link) 
-      .map((item) => `${item.social}: ${item.link}`) 
-      .join(","); 
-    return `{${formatted}}`; 
+      .filter((item) => item.social && item.link)
+      .map((item) => `${item.social}: ${item.link}`)
+      .join(",");
+    return `{${formatted}}`;
   };
 
   if (step !== 3) return null;
@@ -68,8 +68,10 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
                   <select
                     value={socialItem.social}
                     onChange={(e) => handleSelectChange(index, e)}
-                    className={`select text-base text-black max-w-xs border-none w-full bg-neutral font-vazir appearance-none ${
-                      socialItem.social === "" && "text-base-content"
+                    className={`select text-base max-w-xs border-none w-full bg-neutral font-vazir appearance-none ${
+                      socialItem.social === ""
+                        ? "text-base-content"
+                        : "text-black"
                     }`}
                   >
                     <option
