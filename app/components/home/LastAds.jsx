@@ -8,7 +8,7 @@ const LastAds = ({ ads }) => {
   const [category, setcategory] = useState("همه");
   const [lastads, setLastAds] = useState(ads);
   return (
-    <section className="mx-autopt-32 bg-base-100 px-5 py-16">
+    <section className="mx-autopt-32 bg-base-100 px-5 pt-16 pb-24">
       <div className="mx-auto max-w-screen-xl text-white">
         <h2 className="text-2xl md:text-3xl w-full text-center md:pt-16">
           آخرین اگهی ها
