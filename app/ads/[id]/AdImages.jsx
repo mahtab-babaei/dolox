@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState } from "react";
 
 const AdImages = ({ images }) => {
@@ -8,7 +9,9 @@ const AdImages = ({ images }) => {
   };
 
   const handlePrev = () => {
-    setActiveIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setActiveIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
   };
 
   return (
@@ -28,7 +31,9 @@ const AdImages = ({ images }) => {
             }`}
             data-carousel-item={index === activeIndex ? "active" : ""}
           >
-            <img
+            <Image
+              width={832}
+              height={384}
               src={image.image}
               alt={`Carousel item ${index}`}
               className="absolute rounded-lg block w-full h-full object-cover -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"

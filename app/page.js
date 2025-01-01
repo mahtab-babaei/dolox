@@ -14,7 +14,7 @@ async function fetchData(url) {
   try {
     const response = await fetch(url, { method: "GET", cache: "force-cache" });
     if (response.ok) return await response.json();
-    throw new Error(`HTTP error! status: ${response.status}`);
+    console.error(`HTTP error! status: ${response.status}`);
   } catch (error) {
     console.error(`Failed to fetch data from ${url}:`, error);
     return null;
