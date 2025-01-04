@@ -2,17 +2,18 @@
 import { useEffect, useState } from "react";
 import AdsItem from "../components/global/AdsItem";
 import DesktopAdsPanel from "./DesktopAdsPanel";
-import { fetchAdsByFilter } from "./page";
+import { fetchAdsByFilter } from "@/utils/Requests";
 import PhoneAdsDrawer from "./PhoneAdsDrawer";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PhoneSortDrawer from "./PhoneSortDrawer";
 import Spinner from "../components/global/Spinner";
 import { orderButtons } from "@/utils/constants";
+import LoadingComponent from "../components/global/LoadingComponent";
 
-const TotalAds = ({ brands, initialAdsData, initialHasMore }) => {
-  const [adsData, setAdsData] = useState(initialAdsData);
+const TotalAds = ({ brands }) => {
+  const [adsData, setAdsData] = useState([]);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [hasMore, setHasMore] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [city, setCity] = useState("همه شهر ها");
@@ -30,6 +31,30 @@ const TotalAds = ({ brands, initialAdsData, initialHasMore }) => {
     min: 10,
     max: 100000,
   });
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      const fetchData = async () => {
+        const initialAdsData = await fetchAdsByFilter({
+          brand: "",
+          city: "همه شهر ها",
+          yearRange: { min: "", max: "" },
+          kmRange: { min: 0, max: 1000 },
+          priceRange: { min: 0, max: 100000 },
+          page: 1,
+          order: "جدیدترین",
+        });
+        setAdsData(initialAdsData.data.results);
+        setHasMore(!!initialAdsData?.data?.next);
+      };
+      fetchData();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [adsData]);
 
   const fetchMoreAds = async () => {
     if (hasMore) {
@@ -81,6 +106,7 @@ const TotalAds = ({ brands, initialAdsData, initialHasMore }) => {
     setLoading(false);
   };
 
+  if (loading) return <LoadingComponent />;
   return (
     <div className="bg-base-200 pt-40 px-2 flex gap-2 justify-center">
       <div className="w-1/4 h-full max-w-xs hidden md:block">
@@ -126,21 +152,21 @@ const TotalAds = ({ brands, initialAdsData, initialHasMore }) => {
           ))}
         </div>
         <InfiniteScroll
-          dataLength={adsData.length}
+          dataLength={adsData?.length}
           next={fetchMoreAds}
           hasMore={hasMore}
           loader={<Spinner />}
-          endMessage={
-            <p className="text-center font-vazir py-10 text-base text-base-content">
-              همه‌ی آگهی‌ها بارگذاری شدند.
-            </p>
-          }
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
-            {adsData.map((ad, index) => (
-              <AdsItem key={index} bgColor="white" fillColor="black" ad={ad} />
-            ))}
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+              {adsData?.map((ad, index) => (
+                <AdsItem
+                  key={index}
+                  bgColor="white"
+                  fillColor="black"
+                  ad={ad}
+                />
+              ))}
+            </div>
         </InfiniteScroll>
       </div>
     </div>

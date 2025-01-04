@@ -6,8 +6,8 @@ import localFont from "next/font/local";
 import Footer from "./components/global/Footer";
 import Navbar from "./components/global/Navbar";
 import "./globals.css";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Toaster } from "react-hot-toast";
 
 const digirastin = localFont({
   src: "../public/fonts/digirastin.ttf",
@@ -71,7 +71,19 @@ export default async function RootLayout({ children }) {
       >
         <UserProvider user={user}>
           <Navbar user={user} />
-          <main>{children}</main>
+          <main>
+            <Toaster
+              toastOptions={{
+                style: {
+                  fontFamily: "vazir", 
+                  fontSize: "16px", 
+                },
+              }}
+              position="bottom-left"
+              reverseOrder={false}
+            />
+            {children}
+          </main>
           <Footer />
         </UserProvider>
         <SpeedInsights />

@@ -1,25 +1,44 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { addToFavorites, removeFromFavorites } from "@/utils/Requests";
+import toast from "react-hot-toast";
 
 const AdsItem = ({ ad, bgColor, fillColor }) => {
+  const [isFavorite, setIsFavorite] = useState(ad.is_favorited);
   const router = useRouter();
 
   const handleClick = () => {
     router.push(`/ads/${ad.id}`);
   };
 
+  const handleFavoriteToggle = async () => {
+    try {
+      const result = isFavorite
+        ? await removeFromFavorites(ad.id)
+        : await addToFavorites(ad.id);
+
+      if (result.success) {
+        setIsFavorite(!isFavorite);
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error("Error changing favorite:", error);
+      toast.error("خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+    }
+  };
+
   if (ad === undefined) return <div className="h-72"></div>;
   return (
     <div
-      onClick={handleClick}
-      className={`!rounded-[30px] bg-${bgColor} cursor-pointer ${
-        bgColor === "white" &&
-        "hover:shadow-orange-300 hover:shadow-xl transition-shadow duration-300"
-      }`}
+      className={`!rounded-[30px] bg-${bgColor} shadow-xl transition-shadow duration-300`}
     >
       <div className="relative z-10">
         <Image
+          onClick={handleClick}
           className="mx-auto object-cover w-full object-center rounded-t-[30px] bg-gray-600"
           src={ad?.images[0]?.image}
           width={370}
@@ -111,8 +130,10 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
           </div>
         </div>
       </div>
-      <div className={`w-full text-right text-${fillColor} p-4 rounded-b-[30px]`}>
-        <h2>{ad.model}</h2>
+      <div
+        className={`w-full text-right text-${fillColor} p-4 rounded-b-[30px]`}
+      >
+        <Link href={`/ads/${ad.id}`}>{ad.model}</Link>
 
         <div className="flex justify-between">
           <div>
@@ -175,26 +196,35 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
               <span className="font-vazir">{ad.transmission}</span>
             </div>
 
-            <div className="flex gap-2 font-vazir items-center mt-2 justify-end">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <g clipPath="url(#clip0_296_14452)">
+            <div
+              onClick={handleFavoriteToggle}
+              className="cursor-pointer flex gap-2 font-vazir items-center mt-2 justify-end"
+            >
+              {isFavorite ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#fa4505"
+                  className="size-6"
+                >
+                  <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="#fa4505"
+                  className="size-6"
+                >
                   <path
-                    d="M16.6875 5.375C14.8041 5.375 13.1325 6.11844 12 7.39625C10.8675 6.11844 9.19594 5.375 7.3125 5.375C5.67208 5.37698 4.09942 6.02952 2.93947 7.18947C1.77952 8.34942 1.12698 9.92208 1.125 11.5625C1.125 18.3444 11.0447 23.7631 11.4666 23.9909C11.6305 24.0792 11.8138 24.1254 12 24.1254C12.1862 24.1254 12.3695 24.0792 12.5334 23.9909C12.9553 23.7631 22.875 18.3444 22.875 11.5625C22.873 9.92208 22.2205 8.34942 21.0605 7.18947C19.9006 6.02952 18.3279 5.37698 16.6875 5.375ZM16.1728 18.7213C14.8671 19.8292 13.4714 20.8264 12 21.7025C10.5286 20.8264 9.13287 19.8292 7.82719 18.7213C5.79562 16.9784 3.375 14.3206 3.375 11.5625C3.375 10.5182 3.78984 9.51669 4.52827 8.77827C5.26669 8.03984 6.26821 7.625 7.3125 7.625C8.98125 7.625 10.3781 8.50625 10.9584 9.92563C11.0429 10.1325 11.1871 10.3096 11.3726 10.4342C11.5581 10.5589 11.7765 10.6255 12 10.6255C12.2235 10.6255 12.4419 10.5589 12.6274 10.4342C12.8129 10.3096 12.9571 10.1325 13.0416 9.92563C13.6219 8.50625 15.0188 7.625 16.6875 7.625C17.7318 7.625 18.7333 8.03984 19.4717 8.77827C20.2102 9.51669 20.625 10.5182 20.625 11.5625C20.625 14.3206 18.2044 16.9784 16.1728 18.7213Z"
-                    fill="#FA4505"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
                   />
-                </g>
-                <defs>
-                  <clipPath id="clip0_296_14452">
-                    <rect width="24" height="24" fill={fillColor} />
-                  </clipPath>
-                </defs>
-              </svg>
+                </svg>
+              )}
             </div>
           </div>
         </div>

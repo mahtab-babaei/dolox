@@ -3,7 +3,7 @@ import { getToken } from "@/utils/Auth";
 
 export async function GET(request) {
   try {
-    // Get the token
+    // Get token
     const token = await getToken();
     if (!token) {
       return new Response(
@@ -11,9 +11,6 @@ export async function GET(request) {
         { status: 401 }
       );
     }
-
-    console.log("BackendURL:", BackendURL);
-    console.log("Token:", token);
 
     // Define headers
     const myHeaders = new Headers({
