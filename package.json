@@ -20,7 +20,8 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-infinite-scroll-component": "^6.1.0",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "daisyui": "^4.12.14",

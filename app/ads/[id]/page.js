@@ -71,6 +71,7 @@ const AdDetailsPage = () => {
             <div className="hidden md:flex gap-4">
               <div className="grid gap-4">
                 <AdTitle
+                  id={adDetails.id}
                   model={adDetails.model}
                   year={adDetails.year}
                   city={adDetails.city}

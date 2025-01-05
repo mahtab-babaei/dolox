@@ -1,7 +1,32 @@
-import React from "react";
+import { useChatDataStore } from "@/stores/useChatDataStore";
+import { joinChatRoom } from "@/utils/Requests";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const AdTitle = ({ model, year, city, price }) => {
+const AdTitle = ({ id, model, year, city, price }) => {
+  const [loading, setLoading] = useState(false);
+  const setChatData = useChatDataStore((state) => state.setChatData);
+  const router = useRouter();
+
+  const handleChatClick = async () => {
+    setLoading(true);
+    try {
+      const result = await joinChatRoom(id);
+      if (result.success) {
+        setChatData(result);
+        router.push(`/dashboard/chat?room=${result.roomName}`);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error("Error joining chat room: ", error);
+      toast.error("خطایی رخ داده است. لطفاً دوباره تلاش کنید.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-white p-4 rounded-2xl">
       <h1 className="mb-2 text-[18px] text-black">{model}</h1>
@@ -51,7 +76,10 @@ const AdTitle = ({ model, year, city, price }) => {
           </div>
         </button>
         <button className="btn px-2 sm:px-4 border border-secondary bg-white text-secondary">
-          <div className="flex items-center justify-center gap-1">
+          <div
+            onClick={handleChatClick}
+            className="flex items-center justify-center gap-1"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -64,7 +92,7 @@ const AdTitle = ({ model, year, city, price }) => {
                 clipRule="evenodd"
               />
             </svg>
-            چت
+            {loading ? "در حال بارگذاری..." : "چت"}
           </div>
         </button>
         <button className="btn px-2 sm:px-4 border border-secondary bg-white text-secondary">
