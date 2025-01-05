@@ -46,8 +46,8 @@ const ChatPage = () => {
               در حال بارگذاری...
             </div>
           ) : !chatData ? (
-            <div className="p-8 text-center font-vazir text-base-content">
-              داده‌ای برای چت یافت نشد!
+            <div className="p-4 text-center text-black">
+              برای شروع مکالمه یکی از مخاطب‌های خود را انتخاب کنید
             </div>
           ) : (
             <ChatRoom
