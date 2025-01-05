@@ -15,7 +15,7 @@ const AdTitle = ({ id, model, year, city, price }) => {
       const result = await joinChatRoom(id);
       if (result.success) {
         setChatData(result);
-        router.push(`/dashboard/chat?room=${result.roomName}`);
+        router.push(`/dashboard/chat?room=${result.roomName}&id=${id}`);
       } else {
         toast.error(result.message);
       }

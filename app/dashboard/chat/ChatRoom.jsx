@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useChatStore } from "@/stores/useChatStore";
-
+import { formatTime } from "@/utils/Cal";
 export default function ChatRoom({ roomName, username }) {
   const { chatSocket, messages, connectToChatRoom, sendMessage } =
     useChatStore();
 
-  const [inputValue, setInputValue] = useState(""); // state برای مقدار ورودی
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     connectToChatRoom(roomName);
@@ -16,40 +16,69 @@ export default function ChatRoom({ roomName, username }) {
   }, [roomName, connectToChatRoom]);
 
   const handleSendMessage = () => {
-    if (inputValue.trim() === "") return; // بررسی می‌کند که پیام خالی نباشد
+    if (inputValue.trim() === "") return;
 
     sendMessage({
-      content: inputValue, // استفاده از inputValue برای ارسال پیام
+      content: inputValue,
       command: "new_message",
       username: username,
       roomName: roomName,
     });
 
-    // پاک کردن ورودی پس از ارسال پیام
     setInputValue("");
   };
 
   return (
-    <div>
-      <h1>Chat Room: {roomName}</h1>
-      <div>
-        <h2>Messages:</h2>
+    <div className="h-full w-full px-4">
+      <div className="bg-white w-full max-w-screen-lg rounded-[34px] p-8">
         {messages?.map((msg, index) => (
-          <p key={index}>
-            <strong>{msg.__str__}</strong>: {msg.content}
-          </p>
+          <div
+            key={index}
+            className={`chat ${
+              msg.__str__ === username ? "chat-end" : "chat-start"
+            } font-vazir`}
+          >
+            <div className="chat-header">{msg.__str__}</div>
+            <div
+              className={`chat-bubble text-white ${
+                msg.__str__ === username ? "bg-secondary" : "bg-primary"
+              }`}
+            >
+              {msg.content}
+            </div>
+            <time className="chat-footer text-xs opacity-50 pt-1">
+              {formatTime(msg.timestamp)}
+            </time>
+          </div>
         ))}
-      </div>
-      <div>
-        <input
-          type="text"
-          value={inputValue} // مقدار ورودی برابر با state
-          placeholder="Type your message..."
-          onChange={(e) => setInputValue(e.target.value)} // تغییر مقدار ورودی
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSendMessage(); // ارسال پیام وقتی اینتر زده می‌شود
-          }}
-        />
+        <div className="flex w-full items-center my-6 gap-2">
+          <label className="w-full border-none input flex items-center bg-neutral text-black">
+            <input
+              className="font-vazir"
+              type="text"
+              value={inputValue}
+              placeholder="متن پیام خود را بنویسید"
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+          </label>
+          <button onClick={handleSendMessage} className="btn btn-circle bg-primary text-white">
+            <svg
+              className="w-6 h-6 text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );
