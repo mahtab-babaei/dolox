@@ -36,18 +36,27 @@ const ChatPage = () => {
     fetchChatData();
   }, [id, chatData, setChatData]);
 
-  if (loading) {
-    return <div className="p-40">در حال بارگذاری...</div>;
-  }
-
-  if (!chatData) {
-    return <div className="p-40">داده‌ای برای چت یافت نشد!</div>;
-  }
-
   return (
-    <div className="flex justify-start h-fit bg-base-200 w-full pt-40 pb-10 px-4 gap-8">
-      <ChatList />
-      <ChatRoom roomName={chatData.roomName[0]} username={chatData.username} />
+    <div className="bg-base-200 w-full">
+      <div className="flex justify-start pt-40 pb-10 px-4 gap-4 max-w-screen-lg">
+        <ChatList />
+        <div className="bg-white  h-screen overflow-y-auto rounded-[34px] w-full">
+          {loading ? (
+            <div className="p-8 text-center font-vazir text-base-content">
+              در حال بارگذاری...
+            </div>
+          ) : !chatData ? (
+            <div className="p-8 text-center font-vazir text-base-content">
+              داده‌ای برای چت یافت نشد!
+            </div>
+          ) : (
+            <ChatRoom
+              roomName={chatData.roomName[0]}
+              username={chatData.username}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
