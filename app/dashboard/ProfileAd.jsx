@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -14,13 +13,13 @@ const ProfileAd = ({ ad }) => {
       }`}
     >
       <div className="flex justify-between w-full  items-center">
-        <Image
+        <img
           className="h-24 w-24 max-w-[6rem] min-w-[6rem] object-cover mr-2 rounded-[16px] bg-gray-200"
           src={ad.images[0]?.image}
           width={100}
           height={100}
           alt="ad"
-        ></Image>
+        />
         <div className="justify-between w-full text-white">
           <h2 className="p-4">{ad.model + " " + ad.brand}</h2>
 

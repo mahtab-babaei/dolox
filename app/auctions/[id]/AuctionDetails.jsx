@@ -1,6 +1,5 @@
 import React from "react";
 import AuctionItem from "../AuctionItem";
-import Image from "next/image";
 
 const AuctionDetails = ({ auction }) => {
   if (!auction) {
@@ -57,7 +56,7 @@ const AuctionDetails = ({ auction }) => {
 
           {auction.image && (
             <div className="p-4 w-full md:flex-[75%] bg-white flex justify-center rounded-3xl">
-              <Image
+              <img
                 width={750}
                 height={750}
                 className="rounded-2xl object-cover"

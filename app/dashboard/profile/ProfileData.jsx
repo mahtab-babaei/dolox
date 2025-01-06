@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import { toast } from "react-hot-toast";
 import ErrorMessage from "@/app/components/global/ErrorMessage";
 import * as Yup from "yup";
@@ -227,7 +226,7 @@ const ProfileData = ({ data }) => {
                 <label className=" w-32 h-32 border-dashed border-2 rounded-lg flex justify-center items-center cursor-pointer">
                   {formik.values.profilePicture ? (
                     typeof formik.values.profilePicture === "string" ? (
-                      <Image
+                      <img
                         width={200}
                         height={200}
                         src={formik.values.profilePicture}
@@ -235,7 +234,7 @@ const ProfileData = ({ data }) => {
                         className="w-full h-full object-cover rounded-lg"
                       />
                     ) : (
-                      <Image
+                      <img
                         width={200}
                         height={200}
                         src={URL.createObjectURL(formik.values.profilePicture)}

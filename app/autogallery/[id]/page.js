@@ -75,7 +75,7 @@ const AutoDetailsPage = () => {
               <div className="flex items-start justify-start gap-4">
                 <div className="p-4 -translate-y-32">
                   <div className="rounded-2xl bg-gradient-red p-1.5">
-                    <Image
+                    <img
                       width={168}
                       height={168}
                       alt="autogalleryLogo"

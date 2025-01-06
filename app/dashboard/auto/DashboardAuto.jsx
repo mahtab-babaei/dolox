@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import logo from "@/public/images/logo.png";
 import ProfileAuto from "./ProfileAuto";
 
@@ -19,7 +18,7 @@ const DashboardAuto = ({ profile }) => {
         </div>
         {profile.exhibition === null ? (
           <div className="h-96 flex justify-center items-center flex-col">
-            <Image alt="logo" src={logo} className="w-40" />
+            <img alt="logo" src={logo} className="w-40" />
             <h3 className="font-vazir font-bold text-lg">
               همین حالا اولین اتوگالریتو ثبت کن{" "}
             </h3>
