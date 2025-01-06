@@ -32,7 +32,7 @@ const ChatPage = () => {
         }
       }
     };
-
+  
     fetchChatData();
   }, [id, chatData, setChatData]);
 

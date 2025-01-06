@@ -8,12 +8,14 @@ export default function ChatRoom({ roomName, username }) {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    connectToChatRoom(roomName);
+    if (!chatSocket) {
+      connectToChatRoom(roomName);
+    }
 
     return () => {
       chatSocket?.close();
     };
-  }, [roomName, connectToChatRoom]);
+  }, [roomName, chatSocket, connectToChatRoom]);
 
   const handleSendMessage = () => {
     if (inputValue.trim() === "") return;
