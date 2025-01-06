@@ -1,30 +1,26 @@
 import React from "react";
-import Image from "next/image";
 import exhibitionImage from "@/public/images/sampleautogallery.png";
 import Link from "next/link";
 
-const AdExhibition = () => {
+const AdExhibition = ({ exhibitionId, logo, autoDescription, companyName }) => {
   return (
     <div className="grid md:flex bg-white text-black p-8 rounded-2xl w-full gap-4 items-center">
       <div className="flex justify-center">
-        <Image
+        <img
           alt="exhibitionImage"
           className="rounded-lg"
-          src={exhibitionImage}
+          src={logo || exhibitionImage}
         />
       </div>
       <div className="w-[90%]">
         <h1 className="flex justify-center md:justify-start mb-2 text-[18px]">
-          اتوگالری علیزاده
+          {companyName}
         </h1>
         <div className="text-center md:text-right">
           <span className="font-vazir text-sm">
-            اتوگالری علیزاده با داشتن تیمی مجرب و حرفه‌ای، تمام تلاش خود را برای
-            ارائه خدماتی با کیفیت و بهینه به مشتریان خود می‌کند. همچنین، با
-            داشتن دسترسی به موجودی خودروهای متنوع و با کیفیت، توانسته است
-            نیازهای مختلف مشتریان را برآورده کند.
+            {autoDescription}
             <Link
-              href="#"
+              href={`/autogallery/${exhibitionId}`}
               className="font-vazir text-secondary flex gap-1 items-center justify-center md:justify-start"
             >
               اطلاعات بیشتر
