@@ -122,7 +122,7 @@ const LoginSection = () => {
                   dir="ltr"
                   type="text"
                   placeholder="0922222222"
-                  className="input focus:outline-secondary border-none w-full max-w-xs bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full max-w-xs bg-base-200 font-vazir disabled:bg-base-200"
                   {...formik.getFieldProps("phonenumber")}
                   disabled={loading} // Disable input while loading
                 />
@@ -140,7 +140,7 @@ const LoginSection = () => {
                   dir="ltr"
                   type={showPassword ? "text" : "password"}
                   placeholder="رمز خود را وارد کنید"
-                  className="input focus:outline-secondary border-none w-full max-w-xs bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full max-w-xs bg-base-200 font-vazir disabled:bg-base-200"
                   {...formik.getFieldProps("password")}
                   disabled={loading} // Disable input while loading
                 />

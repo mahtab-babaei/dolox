@@ -37,6 +37,7 @@ export default async function Home() {
     getBlogs(),
     getBrandsByType("سواری"),
   ]);
+  console.log(ads)
 
   return (
     <>

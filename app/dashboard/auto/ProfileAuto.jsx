@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const ProfileAuto = ({ exhibition, picture }) => (
   <div className="my-2 rounded-[6px] flex justify-between flex-col md:flex-row bg-primary">
     <div className="flex flex-col md:flex-row items-center w-full md:justify-start justify-center">
-      <Image
+      <img
         className="h-24 w-24 object-cover m-2 rounded-[16px] bg-gray-200"
         src={picture}
         width={96} 

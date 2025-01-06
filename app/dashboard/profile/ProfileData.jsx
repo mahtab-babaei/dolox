@@ -78,7 +78,7 @@ const ProfileData = ({ data }) => {
               JSON.stringify(formik.initialValues) && (
               <button
                 type="submit"
-                className="btn bg-secondary border-secondary text-white border-none "
+                className="btn bg-secondary border-secondary text-white border-none"
                 disabled={loading}
               >
                 {loading ? <span className="loading"></span> : "ذخیره"}
@@ -96,7 +96,7 @@ const ProfileData = ({ data }) => {
                   id="firstName"
                   type="text"
                   placeholder="نام"
-                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir disabled:bg-base-200"
                   {...formik.getFieldProps("firstName")}
                   disabled={loading}
                 />
@@ -114,7 +114,7 @@ const ProfileData = ({ data }) => {
                   id="lastName"
                   type="text"
                   placeholder="نام خانوادگی"
-                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir disabled:bg-base-200"
                   {...formik.getFieldProps("lastName")}
                   disabled={loading}
                 />
@@ -133,7 +133,7 @@ const ProfileData = ({ data }) => {
                   id="email"
                   type="email"
                   placeholder="example@gmail.com"
-                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir disabled:bg-base-200"
                   {...formik.getFieldProps("email")}
                   disabled={loading}
                 />
@@ -152,7 +152,7 @@ const ProfileData = ({ data }) => {
                   dir="ltr"
                   type="text"
                   placeholder="09222222222"
-                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir disabled:bg-base-200"
                   {...formik.getFieldProps("phonenumber")}
                   disabled={true}
                 />
@@ -168,7 +168,7 @@ const ProfileData = ({ data }) => {
                 </div>
                 <select
                   id="city"
-                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir"
+                  className="input focus:outline-secondary border-none w-full max-w-sm bg-base-200 font-vazir disabled:bg-base-200"
                   {...formik.getFieldProps("city")}
                   disabled={loading}
                 >
