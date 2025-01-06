@@ -40,10 +40,10 @@ const TotalAds = ({ brands }) => {
           brand: "",
           city: "همه شهر ها",
           yearRange: { min: "", max: "" },
-          kmRange: { min: 0, max: 1000 },
-          priceRange: { min: 0, max: 100000 },
+          kmRange: { min: "", max: "" },
+          priceRange: { min: "", max: "" },
           page: 1,
-          order: "جدیدترین",
+          order: "",
         });
         setAdsData(initialAdsData.data.results);
         setHasMore(!!initialAdsData?.data?.next);
@@ -54,7 +54,7 @@ const TotalAds = ({ brands }) => {
     } finally {
       setLoading(false);
     }
-  }, [adsData]);
+  }, []);
 
   const fetchMoreAds = async () => {
     if (hasMore) {
@@ -157,16 +157,11 @@ const TotalAds = ({ brands }) => {
           hasMore={hasMore}
           loader={<Spinner />}
         >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
-              {adsData?.map((ad, index) => (
-                <AdsItem
-                  key={index}
-                  bgColor="white"
-                  fillColor="black"
-                  ad={ad}
-                />
-              ))}
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+            {adsData?.map((ad, index) => (
+              <AdsItem key={index} bgColor="white" fillColor="black" ad={ad} />
+            ))}
+          </div>
         </InfiniteScroll>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, { useState } from "react";
 
 const AdImages = ({ images }) => {
@@ -31,7 +30,7 @@ const AdImages = ({ images }) => {
             }`}
             data-carousel-item={index === activeIndex ? "active" : ""}
           >
-            <Image
+            <img
               width={832}
               height={384}
               src={image.image}

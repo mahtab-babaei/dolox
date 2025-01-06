@@ -2,33 +2,46 @@ import { parseCookies } from "nookies";
 import { BackendURL } from "./URL";
 
 export const fetchAdsByFilter = async ({
-  brand,
-  city,
-  yearRange,
-  kmRange,
-  priceRange,
-  page,
-  order,
+  brand = "",
+  city = "همه شهر ها",
+  yearRange = { min: "", max: "" },
+  kmRange = { min: "", max: "" },
+  priceRange = { min: "", max: "" },
+  page = 1,
+  order = "",
 }) => {
   try {
-    const params = new URLSearchParams({
-      brand,
-      city,
-      year_min: yearRange.min,
-      year_max: yearRange.max,
-      kilometer_min: kmRange.min,
-      kilometer_max: kmRange.max,
-      price_min: priceRange.min,
-      price_max: priceRange.max,
-      page,
-      order_by: order,
-    });
+    const isInitialRequest =
+      !brand &&
+      city === "همه شهر ها" &&
+      !yearRange.min &&
+      !yearRange.max &&
+      !kmRange.min &&
+      !kmRange.max &&
+      !priceRange.min &&
+      !priceRange.max &&
+      page === 1 &&
+      !order;
+
+    const url = isInitialRequest
+      ? `${BackendURL}/ads/?city=${city}&page=1`
+      : `${BackendURL}/ads/?${new URLSearchParams({
+          brand,
+          city,
+          year_min: yearRange.min,
+          year_max: yearRange.max,
+          kilometer_min: kmRange.min,
+          kilometer_max: kmRange.max,
+          price_min: priceRange.min,
+          price_max: priceRange.max,
+          page,
+          order_by: order,
+        }).toString()}`;
 
     const cookies = parseCookies();
     const token = cookies.access || null;
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-    const response = await fetch(`${BackendURL}/ads/?${params.toString()}`, {
+    const response = await fetch(url, {
       method: "GET",
       headers,
     });
@@ -41,7 +54,6 @@ export const fetchAdsByFilter = async ({
     }
 
     const result = await response.json();
-
     return {
       success: true,
       data: result || { results: [] },

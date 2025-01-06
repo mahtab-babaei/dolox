@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -36,8 +35,8 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
     <div
       className={`!rounded-[30px] bg-${bgColor} shadow-xl transition-shadow duration-300`}
     >
-      <div className="relative z-10">
-        <Image
+      <div className="relative cursor-pointer z-10">
+        <img
           onClick={handleClick}
           className="mx-auto object-cover w-full object-center rounded-t-[30px] bg-gray-600"
           src={ad?.images[0]?.image}
