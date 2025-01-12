@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
 import { BackendURL } from "@/utils/URL";
-import autoBanner from "@/public/images/autogalleybanner.png";
-import autoLogo from "@/public/images/sampleautogallery.png";
 import Image from "next/image";
+import Details from "./Details";
+import ContactButton from "./ContactButton";
+import Logo from "./Logo";
 
 const AutoDetailsPage = () => {
   const { id } = useParams();
@@ -20,20 +20,15 @@ const AutoDetailsPage = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${BackendURL}/ads/exhibition/${id}/`, {
-          method: "GET",
-        });
-
+        const response = await fetch(`${BackendURL}/ads/exhibition/${id}/`);
         if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error("اتوگالری مورد نظر یافت نشد.");
-          } else if (response.status === 500) {
-            throw new Error("خطای داخلی سرور. لطفاً دوباره تلاش کنید.");
-          } else {
-            throw new Error(
-              "خطا در دریافت اطلاعات اتوگالری. لطفاً دوباره تلاش کنید."
-            );
-          }
+          const errorMessage =
+            response.status === 404
+              ? "اتوگالری مورد نظر یافت نشد."
+              : response.status === 500
+              ? "خطای داخلی سرور. لطفاً دوباره تلاش کنید."
+              : "خطا در دریافت اطلاعات اتوگالری. لطفاً دوباره تلاش کنید.";
+          throw new Error(errorMessage);
         }
 
         const data = await response.json();
@@ -46,9 +41,8 @@ const AutoDetailsPage = () => {
       }
     };
 
-    if (id) {
-      fetchAutoDetails();
-    } else {
+    if (id) fetchAutoDetails();
+    else {
       setError("شناسه اتوگالری معتبر نیست.");
       setLoading(false);
     }
@@ -67,42 +61,25 @@ const AutoDetailsPage = () => {
           <div className="flex flex-col gap-8">
             <div className="bg-white rounded-3xl">
               <Image
-                width="auto"
-                height="auto"
+                width={1280}
+                height={720}
                 alt="autogalleryBanner"
-                src={autoBanner}
+                src="/images/autogalleybanner.png"
               />
-              <div className="flex items-start justify-start gap-4">
+              <div className="flex flex-col sm:hidden items-center justify-center gap-4">
+                <h1 className="text-xl pt-4">{autoDetails.company_name}</h1>
+                <Logo logo={autoDetails.logo} />
+                <ContactButton />
+                <Details>{autoDetails.address}</Details>
+                <div className="font-vazir pb-4 px-2 text-center">
+                  {autoDetails.description}
+                </div>
+              </div>
+              <div className="hidden sm:flex items-start justify-start gap-4">
                 <div className="p-4 -translate-y-32">
-                  <div className="rounded-2xl bg-gradient-red p-1.5">
-                    <img
-                      width={168}
-                      height={168}
-                      alt="autogalleryLogo"
-                      src={autoDetails.logo ? autoDetails.logo : autoLogo}
-                      className="aspect-square object-cover rounded-2xl"
-                    />
-                  </div>
-                  <button className="btn border-none text-nowrap px-2 sm:px-4 my-2 bg-secondary text-white">
-                    <div className="flex items-center justify-center gap-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="size-4"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      تماس با فروشنده
-                    </div>
-                  </button>
-                  <div className="font-vazir text-sm">
-                    {autoDetails.address}
-                  </div>
+                  <Logo logo={autoDetails.logo} />
+                  <ContactButton />
+                  <Details>{autoDetails.address}</Details>
                 </div>
                 <div className="p-4">
                   <h1 className="text-2xl pb-4">{autoDetails.company_name}</h1>
@@ -110,10 +87,10 @@ const AutoDetailsPage = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-3xl text-2xl p-4 text-center">
+            <div className="bg-white rounded-3xl text-xl sm:text-2xl p-4 text-center">
               خودروها
             </div>
-            <div className="grid grid-cold-3 "></div>
+            <div className="grid grid-cold-3"></div>
           </div>
         )}
       </div>
