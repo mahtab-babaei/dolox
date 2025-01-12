@@ -12,7 +12,7 @@ export const revalidate = 3600; // ISR: update every 1 hour
 
 async function fetchData(url) {
   try {
-    const response = await fetch(url, { method: "GET", cache: "force-cache" });
+    const response = await fetch(url, { method: "GET", cache: "no-cache" });
     if (response.ok) return await response.json();
     console.error(`HTTP error! status: ${response.status}`);
   } catch (error) {
@@ -37,8 +37,7 @@ export default async function Home() {
     getBlogs(),
     getBrandsByType("سواری"),
   ]);
-  console.log(ads)
-
+  
   return (
     <>
       <Hero />
