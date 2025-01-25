@@ -66,7 +66,7 @@ const WhatBrand = ({ initBrands }) => {
         </div>
         <div className="grid lg:grid-cols-6  md:grid-cols-5 sm:grid-cols-4 grid-cols-4 items-center text-center mt-8 gap-6 gap-y-16 px-2  ">
           {brands.map((brand, index) => (
-            <Link key={index} href="/">
+            <Link key={index} href="/ads">
               <img
                 className="mx-auto"
                 src={brand.logo}

@@ -15,25 +15,25 @@ const LastAuctions = ({ auctions }) => {
             <span className="text-secondary">دولوکس</span>
           </p>
           <div className="grid gap-10 py-24">
-          <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 items-center text-center gap-6 px-4">
-            <LastAuctionItem auction={auctions[0]} />
-            <LastAuctionItem auction={auctions[1]} />
-            <LastAuctionItem auction={auctions[2]} />
-            <LastAuctionItem auction={auctions[3]} />
-          </div>
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 items-center text-center gap-6 px-4">
+              <LastAuctionItem auction={auctions[0]} />
+              <LastAuctionItem auction={auctions[1]} />
+              <LastAuctionItem auction={auctions[2]} />
+              <LastAuctionItem auction={auctions[3]} />
+            </div>
 
-          <div className="text-center">
-            <Link href="/" className="text-secondary">
-              مشاهده بیشتر
-            </Link>
-          </div>
+            <div className="text-center">
+              <Link href="/auctions" className="text-secondary">
+                مشاهده بیشتر
+              </Link>
+            </div>
           </div>
         </div>
 
         <Image
           className="absolute top-0 object-cover w-full h-full"
           src={ImageURL + "carbanner3.png"}
-          fill='responsve'
+          fill="responsve"
           alt="hero image"
         />
       </div>

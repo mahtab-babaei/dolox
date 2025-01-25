@@ -18,7 +18,7 @@ const FreeAutoGallery = () => {
 
             <Link
               className="btn bg-primary shadow px-8 text-xl h-14 mt-4 border-secondary text-white border-none mx-auto"
-              href="/"
+              href="/dashboard"
             >
               ثبت رایگان اتو گالری
             </Link>

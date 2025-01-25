@@ -10,7 +10,7 @@ const LastAutoGalleries = ({ autogalleries }) => {
           <h2 className="md:text-3xl text-2xl w-full text-center md:text-right">
             آخرین اتوگالری ها
           </h2>
-          <Link href="/" className="text-black hidden md:block">
+          <Link href="/autogallery" className="text-black hidden md:block">
             بیشتر
           </Link>
         </div>
@@ -21,7 +21,7 @@ const LastAutoGalleries = ({ autogalleries }) => {
         </div>
 
         <div className="text-center py-10">
-          <Link href="/" className="text-black md:hidden ">
+          <Link href="/autogallery" className="text-black md:hidden ">
             بیشتر
           </Link>
         </div>
