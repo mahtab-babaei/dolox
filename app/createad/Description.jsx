@@ -3,16 +3,20 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
+import Features from "./Features";
 
 const Description = ({
   step,
   setStep,
   setKilometer,
   setDescription,
-  category,
   setWheelnumber,
   setWeight,
   setMaxweight,
+  setEngineSize,
+  setEngine,
+  setAcceleration,
+  setCombinedUse,
 }) => {
   const formik = useFormik({
     initialValues: {
@@ -95,7 +99,7 @@ const Description = ({
             </div>
 
             {formik.values.status === "کارکرده" && (
-              <label className="form-control w-full relative">
+              <label className="form-control w-full relative mb-4">
                 <input
                   id="kilometer"
                   dir="ltr"
@@ -117,6 +121,12 @@ const Description = ({
                 <span className="absolute top-3 right-6">کیلومتر</span>
               </label>
             )}
+            <Features
+              setEngineSize={setEngineSize}
+              setEngine={setEngine}
+              setAcceleration={setAcceleration}
+              setCombinedUse={setCombinedUse}
+            />
           </div>
         </div>
       </div>

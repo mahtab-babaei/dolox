@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req, { params }) {
   try {
-    const { adId } = params;
+    const { adId } = await params;
     const formData = await req.formData();
 
     const token = await getToken();

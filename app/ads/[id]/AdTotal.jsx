@@ -14,7 +14,6 @@ import { BackendURL } from "@/utils/URL";
 const AdTotal = ({ adDetails }) => {
   const [exhibitionData, setExhibitionData] = useState(null);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     const fetchAutoDetails = async () => {
       setLoading(true);
@@ -70,7 +69,7 @@ const AdTotal = ({ adDetails }) => {
             upholstery={adDetails.upholstery_condition}
             fuel={adDetails.fuel_type}
           />
-          <AdFeatures />
+          <AdFeatures features={adDetails.features} />
         </div>
         <div className="grid h-fit gap-4 w-[65%]">
           <AdImages images={adDetails.images} />
@@ -115,7 +114,7 @@ const AdTotal = ({ adDetails }) => {
           saleOrRent={adDetails.sale_or_rent}
           exhibition={adDetails.exhibition}
         />
-        <AdFeatures />
+        <AdFeatures features={adDetails.features} />
         {exhibitionData && (
           <AdExhibition
             exhibitionId={exhibitionData.id}
@@ -125,7 +124,7 @@ const AdTotal = ({ adDetails }) => {
           />
         )}
       </div>
-        <RelativeAds />
+      <RelativeAds />
     </div>
   );
 };

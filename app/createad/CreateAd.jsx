@@ -31,6 +31,10 @@ const CreateAd = () => {
   const [wheelnumber, setWheelNumber] = useState("");
   const [weight, setWeight] = useState("");
   const [maxweight, setMaxweight] = useState("");
+  const [engineSize, setEngineSize] = useState("");
+  const [engine, setEngine] = useState("");
+  const [acceleration, setAcceleration] = useState("");
+  const [combinedUse, setCombinedUse] = useState("");
   const [price, setPrice] = useState(null); // if was null me negotiable
   const [installments, setInstallments] = useState(false); // pay montly or something
   const [rentorsale, setRentorsale] = useState("sale");
@@ -92,6 +96,11 @@ const CreateAd = () => {
             wheelnumber,
             weight,
             maxweight,
+            engineSize,
+            engine,
+            acceleration,
+            combinedUse,
+            packagePlan,
             exhibition: esxhibitionId,
           });
           console.log("Response from createAdReq:", result);
@@ -166,6 +175,10 @@ const CreateAd = () => {
           setWheelnumber={setWheelNumber}
           setWeight={setWeight}
           setMaxweight={setMaxweight}
+          setEngineSize={setEngineSize}
+          setEngine={setEngine}
+          setAcceleration={setAcceleration}
+          setCombinedUse={setCombinedUse}
         />
         <Price
           setStep={setStep}

@@ -92,6 +92,10 @@ export const createAdReq = async ({
   wheelnumber,
   weight,
   maxweight,
+  engineSize,
+  engine,
+  acceleration,
+  combinedUse,
   exhibition,
 }) => {
   try {
@@ -128,6 +132,16 @@ export const createAdReq = async ({
       formData.append("wheel_number", wheelnumber);
       formData.append("weight", weight);
       formData.append("payload_capacity", maxweight);
+    }
+
+    const features = [];
+    if (engineSize) features.push({ name: engineSize });
+    if (engine) features.push({ name: engine });
+    if (acceleration) features.push({ name: acceleration });
+    if (combinedUse) features.push({ name: combinedUse });
+
+    if (features.length > 0) {
+      formData.append("features", JSON.stringify(features));
     }
 
     const response = await fetch(`/api/ads/create`, {
