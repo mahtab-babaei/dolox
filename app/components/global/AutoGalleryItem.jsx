@@ -44,8 +44,15 @@ const AutoGalleryItem = ({ autoGallery }) => {
       <div className="bg-white w-full text-right pt-4 px-6 rounded-b-[30px]">
         <h2>{autoGallery?.company_name}</h2>
         <p className="font-vazir h-fit overflow-hidden py-4">
-          {autoGallery?.description}
+          {autoGallery?.description
+            ?.split(" ")
+            .slice(0, 25)
+            .join(" ")
+            .concat(
+              autoGallery?.description?.split(" ").length > 30 ? "..." : ""
+            )}{" "}
         </p>
+
         <div className="flex gap-2 text-secondary pb-4">
           {autoGallery?.sells_domestic_cars && (
             <div className="w-1/3 font-vazir border-secondary border text-center rounded-full py-2">
