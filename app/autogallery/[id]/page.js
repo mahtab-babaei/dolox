@@ -54,7 +54,7 @@ const AutoDetailsPage = () => {
     <div className="px-6 pt-40 bg-neutral">
       <div className="max-w-screen-xl mx-auto text-black">
         {error ? (
-          <div className="text-base-content px-6 pt-40 font-vazir text-center bg-neutral">
+          <div className="text-base-content px-6 py-40 font-vazir text-center bg-neutral">
             {error}
           </div>
         ) : (
