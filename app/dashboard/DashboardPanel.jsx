@@ -24,7 +24,7 @@ const DashboardPanel = () => {
   };
 
   return (
-    <aside className="bg-white w-3/12 max-w-[250px] min-w-52 rounded-[34px] p-5 md:flex flex-col hidden">
+    <aside className="bg-white w-[30%] max-w-[250px] min-w-52 rounded-[34px] p-5 md:flex flex-col hidden">
       {user?.profile?.picture && (
         <img
           className="rounded-[10px] mx-auto object-cover object-center w-28 h-28 mt-8"

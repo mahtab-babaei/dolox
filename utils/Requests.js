@@ -165,3 +165,36 @@ export const joinChatRoom = async (id) => {
     };
   }
 };
+
+export const getNotifications = async (page = 1) => {
+  try {
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const response = await fetch(
+      `${BackendURL}/notif/notifications/?page=${page}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching notifications:", error.message);
+    return {
+      success: false,
+      message: "خطایی در دریافت اعلان ها رخ داد",
+    };
+  }
+};
