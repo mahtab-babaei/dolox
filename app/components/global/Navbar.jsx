@@ -8,6 +8,8 @@ import SearchBox from "./SearchBox";
 import { links } from "@/utils/constants";
 import UserDropDown from "./UserDropDown";
 import { userIcon } from "@/utils/constants";
+import Notification from "./Notif";
+import Notif from "./Notif";
 
 const Navbar = ({ user }) => {
   const userName = user?.first_name || user?.username || "ورود";
@@ -74,6 +76,7 @@ const Navbar = ({ user }) => {
           >
             ثبت رایگان آگهی
           </Link>
+
           {!user && (
             <Link className="flex items-center gap-2" href="/login">
               {userIcon}
@@ -81,15 +84,23 @@ const Navbar = ({ user }) => {
             </Link>
           )}
           {user && (
-            <div dir="ltr" className="dropdown dropdown-bottom content-center">
+            <div className="flex gap-2 items-center">
+              <Notif />
               <div
-                tabIndex={0}
-                role="button"
-                className="m-1 flex items-center gap-1"
+                dir="ltr"
+                className="dropdown dropdown-bottom content-center"
               >
-                <span className="font-vazir-bold font-bold text-black">{userName}</span>
-                {userIcon}
-                <UserDropDown />
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="m-1 flex items-center gap-1"
+                >
+                  <span className="font-vazir-bold font-bold text-black">
+                    {userName}
+                  </span>
+                  {userIcon}
+                  <UserDropDown />
+                </div>
               </div>
             </div>
           )}
