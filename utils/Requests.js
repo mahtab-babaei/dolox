@@ -9,34 +9,43 @@ export const fetchAdsByFilter = async ({
   priceRange = { min: "", max: "" },
   page = 1,
   order = "",
+  search = "",
 }) => {
   try {
-    const isInitialRequest =
-      !brand &&
-      city === "همه شهر ها" &&
-      !yearRange.min &&
-      !yearRange.max &&
-      !kmRange.min &&
-      !kmRange.max &&
-      !priceRange.min &&
-      !priceRange.max &&
-      page === 1 &&
-      !order;
+    let url = "";
 
-    const url = isInitialRequest
-      ? `${BackendURL}/ads/?city=${city}&page=1`
-      : `${BackendURL}/ads/?${new URLSearchParams({
-          brand,
-          city,
-          year_min: yearRange.min,
-          year_max: yearRange.max,
-          kilometer_min: kmRange.min,
-          kilometer_max: kmRange.max,
-          price_min: priceRange.min,
-          price_max: priceRange.max,
-          page,
-          order_by: order,
-        }).toString()}`;
+    if (search) {
+      url = `${BackendURL}/ads/search/?q=${encodeURIComponent(
+        search
+      )}&page=${page}`;
+    } else {
+      const isInitialRequest =
+        !brand &&
+        city === "همه شهر ها" &&
+        !yearRange.min &&
+        !yearRange.max &&
+        !kmRange.min &&
+        !kmRange.max &&
+        !priceRange.min &&
+        !priceRange.max &&
+        page === 1 &&
+        !order;
+
+      url = isInitialRequest
+        ? `${BackendURL}/ads/?city=${city}&page=1`
+        : `${BackendURL}/ads/?${new URLSearchParams({
+            brand,
+            city,
+            year_min: yearRange.min,
+            year_max: yearRange.max,
+            kilometer_min: kmRange.min,
+            kilometer_max: kmRange.max,
+            price_min: priceRange.min,
+            price_max: priceRange.max,
+            page,
+            order_by: order,
+          }).toString()}`;
+    }
 
     const cookies = parseCookies();
     const token = cookies.access || null;

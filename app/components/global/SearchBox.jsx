@@ -1,9 +1,24 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const SearchBox = () => {
+  const [query, setQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (query.trim()) {
+      router.push(`/ads?q=${encodeURIComponent(query.trim())}`);
+    }
+  };
+
   return (
     <div className="bg-primary py-3 md:px-0 px-16">
-      <label className="input h-11 flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 rounded-3xl">
+      <form
+        onSubmit={handleSearch}
+        className="input h-11 flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 rounded-3xl"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -20,8 +35,11 @@ const SearchBox = () => {
           type="text"
           className="grow h-4 text-sm w-full"
           placeholder="جست وجو"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
-      </label>
+        <button type="submit" className="hidden"></button>
+      </form>
     </div>
   );
 };

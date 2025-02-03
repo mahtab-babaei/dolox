@@ -10,7 +10,7 @@ import Spinner from "../components/global/Spinner";
 import { orderButtons } from "@/utils/constants";
 import LoadingComponent from "../components/global/LoadingComponent";
 
-const TotalAds = ({ brands }) => {
+const TotalAds = ({ brands, searchQuery }) => {
   const [adsData, setAdsData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(null);
@@ -33,10 +33,10 @@ const TotalAds = ({ brands }) => {
   });
 
   useEffect(() => {
-    setLoading(true);
-    try {
-      const fetchData = async () => {
-        const initialAdsData = await fetchAdsByFilter({
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const adsResult = await fetchAdsByFilter({
           brand: "",
           city: "همه شهر ها",
           yearRange: { min: "", max: "" },
@@ -44,17 +44,20 @@ const TotalAds = ({ brands }) => {
           priceRange: { min: "", max: "" },
           page: 1,
           order: "",
+          search: searchQuery,
         });
-        setAdsData(initialAdsData.data.results);
-        setHasMore(!!initialAdsData?.data?.next);
-      };
-      fetchData();
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+
+        setAdsData(adsResult.data.results);
+        setHasMore(!!adsResult.data.next);
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [searchQuery]);
 
   const fetchMoreAds = async () => {
     if (hasMore) {
