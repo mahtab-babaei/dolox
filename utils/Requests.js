@@ -175,6 +175,40 @@ export const joinChatRoom = async (id) => {
   }
 };
 
+export const getChatList = async () => {
+  try {
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const response = await fetch(`${BackendURL}/chat/api/list`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    if (data) {
+      return data;
+    } else {
+      console.error("Error: ", data.message);
+      return data.message;
+    }
+  } catch (error) {
+    console.error("Error joining chat room:", error);
+    return {
+      success: false,
+      message: "خطایی در پیوستن به چت روم رخ داد",
+    };
+  }
+}
+
 export const getNotifications = async (page = 1) => {
   try {
     const cookies = parseCookies();

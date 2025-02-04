@@ -5,6 +5,7 @@ import { useChatDataStore } from "@/stores/useChatDataStore";
 import { useSearchParams } from "next/navigation";
 import { joinChatRoom } from "@/utils/Requests";
 import ChatList from "./ChatList";
+import { useChatStore } from "@/stores/useChatStore";
 
 const ChatPage = () => {
   const chatData = useChatDataStore((state) => state.chatData);
@@ -32,9 +33,13 @@ const ChatPage = () => {
         }
       }
     };
-  
+
     fetchChatData();
   }, [id, chatData, setChatData]);
+
+  const roomName = Array.isArray(chatData?.roomName)
+    ? chatData.roomName[0]
+    : chatData?.roomName;
 
   return (
     <div className="bg-base-200 w-full">
@@ -50,10 +55,7 @@ const ChatPage = () => {
               برای شروع مکالمه یکی از مخاطب‌های خود را انتخاب کنید
             </div>
           ) : (
-            <ChatRoom
-              roomName={chatData.roomName[0]}
-              username={chatData.username}
-            />
+            <ChatRoom roomName={roomName} />
           )}
         </div>
       </div>

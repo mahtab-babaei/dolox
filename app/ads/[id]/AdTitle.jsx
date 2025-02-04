@@ -1,13 +1,16 @@
+import { useUser } from "@/context/UserContext";
 import { useChatDataStore } from "@/stores/useChatDataStore";
 import { joinChatRoom } from "@/utils/Requests";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const AdTitle = ({ id, model, year, city, price }) => {
   const [loading, setLoading] = useState(false);
   const setChatData = useChatDataStore((state) => state.setChatData);
   const router = useRouter();
+  const user = useUser();
 
   const handleChatClick = async () => {
     setLoading(true);
@@ -15,7 +18,9 @@ const AdTitle = ({ id, model, year, city, price }) => {
       const result = await joinChatRoom(id);
       if (result.success) {
         setChatData(result);
-        router.push(`/dashboard/chat?room=${result.roomName}&id=${id}`);
+  
+        const roomName = Array.isArray(result.roomName) ? result.roomName[0] : result.roomName;
+        router.push(`/dashboard/chat?room=${roomName}`);
       } else {
         toast.error(result.message);
       }
@@ -26,6 +31,7 @@ const AdTitle = ({ id, model, year, city, price }) => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="bg-white p-4 rounded-2xl">

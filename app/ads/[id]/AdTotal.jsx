@@ -93,6 +93,7 @@ const AdTotal = ({ adDetails }) => {
       <div className="grid gap-4 md:hidden w-full">
         <AdImages images={adDetails.images} />
         <AdTitle
+          id={adDetails.id}
           model={adDetails.model}
           year={adDetails.year}
           city={adDetails.city}

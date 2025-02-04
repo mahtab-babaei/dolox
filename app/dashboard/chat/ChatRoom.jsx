@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useChatStore } from "@/stores/useChatStore";
 import { formatTime } from "@/utils/Cal";
-export default function ChatRoom({ roomName, username }) {
+import { useUser } from "@/context/UserContext";
+export default function ChatRoom({ roomName }) {
+  const user = useUser();
   const { chatSocket, messages, connectToChatRoom, sendMessage } =
     useChatStore();
 
@@ -17,13 +19,17 @@ export default function ChatRoom({ roomName, username }) {
     };
   }, [roomName, chatSocket, connectToChatRoom]);
 
+  useEffect(() => {
+    console.log("Messages in store:", messages);
+  }, [messages]);
+
   const handleSendMessage = () => {
     if (inputValue.trim() === "") return;
 
     sendMessage({
       content: inputValue,
       command: "new_message",
-      username: username,
+      username: user.username,
       roomName: roomName,
     });
 
@@ -36,13 +42,13 @@ export default function ChatRoom({ roomName, username }) {
         <div
           key={index}
           className={`chat ${
-            msg.__str__ === username ? "chat-end" : "chat-start"
+            msg.__str__ === user.username ? "chat-start" : "chat-end"
           } font-vazir`}
         >
           <div className="chat-header">{msg.__str__}</div>
           <div
             className={`chat-bubble text-white ${
-              msg.__str__ === username ? "bg-secondary" : "bg-primary"
+              msg.__str__ === user.username ? "bg-primary" : "bg-secondary"
             }`}
           >
             {msg.content}
