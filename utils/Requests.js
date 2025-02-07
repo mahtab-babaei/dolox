@@ -207,7 +207,7 @@ export const getChatList = async () => {
       message: "خطایی در پیوستن به چت روم رخ داد",
     };
   }
-}
+};
 
 export const getNotifications = async (page = 1) => {
   try {
@@ -238,6 +238,49 @@ export const getNotifications = async (page = 1) => {
     return {
       success: false,
       message: "خطایی در دریافت اعلان ها رخ داد",
+    };
+  }
+};
+
+export const deleteAd = async ({ brand, model, city, status }, id) => {
+  try {
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const response = await fetch(`${BackendURL}/ads/${id}/`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ brand, model, city, status }),
+    });
+
+    if (response.status === 404) {
+      return {
+        success: false,
+        message: "آگهی یافت نشد",
+      };
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "خطایی در حذف آگهی");
+    }
+
+    return { success: true, message: "آگهی با موفقیت غیرفعال شد" };
+  } catch (error) {
+    console.error("Error deleting ad:", error);
+    return {
+      success: false,
+      message: error.message || "خطای غیرمنتظره‌ای رخ داد",
     };
   }
 };

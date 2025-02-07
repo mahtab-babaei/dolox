@@ -1,8 +1,22 @@
-import React from "react";
+import ConfirmDialog from "@/app/components/global/ConfirmDialog";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const AdEdit = ({ adDetails }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDeleteAd = () => {
+    setIsDialogOpen(true);
+  };
+
+  const patchData = {
+    brand: adDetails.brand,
+    model: adDetails.model,
+    city: adDetails.city,
+    status: "inactive",
+  };
+
   return (
     <div className="flex gap-2">
       <div className="flex flex-col h-fit gap-4 items-center bg-white p-6 rounded-[34px]">
@@ -46,7 +60,10 @@ const AdEdit = ({ adDetails }) => {
           </svg>
           ویرایش آگهی
         </button>
-        <button className="btn bg-[#ff051f] text-white w-full font-vazir font-medium text-base flex items-center">
+        <button
+          onClick={handleDeleteAd}
+          className="btn bg-[#ff051f] text-white w-full font-vazir font-medium text-base flex items-center"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -61,6 +78,14 @@ const AdEdit = ({ adDetails }) => {
           </svg>
           حذف آگهی
         </button>
+        {isDialogOpen && (
+          <ConfirmDialog
+            isOpen={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            data={patchData}
+            id={adDetails.id}
+          />
+        )}
       </div>
       <div className="bg-white p-8 rounded-[34px]">
         <div className="flex items-center gap-2 pb-6">

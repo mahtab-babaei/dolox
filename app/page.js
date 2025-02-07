@@ -37,7 +37,7 @@ export default async function Home() {
     getBlogs(),
     getBrandsByType("سواری"),
   ]);
-  
+
   return (
     <>
       <Hero />
@@ -46,7 +46,7 @@ export default async function Home() {
       <LastAutoGalleries autogalleries={autoGalleries?.results || []} />
       <FreeAutoGallery />
       <LastAuctions auctions={auctions?.results || []} />
-      <LastBlogs blogs={blogs || []} />
+      {/*<LastBlogs blogs={blogs || []} />*/}
       <WhatBrand initBrands={brands || []} />
     </>
   );
