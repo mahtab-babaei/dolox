@@ -39,7 +39,7 @@ const ChatList = () => {
 
   return (
     <div className="w-[30%] h-screen bg-white rounded-3xl p-4">
-      <h2 className="text-center font-bold mb-4">مخاطبین</h2>
+      <h2 className="text-center font-bold mb-4 text-black">مخاطبین</h2>
 
       {loading && <Spinner />}
       {error && (
@@ -52,7 +52,7 @@ const ChatList = () => {
             <li
               key={chat.id}
               className={`flex items-center p-2 text-vazir border-b border-gray-400 cursor-pointer transition duration-200 rounded-xl ${
-                chat.roomName === roomName ? "bg-gray-200" : "hover:bg-gray-100"
+                chat.roomName === roomName ? "bg-gray-100" : "hover:bg-gray-100"
               }`}
               onClick={() => handleChatClick(chat)}
             >
@@ -62,7 +62,7 @@ const ChatList = () => {
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div className="ms-3">
-                <p className="font-bold font-vazir">
+                <p className="font-bold font-vazir text-black">
                   {chat.profile.first_name
                     ? `${chat.profile.first_name} ${chat.profile.last_name}`
                     : "کاربر"}

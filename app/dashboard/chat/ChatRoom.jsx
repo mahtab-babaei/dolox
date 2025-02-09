@@ -53,7 +53,7 @@ export default function ChatRoom({ roomName }) {
             msg.__str__ === user.username ? "chat-start" : "chat-end"
           } font-vazir`}
         >
-          <div className="chat-header">{msg.__str__}</div>
+          <div className="chat-header text-black">{msg.__str__}</div>
           <div
             className={`chat-bubble text-white ${
               msg.__str__ === user.username ? "bg-primary" : "bg-secondary"
@@ -61,7 +61,7 @@ export default function ChatRoom({ roomName }) {
           >
             {msg.content}
           </div>
-          <time className="chat-footer text-xs opacity-50 pt-1">
+          <time className="chat-footer text-xs opacity-50 text-black pt-1">
             {formatTime(msg.timestamp)}
           </time>
         </div>
@@ -78,7 +78,7 @@ export default function ChatRoom({ roomName }) {
         </label>
         <button
           onClick={handleSendMessage}
-          className="btn btn-circle bg-primary text-white"
+          className="btn btn-circle bg-primary text-white border-none"
         >
           <svg
             className="w-6 h-6 text-white"

@@ -44,7 +44,7 @@ const Notifications = () => {
   return (
     <div className="bg-white h-full min-h-screen overflow-y-auto rounded-[34px] w-full p-4 font-vazir">
       {loading ? (
-        <div className="p-4 text-center font-vazir">
+        <div className="p-4 text-center text-black font-vazir">
           <p>در حال بارگذاری...</p>
         </div>
       ) : error ? (
@@ -63,7 +63,7 @@ const Notifications = () => {
                   notification.is_read ? "bg-white" : "bg-base-200"
                 }`}
               >
-                <p>{notification.message}</p>
+                <p className="text-black">{notification.message}</p>
                 <p className="text-sm pt-2 text-gray-500">
                   تاریخ:{" "}
                   {new Date(notification.created_at).toLocaleString("fa-IR")}
