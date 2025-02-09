@@ -1,5 +1,4 @@
 import { useUser } from "@/context/UserContext";
-import { useChatDataStore } from "@/stores/useChatDataStore";
 import { joinChatRoom } from "@/utils/Requests";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,7 +7,6 @@ import toast from "react-hot-toast";
 
 const AdTitle = ({ id, model, year, city, price }) => {
   const [loading, setLoading] = useState(false);
-  const setChatData = useChatDataStore((state) => state.setChatData);
   const router = useRouter();
   const user = useUser();
 
@@ -16,13 +14,13 @@ const AdTitle = ({ id, model, year, city, price }) => {
     setLoading(true);
     try {
       const result = await joinChatRoom(id);
-      if (result.success) {
-        setChatData(result);
-  
-        const roomName = Array.isArray(result.roomName) ? result.roomName[0] : result.roomName;
+      if (result.success && result.roomName) {
+        const roomName = Array.isArray(result.roomName)
+          ? result.roomName[0]
+          : result.roomName;
         router.push(`/dashboard/chat?room=${roomName}`);
       } else {
-        toast.error(result.message);
+        toast.error(result.message || "اتصال به چت ناموفق بود.");
       }
     } catch (error) {
       console.error("Error joining chat room: ", error);
@@ -31,7 +29,6 @@ const AdTitle = ({ id, model, year, city, price }) => {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="bg-white p-4 rounded-2xl">
@@ -51,7 +48,6 @@ const AdTitle = ({ id, model, year, city, price }) => {
               clipRule="evenodd"
             />
           </svg>
-
           {city}
         </span>
         {price ? (
@@ -81,11 +77,11 @@ const AdTitle = ({ id, model, year, city, price }) => {
             تماس با فروشنده
           </div>
         </button>
-        <button className="btn px-2 sm:px-4 border border-secondary bg-white text-secondary">
-          <div
-            onClick={handleChatClick}
-            className="flex items-center justify-center gap-1"
-          >
+        <button
+          className="btn px-2 sm:px-4 border border-secondary bg-white text-secondary"
+          onClick={handleChatClick}
+        >
+          <div className="flex items-center justify-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

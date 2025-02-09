@@ -1,25 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getChatList } from "@/utils/Requests";
 import Spinner from "@/app/components/global/Spinner";
-import { useChatDataStore } from "@/stores/useChatDataStore";
+import { useChatListStore } from "@/stores/useChatListStore";
 
 const ChatList = () => {
-  const [chatList, setChatList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
-  const setChatData = useChatDataStore((state) => state.setChatData);
+  const searchParams = useSearchParams();
+  const roomName = searchParams?.get("room"); // دریافت مقدار `roomName` از `URL`
+
+  // دریافت لیست چت‌ها از store
+  const chatList = useChatListStore((state) => state.chatList);
+  const setChatList = useChatListStore((state) => state.setChatList);
 
   useEffect(() => {
     const fetchChatList = async () => {
       try {
         const data = await getChatList();
-        if (data && Array.isArray(data)) {
+        if (data && JSON.stringify(data) !== JSON.stringify(chatList)) {
           setChatList(data);
-        } else {
-          setError("خطا در دریافت لیست مخاطبین");
         }
       } catch (err) {
         setError("خطایی رخ داد. لطفا دوباره تلاش کنید.");
@@ -29,11 +31,10 @@ const ChatList = () => {
     };
 
     fetchChatList();
-  }, []);
+  }, [setChatList]); // جلوگیری از رندر بی‌نهایت
 
   const handleChatClick = (chat) => {
-    setChatData(chat);
-    router.push(`/dashboard/chat?room=${chat.roomName}`);
+    router.push(`/dashboard/chat?room=${chat.roomName}`); // فقط مقدار `roomName` را در URL تغییر بده
   };
 
   return (
@@ -45,12 +46,14 @@ const ChatList = () => {
         <p className="text-center text-gray-500 font-vazir text-sm">{error}</p>
       )}
 
-      {!loading && !error && (
+      {!loading && !error && chatList.length > 0 && (
         <ul>
           {chatList.map((chat) => (
             <li
               key={chat.id}
-              className="flex items-center p-2 text-vazir border-b border-gray-400 cursor-pointer transition duration-200"
+              className={`flex items-center p-2 text-vazir border-b border-gray-400 cursor-pointer transition duration-200 rounded-xl ${
+                chat.roomName === roomName ? "bg-gray-200" : "hover:bg-gray-100"
+              }`}
               onClick={() => handleChatClick(chat)}
             >
               <img
@@ -73,6 +76,12 @@ const ChatList = () => {
             </li>
           ))}
         </ul>
+      )}
+
+      {!loading && !error && chatList.length === 0 && (
+        <p className="text-center text-gray-500 font-vazir text-sm">
+          لیست چت‌ها خالی است
+        </p>
       )}
     </div>
   );

@@ -7,12 +7,20 @@ export const useChatStore = create((set) => ({
   messages: [],
   notifications: [],
   membersList: [],
+
+  clearMessages: () => set({ messages: [] }),
+
   connectToChatRoom: (roomName) => {
     set((state) => {
-      if (state.chatSocket) {
-        console.warn("WebSocket connection already exists");
+      if (!roomName) {
+        console.error("Room name is null!");
         return state;
       }
+
+      if (state.chatSocket) {
+        state.chatSocket.close(); // بستن سوکت قبلی اگر باز باشد
+      }
+
       const socket = new WebSocket(`${WSURL}/chat/${roomName}/`);
 
       socket.onmessage = (e) => {
@@ -20,17 +28,7 @@ export const useChatStore = create((set) => ({
 
         if (data.command === "fetch_message") {
           set((state) => ({
-            messages: [
-              ...data.message
-                .reverse()
-                .filter(
-                  (msg) =>
-                    !state.messages.some(
-                      (existingMsg) => existingMsg.timestamp === msg.timestamp
-                    )
-                ),
-              ...state.messages,
-            ],
+            messages: data.message.reverse(), // پیام‌های قدیمی را مستقیم جایگزین کنید
           }));
         } else if (data.command === "new_message") {
           set((state) => ({
@@ -40,17 +38,17 @@ export const useChatStore = create((set) => ({
       };
 
       socket.onopen = () => {
+        console.log("Chat socket connected");
         socket.send(
           JSON.stringify({
             command: "fetch_message",
             roomName: roomName,
           })
         );
-        console.log("Chat socket connected");
       };
 
-      socket.onclose = () => {
-        console.error("Chat socket closed unexpectedly");
+      socket.onclose = (e) => {
+        console.error("Chat socket closed unexpectedly", e);
       };
 
       socket.onerror = (error) => {
@@ -60,15 +58,18 @@ export const useChatStore = create((set) => ({
       return { ...state, chatSocket: socket };
     });
   },
+
   sendMessage: (messageData) => {
     set((state) => {
-      if (!state.chatSocket) {
+      if (!state.chatSocket || state.chatSocket.readyState !== WebSocket.OPEN) {
         console.error("Chat socket is not connected!");
+        return state;
       }
       state.chatSocket.send(JSON.stringify(messageData));
       return state;
     });
   },
+
   connectToNotifications: () => {
     const socket = new WebSocket(`${WSURL}/chat/listener/`);
 

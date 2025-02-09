@@ -2,26 +2,34 @@ import { useState, useEffect } from "react";
 import { useChatStore } from "@/stores/useChatStore";
 import { formatTime } from "@/utils/Cal";
 import { useUser } from "@/context/UserContext";
+
 export default function ChatRoom({ roomName }) {
   const user = useUser();
-  const { chatSocket, messages, connectToChatRoom, sendMessage } =
-    useChatStore();
-
+  const {
+    chatSocket,
+    messages,
+    connectToChatRoom,
+    sendMessage,
+    clearMessages,
+  } = useChatStore();
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    if (!chatSocket) {
-      connectToChatRoom(roomName);
+    if (!roomName) return;
+
+    if (chatSocket) {
+      chatSocket.close(); // بستن اتصال قبلی قبل از باز کردن اتصال جدید
     }
 
-    return () => {
-      chatSocket?.close();
-    };
-  }, [roomName, chatSocket, connectToChatRoom]);
+    clearMessages(); // پاک کردن پیام‌های قبلی هنگام تغییر چت
+    connectToChatRoom(roomName);
 
-  useEffect(() => {
-    console.log("Messages in store:", messages);
-  }, [messages]);
+    return () => {
+      if (chatSocket) {
+        chatSocket.close(); // اطمینان از بستن سوکت هنگام خروج از کامپوننت
+      }
+    };
+  }, [roomName]);
 
   const handleSendMessage = () => {
     if (inputValue.trim() === "") return;
