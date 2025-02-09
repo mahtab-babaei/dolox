@@ -14,23 +14,35 @@ import Models from "./Models";
 import Package from "./Package";
 import Price from "./Price";
 import Year from "./Year";
-import { AdImages, checkAds, createAdReq, getColors } from "./page";
+import {
+  AdImages,
+  checkAds,
+  createAdReq,
+  editAdReq,
+  getColors,
+} from "@/utils/Requests";
 import { getProfile } from "../dashboard/page";
 
-const CreateAd = () => {
+const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const router = useRouter();
   const user = useUser();
+  console.log(user);
   const [step, setStep] = useState(0);
   const [category, setCategory] = useState("سواری");
   const [brand, setBrand] = useState(null);
   const [model, setModel] = useState(null);
   const [year, setYear] = useState(null);
   const [body, setBody] = useState(null);
+  const [bodyCondition, setBodyCondition] = useState(null);
+  const [bodyColor, setBodyColor] = useState(null);
+  const [gearType, setGearType] = useState(null);
+  const [frontChassisCondition, setFrontChassisCondition] = useState(null);
+  const [backChassisCondition, setBackChassisCondition] = useState(null);
+  const [seatCondition, setSeatCondition] = useState(null);
+  const [gastype, setGastype] = useState(null);
+  const [insurance, setInsurance] = useState(null);
   const [kilometer, setKilometer] = useState(null);
   const [description, setDescription] = useState(null);
-  const [wheelnumber, setWheelNumber] = useState("");
-  const [weight, setWeight] = useState("");
-  const [maxweight, setMaxweight] = useState("");
   const [engineSize, setEngineSize] = useState("");
   const [engine, setEngine] = useState("");
   const [acceleration, setAcceleration] = useState("");
@@ -41,12 +53,38 @@ const CreateAd = () => {
   const [images, setImages] = useState([]);
   const [city, setCity] = useState("");
   const [packagePlan, setPackagePlan] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [esxhibitionId, setExhibitionId] = useState(0);
   const [adable, setAdable] = useState({});
   const [brands, setBrands] = useState([]);
   const [colors, setColors] = useState([]);
+
+  useEffect(() => {
+    if (isEdit && adData) {
+      setBrand(adData.brand);
+      setModel(adData.model);
+      setYear(adData.year);
+      setBodyCondition(adData.body_condition);
+      setBodyColor(adData.color);
+      setGearType(adData.transmission);
+      setFrontChassisCondition(adData.front_chassis_condition);
+      setBackChassisCondition(adData.behind_chassis_condition);
+      setSeatCondition(adData.upholstery_condition);
+      setGastype(adData.fuel_type);
+      setInsurance(adData.insurance);
+      setKilometer(adData.kilometer);
+      setEngineSize(adData.features[0]?.name);
+      setEngine(adData.features[1]?.name);
+      setAcceleration(adData.features[2]?.name);
+      setCombinedUse(adData.features[3]?.name);
+      setDescription(adData.description);
+      setPrice(adData.price);
+      setInstallments(adData.is_negotiable);
+      setRentorsale(adData.sale_or_rent);
+      setImages(adData.images);
+      setCity(adData.city);
+    }
+  }, [isEdit, adData]);
 
   // Fetching data on mount
   useEffect(() => {
@@ -80,7 +118,8 @@ const CreateAd = () => {
         try {
           setLoading(true);
 
-          const result = await createAdReq({
+          const requestData = {
+            id,
             brand,
             model,
             year,
@@ -91,26 +130,40 @@ const CreateAd = () => {
             installments,
             rentorsale,
             city,
-            phone_number: user.phone_number,
+            phone: user.phone_number,
             category,
-            wheelnumber,
-            weight,
-            maxweight,
             engineSize,
             engine,
             acceleration,
             combinedUse,
             packagePlan,
             exhibition: esxhibitionId,
-          });
-          console.log("Response from createAdReq:", result);
+          };
+          console.log("requestData", requestData);
+          if (!isEdit) {
+            const result = await createAdReq(requestData);
+            console.log("Response from createAdReq:", result);
+            if (result.success) {
+              console.log(images);
 
-          if (result.success) {
-            console.log(images);
+              const imageResult = await AdImages(result.message.id, images);
 
-            const imageResult = await AdImages(result.message.id, images);
-
-            if (imageResult.success) {
+              if (imageResult.success) {
+                setStep(10);
+                toast.success("اطلاعات با موفقیت ثبت شد!");
+                setTimeout(() => {
+                  router.push("/dashboard");
+                }, 200);
+              } else {
+                setStep(11);
+              }
+            } else {
+              setStep(11);
+            }
+          } else {
+            const result = await editAdReq(requestData);
+            console.log("Response from editAdReq:", result);
+            if (result.success) {
               setStep(10);
               toast.success("اطلاعات با موفقیت ثبت شد!");
               setTimeout(() => {
@@ -119,8 +172,6 @@ const CreateAd = () => {
             } else {
               setStep(11);
             }
-          } else {
-            setStep(11);
           }
         } catch (error) {
           console.error("Error creating ad:", error);
@@ -137,7 +188,9 @@ const CreateAd = () => {
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
       <div className="max-w-screen-sm mx-auto bg-white py-10 rounded-[34px]">
-        <h1 className="text-center text-xl text-black">ثبت اگهی</h1>
+        <h1 className="text-center text-xl text-black">
+          {isEdit ? "ویرایش آگهی" : "ثبت آگهی"}
+        </h1>
         {/* steps */}
         {(step !== 9 || adable.success) && (
           <CreateAdSteps step={step} setStep={setStep} />
@@ -158,13 +211,21 @@ const CreateAd = () => {
           setModel={setModel}
           brand={brand}
         />
-        <Year setStep={setStep} step={step} setYear={setYear} />
+        <Year setStep={setStep} step={step} setYear={setYear} year={year} />
         <Body
           setStep={setStep}
           step={step}
           colors={colors}
           setBody={setBody}
           category={category}
+          bodyCondition={bodyCondition}
+          bodyColor={bodyColor}
+          gearType={gearType}
+          frontChassisCondition={frontChassisCondition}
+          backChassisCondition={backChassisCondition}
+          gastype={gastype}
+          insurance={insurance}
+          seatCondition={seatCondition}
         />
         <Description
           setStep={setStep}
@@ -172,13 +233,16 @@ const CreateAd = () => {
           setKilometer={setKilometer}
           setDescription={setDescription}
           category={category}
-          setWheelnumber={setWheelNumber}
-          setWeight={setWeight}
-          setMaxweight={setMaxweight}
           setEngineSize={setEngineSize}
           setEngine={setEngine}
           setAcceleration={setAcceleration}
           setCombinedUse={setCombinedUse}
+          kilometer={kilometer}
+          description={description}
+          engine={engine}
+          engineSize={engineSize}
+          acceleration={acceleration}
+          combinedUse={combinedUse}
         />
         <Price
           setStep={setStep}
@@ -186,6 +250,9 @@ const CreateAd = () => {
           setInstallments={setInstallments}
           setPrice={setPrice}
           setRentorsale={setRentorsale}
+          price={price}
+          rentorsale={rentorsale}
+          installments={installments}
         />
         <Images
           setStep={setStep}
@@ -193,7 +260,7 @@ const CreateAd = () => {
           images={images}
           setImages={setImages}
         />
-        <Location setStep={setStep} step={step} setCity={setCity} />
+        <Location setStep={setStep} step={step} setCity={setCity} city={city} />
         <Package setStep={setStep} step={step} setPackage={setPackagePlan} />
 
         {step === 10 && (

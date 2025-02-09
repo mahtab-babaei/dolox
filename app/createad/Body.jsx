@@ -4,7 +4,21 @@ import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
-const Body = ({ step, setStep, colors, setBody, category }) => {
+const Body = ({
+  step,
+  setStep,
+  colors,
+  setBody,
+  category,
+  bodyCondition,
+  bodyColor,
+  gearType,
+  frontChassisCondition,
+  backChassisCondition,
+  gastype,
+  insurance,
+  seatCondition,
+}) => {
   const validationSchema = Yup.object({
     bodyCondition: Yup.string().required("وضعیت بدنه را انتخاب کنید"),
     bodyColor: Yup.string().required("رنگ بدنه را انتخاب کنید"),
@@ -22,14 +36,14 @@ const Body = ({ step, setStep, colors, setBody, category }) => {
 
   const formik = useFormik({
     initialValues: {
-      bodyCondition: "",
-      bodyColor: "",
-      gearType: "",
-      frontChassisCondition: "",
-      seatCondition: "",
-      backChassisCondition: "",
-      gastype: "",
-      insurance: "",
+      bodyCondition: bodyCondition || "",
+      bodyColor: bodyColor || "",
+      gearType: gearType || "",
+      frontChassisCondition: frontChassisCondition || "",
+      seatCondition: seatCondition || "",
+      backChassisCondition: backChassisCondition || "",
+      gastype: gastype || "",
+      insurance: insurance || "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -37,6 +51,7 @@ const Body = ({ step, setStep, colors, setBody, category }) => {
       setBody(values);
       setStep(4);
     },
+    enableReinitialize: true,
   });
   if (step !== 3) return null;
   // console.log(colors)

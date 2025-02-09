@@ -15,24 +15,46 @@ const validationSchema = Yup.object().shape({
     ),
 });
 
-const Price = ({ step, setStep, setPrice, setInstallments, setRentorsale }) => {
+const Price = ({
+  step,
+  setStep,
+  setPrice,
+  setInstallments,
+  setRentorsale,
+  price,
+  rentorsale,
+  installments,
+}) => {
   const [category, setCategory] = useState("نقدی");
-  const [isRent, setIsRent] = useState(false); // For rent or sale option
+  const [isRent, setIsRent] = useState(false);
+
+  // مقداردهی اولیه در حالت edit
+  useEffect(() => {
+    if (installments) {
+      setCategory("اقساط");
+    } else if (!price) {
+      setCategory("توافقی");
+    } else {
+      setCategory("نقدی");
+    }
+    setIsRent(rentorsale === "rent");
+  }, [installments, rentorsale, price]);
 
   const formik = useFormik({
     initialValues: {
-      price: "",
+      price: price || "",
     },
     validationSchema,
     onSubmit: (values) => {
       if (category === "توافقی") {
-        setPrice(null); // Set price to null if "توافقی" is selected
+        setPrice(null);
       } else {
-        setPrice(values.price); // Set the price if نقدی or اقساط is selected
+        setPrice(values.price);
       }
-      setRentorsale(isRent ? "sale" : "rent"); // Set if rent or sale is chosen
-      setStep(6); // Proceed to next step
+      setRentorsale(isRent ? "rent" : "sale");
+      setStep(6);
     },
+    enableReinitialize: true,
   });
 
   useEffect(() => {
@@ -40,6 +62,7 @@ const Price = ({ step, setStep, setPrice, setInstallments, setRentorsale }) => {
   }, [category]);
 
   if (step !== 5) return null;
+
   return (
     <div>
       <div className="px-2 md:px-0 font-vazir">
@@ -94,15 +117,13 @@ const Price = ({ step, setStep, setPrice, setInstallments, setRentorsale }) => {
                   type="number"
                   placeholder="200000"
                   className="input text-black focus:outline-secondary border-none w-full bg-base-200 font-vazir placeholder:text-base-content"
-                  value={formik.values.price}
+                  value={formik.values.price || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
                 <span className="absolute top-12 right-6">تومان</span>
                 {formik.touched.price && formik.errors.price ? (
-                  <ErrorMessage>
-                    {formik.errors.price}
-                  </ErrorMessage>
+                  <ErrorMessage>{formik.errors.price}</ErrorMessage>
                 ) : null}
               </label>
             </div>

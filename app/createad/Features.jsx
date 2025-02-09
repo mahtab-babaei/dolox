@@ -2,9 +2,13 @@ import React, { useState } from "react";
 
 const Features = ({
   setEngineSize,
+  engineSize,
   setEngine,
+  engine,
   setAcceleration,
+  acceleration,
   setCombinedUse,
+  combinedUse,
 }) => {
   const [toggleOpen, setToggleOpen] = useState(false);
 
@@ -13,27 +17,32 @@ const Features = ({
       id: 1,
       label: "حجم موتور:",
       placeholder: "1.4 لیتر",
-      value: (e) => setEngineSize(e.target.value),
+      value: engineSize,
+      setValue: setEngineSize,
     },
     {
       id: 2,
       label: "پیشرانه:",
       placeholder: "6 سیلندر",
-      value: (e) => setEngine(e.target.value),
+      value: engine,
+      setValue: setEngine,
     },
     {
       id: 3,
       label: "شتاب:",
       placeholder: "15.1 ثانیه",
-      value: (e) => setAcceleration(e.target.value),
+      value: acceleration,
+      setValue: setAcceleration,
     },
     {
       id: 4,
       label: "مصرف ترکیبی:",
       placeholder: "6.4 لیتر در 100 کیلومتر",
-      value: (e) => setCombinedUse(e.target.value),
+      value: combinedUse,
+      setValue: setCombinedUse,
     },
   ];
+
   return (
     <>
       <button
@@ -55,7 +64,8 @@ const Features = ({
                 type="text"
                 className="grow placeholder:text-base-content"
                 placeholder={field.placeholder}
-                onChange={field.value}
+                defaultValue={field.value || ""}
+                onChange={(e) => field.setValue(e.target.value)}
               />
             </label>
           ))}

@@ -284,3 +284,311 @@ export const deleteAd = async ({ brand, model, city, status }, id) => {
     };
   }
 };
+
+export const getModelsByBrand = async (brand) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    brands: [brand],
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    redirect: "follow",
+    body: raw,
+  };
+
+  try {
+    const response = await fetch(
+      `${BackendURL}/ads/brand-models/`,
+      requestOptions
+    );
+
+    // Check if response is ok (status in range 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    // throw error;
+  }
+};
+
+export const getColors = async () => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+  };
+
+  try {
+    const response = await fetch(`${BackendURL}/ads/colors/`, requestOptions);
+
+    // Check if response is ok (status in range 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    // throw error;
+  }
+};
+
+export const checkAds = async () => {
+  try {
+    const response = await fetch("/api/ads/check");
+    const data = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.message || "خطای سرور هنگام بررسی مجوز",
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error checking ads authorization:", error.message);
+    return { success: false, message: "خطای سرور هنگام بررسی مجوز" };
+  }
+};
+
+export const createAdReq = async ({
+  id,
+  brand,
+  model,
+  year,
+  body,
+  description,
+  kilometer,
+  price,
+  installments,
+  rentorsale,
+  city,
+  phone,
+  engineSize,
+  engine,
+  acceleration,
+  combinedUse,
+  exhibition,
+}) => {
+  try {
+    const formData = new FormData();
+
+    formData.append("brand", brand);
+    formData.append("model", model.title);
+    formData.append("year", year);
+    formData.append("body_condition", body.bodyCondition);
+    formData.append("front_chassis_condition", body.frontChassisCondition);
+    formData.append("behind_chassis_condition", body.backChassisCondition);
+    formData.append("upholstery_condition", body.seatCondition);
+    formData.append("color", body.bodyColor);
+    formData.append("fuel_type", body.gastype);
+    formData.append("transmission", body.gearType);
+    formData.append("kilometer", kilometer);
+    formData.append("description", description);
+    formData.append("is_negotiable", installments); // اقساط
+    formData.append("sale_or_rent", rentorsale);
+    formData.append("city", city);
+    formData.append("body_type", model.car_type);
+    formData.append("insurance", body.insurance);
+
+    formData.append("phone_numbers", phone);
+
+    if (price !== undefined) {
+      formData.append("price", price);
+    }
+
+    if (exhibition > 0) {
+      formData.append("exhibition", exhibition);
+    }
+
+    const features = [];
+    if (engineSize) features.push({ name: engineSize });
+    if (engine) features.push({ name: engine });
+    if (acceleration) features.push({ name: acceleration });
+    if (combinedUse) features.push({ name: combinedUse });
+
+    if (features.length > 0) {
+      formData.append("features", JSON.stringify(features));
+    }
+
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+    console.log("FORMDATA", formData);
+    console.log(`${BackendURL}/ads/`);
+    const response = await fetch(`${BackendURL}/ads/`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "حطا در ثبت آگهی");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error in createAdReq:", error.message);
+    throw error;
+  }
+};
+
+export const editAdReq = async ({
+  id,
+  brand,
+  model,
+  year,
+  body,
+  description,
+  kilometer,
+  price,
+  installments,
+  rentorsale,
+  city,
+  phone,
+  engineSize,
+  engine,
+  acceleration,
+  combinedUse,
+  exhibition,
+}) => {
+  try {
+    const bodyData = {
+      brand,
+      model: model.title,
+      year,
+      body_condition: body.bodyCondition,
+      front_chassis_condition: body.frontChassisCondition,
+      behind_chassis_condition: body.backChassisCondition,
+      upholstery_condition: body.seatCondition,
+      color: body.bodyColor,
+      fuel_type: body.gastype,
+      transmission: body.gearType,
+      kilometer,
+      description,
+      is_negotiable: installments,
+      sale_or_rent: rentorsale,
+      city,
+      body_type: model.car_type,
+      insurance: body.insurance,
+      phone_numbers: phone,
+      price,
+      exhibition,
+    };
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+    console.log("Body Data:", bodyData);
+
+    const response = await fetch(`${BackendURL}/ads/${id}/`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      bodyData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Error response data:", errorData);
+      throw new Error(errorData.message || "حطا در ویرایش آگهی");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error in editAdReq:", error);
+    throw error;
+  }
+};
+
+export const AdImages = async (adId, images) => {
+  try {
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append("images", image);
+    });
+
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    // ارسال درخواست مستقیم به بک‌اند
+    const response = await fetch(`${BackendURL}/ads/cars/${adId}/images/`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const responseText = await response.text(); // Get the raw response
+    console.log("Response Text:", responseText); // Log the raw response for debugging
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to upload images");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error uploading images:", error.message);
+    throw error;
+  }
+};
+
+export const fetchAdDetails = async (id) => {
+  try {
+    const response = await fetch(`${BackendURL}/ads/${id}/`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return { error: "آگهی مورد نظر یافت نشد" };
+      } else if (response.status === 500) {
+        return { error: "خطای داخلی سرور. لطفاً دوباره تلاش کنید." };
+      } else {
+        return {
+          error: "خطا در دریافت اطلاعات آگهی. لطفاً دوباره تلاش کنید.",
+        };
+      }
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching ad details:", error.message);
+    return {
+      error: "خطای ناشناخته‌ای رخ داد.",
+    };
+  }
+};

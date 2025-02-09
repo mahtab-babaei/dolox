@@ -5,6 +5,7 @@ import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
 const Images = ({ step, setStep, images, setImages }) => {
+  console.log(images);
   const [error, setError] = useState("");
 
   const handleImageUpload = (files) => {
@@ -121,7 +122,7 @@ const Images = ({ step, setStep, images, setImages }) => {
               >
                 <Image
                   className="h-36 w-full object-cover rounded"
-                  src={URL.createObjectURL(image)}
+                  src={image.image ? image.image : URL.createObjectURL(image)}
                   alt={`Uploaded Image ${index + 1}`}
                   width={100}
                   height={100}
@@ -154,7 +155,6 @@ const Images = ({ step, setStep, images, setImages }) => {
               </div>
             ))}
           </div>
-          
         </div>
       </div>
     </div>

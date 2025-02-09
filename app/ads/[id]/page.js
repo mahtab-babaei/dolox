@@ -1,33 +1,5 @@
-import { BackendURL } from "@/utils/URL";
 import AdTotal from "./AdTotal";
-
-const fetchAdDetails = async (id) => {
-  try {
-    const response = await fetch(`${BackendURL}/ads/${id}/`, {
-      method: "GET",
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return { error: "آگهی مورد نظر یافت نشد" };
-      } else if (response.status === 500) {
-        return { error: "خطای داخلی سرور. لطفاً دوباره تلاش کنید." };
-      } else {
-        return {
-          error: "خطا در دریافت اطلاعات آگهی. لطفاً دوباره تلاش کنید.",
-        };
-      }
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching ad details:", error.message);
-    return {
-      error: "خطای ناشناخته‌ای رخ داد.",
-    };
-  }
-};
+import { fetchAdDetails } from "@/utils/Requests";
 
 const AdDetailsPage = async ({ params }) => {
   const { id } = await params;

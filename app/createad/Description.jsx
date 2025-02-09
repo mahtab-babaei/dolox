@@ -10,22 +10,22 @@ const Description = ({
   setStep,
   setKilometer,
   setDescription,
-  setWheelnumber,
-  setWeight,
-  setMaxweight,
   setEngineSize,
   setEngine,
   setAcceleration,
   setCombinedUse,
+  kilometer,
+  description,
+  engine,
+  engineSize,
+  acceleration,
+  combinedUse,
 }) => {
   const formik = useFormik({
     initialValues: {
-      description: "",
-      status: "صفر", // Default selection
-      kilometer: "",
-      wheelnumber: "",
-      weight: "",
-      maxweight: "",
+      description: description || "",
+      status: kilometer && kilometer !== 0 ? "کارکرده" : "صفر",
+      kilometer: kilometer || "",
     },
     validationSchema: Yup.object({
       description: Yup.string().required("توضیحات الزامی است"),
@@ -35,17 +35,17 @@ const Description = ({
     onSubmit: (values) => {
       setDescription(values.description);
       setKilometer(values.status === "صفر" ? 0 : values.kilometer);
-      setWheelnumber(values.wheelnumber);
-      setWeight(values.weight);
-      setMaxweight(values.weight);
       console.log(
         values.description,
         values.status === "صفر" ? 0 : values.kilometer
       );
       setStep(5);
     },
+    enableReinitialize: true,
   });
+
   if (step !== 4) return null;
+
   return (
     <div>
       <div className="px-2 md:px-0 font-vazir">
@@ -126,6 +126,10 @@ const Description = ({
               setEngine={setEngine}
               setAcceleration={setAcceleration}
               setCombinedUse={setCombinedUse}
+              engineSize={engineSize}
+              engine={engine}
+              combinedUse={combinedUse}
+              acceleration={acceleration}
             />
           </div>
         </div>

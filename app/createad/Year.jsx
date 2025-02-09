@@ -4,8 +4,8 @@ import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
-const Year = ({ step, setStep, setYear }) => {
-  // Validation schema
+const Year = ({ step, setStep, setYear, year }) => {
+  console.log(year);
   const currentYear = new Date().getFullYear();
 
   // Validation schema
@@ -21,18 +21,19 @@ const Year = ({ step, setStep, setYear }) => {
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      produceYear: "",
+      produceYear: year || "", // مقدار پیش‌فرض را مقدار year قرار بده
     },
     validationSchema,
     onSubmit: (values) => {
-      // If the form is valid
-      // toast.success('سال با موفقیت تایید شد!')
       setYear(values.produceYear);
       setStep(3);
     },
     validateOnChange: true,
+    enableReinitialize: true,
   });
+
   if (step !== 2) return null;
+
   return (
     <div className="px-2 md:px-0 font-vazir">
       <div dir="rtl" className="pt-8 md:max-w-lg mx-auto">
@@ -50,7 +51,7 @@ const Year = ({ step, setStep, setYear }) => {
               className="grow placeholder:text-base-content"
               placeholder="سال تولید"
               maxLength="4"
-              {...formik.getFieldProps("produceYear")}
+              {...formik.getFieldProps("produceYear")} // مقدار را از Formik بگیر
             />
           </label>
 

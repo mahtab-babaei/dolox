@@ -1,192 +1,36 @@
-export const dynamic = "force-dynamic";
-import React from "react";
-import { BackendURL } from "@/utils/URL";
+"use client";
 import CreateAd from "./CreateAd";
-
-export const getModelsByBrand = async (brand) => {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  const raw = JSON.stringify({
-    brands: [brand],
-  });
-
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    redirect: "follow",
-    body: raw,
-  };
-
-  try {
-    const response = await fetch(
-      `${BackendURL}/ads/brand-models/`,
-      requestOptions
-    );
-
-    // Check if response is ok (status in range 200-299)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    // throw error;
-  }
-};
-
-export const getColors = async () => {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  const requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-  };
-
-  try {
-    const response = await fetch(`${BackendURL}/ads/colors/`, requestOptions);
-
-    // Check if response is ok (status in range 200-299)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    // throw error;
-  }
-};
-
-export const checkAds = async () => {
-  try {
-    const response = await fetch("/api/ads/check");
-    const data = await response.json();
-
-    if (!response.ok) {
-      return {
-        success: false,
-        message: data.message || "خطای سرور هنگام بررسی مجوز",
-      };
-    }
-
-    return data;
-  } catch (error) {
-    console.error("Error checking ads authorization:", error.message);
-    return { success: false, message: "خطای سرور هنگام بررسی مجوز" };
-  }
-};
-
-export const createAdReq = async ({
-  brand,
-  model,
-  year,
-  body,
-  description,
-  kilometer,
-  price,
-  installments,
-  rentorsale,
-  city,
-  phone,
-  category,
-  wheelnumber,
-  weight,
-  maxweight,
-  engineSize,
-  engine,
-  acceleration,
-  combinedUse,
-  exhibition,
-}) => {
-  try {
-    const formData = new FormData();
-    formData.append("brand", brand);
-    formData.append("model", model.title);
-    formData.append("year", year);
-    formData.append("body_condition", body.bodyCondition);
-    formData.append("front_chassis_condition", body.frontChassisCondition);
-    formData.append("behind_chassis_condition", body.backChassisCondition);
-    formData.append("upholstery_condition", body.seatCondition);
-    formData.append("color", body.bodyColor);
-    formData.append("fuel_type", body.gastype);
-    formData.append("transmission", body.gearType);
-    formData.append("kilometer", kilometer);
-    formData.append("description", description);
-    formData.append("is_negotiable", installments); // اقساط
-    formData.append("sale_or_rent", rentorsale);
-    formData.append("city", city);
-    formData.append("body_type", model.car_type);
-    formData.append("insurance", body.insurance);
-
-    formData.append("phone_numbers", phone);
-
-    if (price !== undefined) {
-      formData.append("price", price);
-    }
-
-    if (exhibition > 0) {
-      formData.append("exhibition", exhibition);
-    }
-
-    if (category === "ماشین‌آلات سنگین") {
-      formData.append("wheel_number", wheelnumber);
-      formData.append("weight", weight);
-      formData.append("payload_capacity", maxweight);
-    }
-
-    const features = [];
-    if (engineSize) features.push({ name: engineSize });
-    if (engine) features.push({ name: engine });
-    if (acceleration) features.push({ name: acceleration });
-    if (combinedUse) features.push({ name: combinedUse });
-
-    if (features.length > 0) {
-      formData.append("features", JSON.stringify(features));
-    }
-
-    const response = await fetch(`/api/ads/create`, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to create ad");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error in createAdReq:", error.message);
-    throw error;
-  }
-};
-
-export const AdImages = async (adId, images) => {
-  try {
-    const formData = new FormData();
-    images.forEach((image) => {
-      formData.append("images", image);
-    });
-
-    const response = await fetch(`/api/ads/images/${adId}`, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to upload images");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error uploading images:", error.message);
-    throw error;
-  }
-};
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { fetchAdDetails } from "@/utils/Requests";
 
 const CreateAdPage = () => {
-  return <CreateAd />;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const isEdit = !!id;
+  console.log(isEdit, id);
+
+  const [adData, setAdData] = useState(null);
+
+  useEffect(() => {
+    if (isEdit) {
+      const getAdData = async () => {
+        try {
+          const data = await fetchAdDetails(id);
+          if (!data.error) {
+            setAdData(data);
+          } else {
+            console.error("Error fetching ad details:", data.error);
+          }
+        } catch (error) {
+          console.error("Error fetching ad data:", error);
+        }
+      };
+      getAdData();
+    }
+  }, [isEdit, id]);
+  console.log(adData);
+  return <CreateAd isEdit={isEdit} adData={adData} id={id} />;
 };
 
 export default CreateAdPage;
