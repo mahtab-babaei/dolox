@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useChatStore } from "@/stores/useChatStore";
 import { formatTime } from "@/utils/Cal";
 import { useUser } from "@/context/UserContext";
 
-export default function ChatRoom({ roomName }) {
+export default function ChatRoom({ roomName, onBackToList }) {
   const user = useUser();
   const {
     chatSocket,
@@ -14,22 +14,30 @@ export default function ChatRoom({ roomName }) {
   } = useChatStore();
   const [inputValue, setInputValue] = useState("");
 
+  const messagesEndRef = useRef(null); // Scroll to last message
+
   useEffect(() => {
     if (!roomName) return;
 
     if (chatSocket) {
-      chatSocket.close(); // بستن اتصال قبلی قبل از باز کردن اتصال جدید
+      chatSocket.close();
     }
 
-    clearMessages(); // پاک کردن پیام‌های قبلی هنگام تغییر چت
+    clearMessages();
     connectToChatRoom(roomName);
 
     return () => {
       if (chatSocket) {
-        chatSocket.close(); // اطمینان از بستن سوکت هنگام خروج از کامپوننت
+        chatSocket.close();
       }
     };
   }, [roomName]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const handleSendMessage = () => {
     if (inputValue.trim() === "") return;
@@ -45,27 +53,40 @@ export default function ChatRoom({ roomName }) {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-between justify-between p-8">
-      {messages?.map((msg, index) => (
-        <div
-          key={index}
-          className={`chat ${
-            msg.__str__ === user.username ? "chat-start" : "chat-end"
-          } font-vazir`}
+    <div className="w-full h-full flex flex-col justify-between p-8 overflow-y-auto">
+      <div className="sticky top-0 left-0 bg-white z-10 p-2">
+        <button
+          onClick={onBackToList}
+          className="sm:hidden text-black text-left"
         >
-          <div className="chat-header text-black">{msg.__str__}</div>
+          لیست مخاطبین ←
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-3 overflow-y-auto">
+        {messages?.map((msg, index) => (
           <div
-            className={`chat-bubble text-white ${
-              msg.__str__ === user.username ? "bg-primary" : "bg-secondary"
-            }`}
+            key={index}
+            className={`chat ${
+              msg.__str__ === user.username ? "chat-start" : "chat-end"
+            } font-vazir`}
           >
-            {msg.content}
+            <div className="chat-header text-black">{msg.__str__}</div>
+            <div
+              className={`chat-bubble text-white ${
+                msg.__str__ === user.username ? "bg-primary" : "bg-secondary"
+              }`}
+            >
+              {msg.content}
+            </div>
+            <time className="chat-footer text-xs opacity-50 text-black pt-1">
+              {formatTime(msg.timestamp)}
+            </time>
           </div>
-          <time className="chat-footer text-xs opacity-50 text-black pt-1">
-            {formatTime(msg.timestamp)}
-          </time>
-        </div>
-      ))}
+        ))}
+        <div ref={messagesEndRef}></div>
+      </div>
+
       <div className="flex w-full items-center py-6 gap-2">
         <label className="w-full border-none input flex items-center bg-neutral text-black">
           <input

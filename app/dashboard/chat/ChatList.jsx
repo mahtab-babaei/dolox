@@ -10,9 +10,8 @@ const ChatList = () => {
   const [error, setError] = useState(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const roomName = searchParams?.get("room"); // دریافت مقدار `roomName` از `URL`
+  const roomName = searchParams?.get("room");
 
-  // دریافت لیست چت‌ها از store
   const chatList = useChatListStore((state) => state.chatList);
   const setChatList = useChatListStore((state) => state.setChatList);
 
@@ -31,14 +30,14 @@ const ChatList = () => {
     };
 
     fetchChatList();
-  }, [setChatList]); // جلوگیری از رندر بی‌نهایت
+  }, [setChatList]);
 
   const handleChatClick = (chat) => {
-    router.push(`/dashboard/chat?room=${chat.roomName}`); // فقط مقدار `roomName` را در URL تغییر بده
+    router.push(`/dashboard/chat?room=${chat.roomName}`);
   };
 
   return (
-    <div className="w-[30%] h-screen bg-white rounded-3xl p-4">
+    <div className="w-full h-screen bg-white rounded-3xl p-4">
       <h2 className="text-center font-bold mb-4 text-black">مخاطبین</h2>
 
       {loading && <Spinner />}
