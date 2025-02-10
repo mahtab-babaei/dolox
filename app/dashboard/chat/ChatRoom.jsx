@@ -54,11 +54,8 @@ export default function ChatRoom({ roomName, onBackToList }) {
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-8 overflow-y-auto">
-      <div className="sticky top-0 left-0 bg-white z-10 p-2">
-        <button
-          onClick={onBackToList}
-          className="sm:hidden text-black text-left"
-        >
+      <div className="sticky top-0 left-0 text-left bg-white z-10 p-2">
+        <button onClick={onBackToList} className="sm:hidden text-black">
           لیست مخاطبین ←
         </button>
       </div>
