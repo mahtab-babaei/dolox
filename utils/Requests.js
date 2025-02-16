@@ -285,6 +285,49 @@ export const deleteAd = async ({ brand, model, city, status }, id) => {
   }
 };
 
+export const deleteAuto = async ({ contact_phone, is_deleted }, id) => {
+  try {
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const response = await fetch(`${BackendURL}/ads/exhibition/${id}/`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ contact_phone, is_deleted }),
+    });
+
+    if (response.status === 404) {
+      return {
+        success: false,
+        message: "اتوگالری یافت نشد",
+      };
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "خطایی در حذف اتوگالری");
+    }
+
+    return { success: true, message: "اتوگالری با موفقیت حذف شد" };
+  } catch (error) {
+    console.error("Error deleting autogallery:", error);
+    return {
+      success: false,
+      message: error.message || "خطای غیرمنتظره‌ای رخ داد",
+    };
+  }
+};
+
 export const getModelsByBrand = async (brand) => {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
