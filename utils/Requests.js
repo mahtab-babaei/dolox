@@ -470,8 +470,7 @@ export const createAdReq = async ({
         message: "لطفا ابتدا وارد شوید",
       };
     }
-    console.log("FORMDATA", formData);
-    console.log(`${BackendURL}/ads/`);
+
     const response = await fetch(`${BackendURL}/ads/`, {
       method: "POST",
       headers: {
@@ -488,6 +487,118 @@ export const createAdReq = async ({
     return await response.json();
   } catch (error) {
     console.error("Error in createAdReq:", error.message);
+    throw error;
+  }
+};
+
+export const createAutoReq = async ({
+  contactPhone,
+  contactName,
+  companyName,
+  description,
+  isSellDomestic,
+  isSellChinese,
+  isSellForeign,
+  city,
+  address,
+  socialMediaLinks,
+  logo,
+  isDeleted,
+}) => {
+  try {
+    const formData = new FormData();
+    formData.append("contact_phone", contactPhone);
+    formData.append("contact_name", contactName);
+    formData.append("company_name", companyName);
+    formData.append("description", description);
+    formData.append("sells_domestic_cars", isSellDomestic);
+    formData.append("sells_chinese_cars", isSellChinese);
+    formData.append("sells_foreign_cars", isSellForeign);
+    formData.append("city", city);
+    formData.append("address", address);
+    formData.append("is_deleted", isDeleted);
+
+    if (socialMediaLinks !== undefined) {
+      formData.append("social_media_links", socialMediaLinks);
+    }
+    if (logo !== undefined) {
+      formData.append("logo", logo);
+    }
+
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const response = await fetch(`${BackendURL}/ads/exhibition/`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData.message || "خطا در ثبت اتوگالری");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error in createAutoReq:", error.message);
+    throw error;
+  }
+};
+
+export const autoVideos = async (autoId, videos) => {
+  try {
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const results = [];
+
+    for (const video of videos) {
+      const formData = new FormData();
+      formData.append("title", video.title);
+      formData.append("description", video.description);
+      formData.append("video_file", video.video_file);
+
+      const response = await fetch(
+        `${BackendURL}/ads/exhibitions/${autoId}/videos/`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload videos");
+      }
+
+      const data = await response.json();
+      results.push(data);
+    }
+
+    return results; 
+  } catch (error) {
+    console.error("Error uploading videos:", error.message);
     throw error;
   }
 };
@@ -584,7 +695,6 @@ export const AdImages = async (adId, images) => {
       };
     }
 
-    // ارسال درخواست مستقیم به بک‌اند
     const response = await fetch(`${BackendURL}/ads/cars/${adId}/images/`, {
       method: "POST",
       headers: {

@@ -3,7 +3,7 @@ import VideoItem from "./VideoItem";
 import Link from "next/link";
 
 const Videos = ({ videos, id }) => {
-  if (videos)
+  if (videos.length > 0)
     return (
       <>
         <div className="bg-white rounded-3xl text-xl sm:text-2xl p-4 text-center">

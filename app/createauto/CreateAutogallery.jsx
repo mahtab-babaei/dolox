@@ -9,8 +9,7 @@ const Banner = dynamic(() => import("./Banner"));
 const Videos = dynamic(() => import("./Videos"));
 import CreateAutoSteps from "./CreateAutoSteps";
 import toast from "react-hot-toast";
-import { autoVideos, createAutoReq } from "./page";
-
+import { autoVideos, createAutoReq } from "@/utils/Requests";
 const CreateAutogallery = () => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);

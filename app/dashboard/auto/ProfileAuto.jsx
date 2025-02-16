@@ -37,7 +37,7 @@ const ProfileAuto = ({ exhibition, picture }) => {
       </div>
       <div className="md:border-r-2 flex flex-col sm:flex-row gap-2 items-center justify-center py-3 px-6 sm:min-w-[270px] rounded-l-[6px]">
         <Link
-          href="/dashboard/manageauto"
+          href={`/createauto?id=${exhibition?.id}`}
           className="btn bg-white text-black border-none hover:text-white"
         >
           مدیریت اتوگالری

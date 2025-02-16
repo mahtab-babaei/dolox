@@ -21,25 +21,24 @@ const CreateAdPage = () => {
         setLoading(true);
         setError(null);
 
-        // اگر صفحه در حالت ویرایش نباشد، نیازی به دریافت اطلاعات نیست
         if (!isEdit) {
           setLoading(false);
           return;
         }
 
-        // دریافت اطلاعات آگهی
+        // Get ad information
         const adResponse = await fetchAdDetails(id);
         if (adResponse.error) {
           throw new Error("آگهی مورد نظر یافت نشد.");
         }
 
-        // دریافت اطلاعات کاربر
+        // Get profile information
         const fetchedProfile = await getProfile();
         if (!fetchedProfile) {
           throw new Error("خطا در دریافت اطلاعات کاربر");
         }
 
-        // بررسی مالکیت آگهی
+        // Check ad ownership
         const userAds = fetchedProfile?.cars?.results || [];
         const foundAd = userAds.find((ad) => ad.id.toString() === id);
 
@@ -47,7 +46,6 @@ const CreateAdPage = () => {
           throw new Error("⛔ دسترسی غیرمجاز: این آگهی متعلق به شما نیست.");
         }
 
-        // تنظیم اطلاعات آگهی برای ویرایش
         setAdData(foundAd);
       } catch (err) {
         setError(err.message || "خطای ناشناخته‌ای رخ داد.");
