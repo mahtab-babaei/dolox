@@ -7,6 +7,8 @@ import Image from "next/image";
 import Details from "./Details";
 import ContactButton from "./ContactButton";
 import Logo from "./Logo";
+import Cars from "./Cars";
+import AutogallerySocialMedia from "./AutogallerySocialMedia";
 
 const AutoDetailsPage = () => {
   const { id } = useParams();
@@ -60,12 +62,18 @@ const AutoDetailsPage = () => {
         ) : (
           <div className="flex flex-col gap-8">
             <div className="bg-white rounded-3xl">
-              <Image
-                width={1280}
-                height={720}
-                alt="autogalleryBanner"
-                src="/images/autogalleybanner.png"
-              />
+              <div className="relative">
+                <Image
+                  width={1280}
+                  height={720}
+                  alt="autogalleryBanner"
+                  src="/images/autogalleybanner.png"
+                />
+                <div className="absolute bottom-2 left-2">
+                  <AutogallerySocialMedia links={autoDetails.social_media_links} />
+                </div>
+              </div>
+
               <div className="flex flex-col sm:hidden items-center justify-center gap-4">
                 <h1 className="text-xl pt-4">{autoDetails.company_name}</h1>
                 <Logo logo={autoDetails.logo} />
@@ -87,10 +95,7 @@ const AutoDetailsPage = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-3xl text-xl sm:text-2xl p-4 text-center">
-              خودروها
-            </div>
-            <div className="grid grid-cold-3"></div>
+            <Cars cars={autoDetails.cars} />
           </div>
         )}
       </div>

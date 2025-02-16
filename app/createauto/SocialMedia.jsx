@@ -52,7 +52,7 @@ const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
         <div className="pt-8">
           <div className="text-center sm:text-start grid items-center justify-center gap-2">
             <p className="label-text text-base-content">
-              شبکه های اجتماعی خود را وارد کنید
+              لینک شبکه های اجتماعی خود را وارد کنید
             </p>
             <p className="label-text text-base-content pb-2">
               در صورت نداشتن شبکه اجتماعی فیلد ها را خالی بگذارید
