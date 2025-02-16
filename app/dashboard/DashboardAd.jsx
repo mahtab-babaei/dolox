@@ -27,7 +27,7 @@ const DashboardAd = () => {
     };
     fetchProfile();
   }, []);
-
+  
   return (
     <div className="h-full w-full px-4">
       <div className="bg-white w-full max-w-screen-lg h-fit rounded-[34px] p-8 flex flex-col">
@@ -38,7 +38,7 @@ const DashboardAd = () => {
               className="btn bg-secondary border-secondary text-white border-none"
               href="/createad"
             >
-             ثبت آگهی
+              ثبت آگهی
             </Link>
           )}
         </div>

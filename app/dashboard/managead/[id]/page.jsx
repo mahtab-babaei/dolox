@@ -1,53 +1,60 @@
 "use client";
 export const dynamic = "force-dynamic";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import DashboardPanel from "../../DashboardPanel";
 import AdEdit from "./AdEdit";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
-import { useState, useEffect } from "react";
 import { BackendURL } from "@/utils/URL";
+import { getProfile } from "../../page";
 
 const ManageAdPage = () => {
   const { id } = useParams();
-  const [adDetails, setAdDetails] = useState(null);
+  const [adData, setAdData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAdDetails = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${BackendURL}/ads/${id}/`, {
-          method: "GET",
-        });
+        // Get ad information
+        const adResponse = await fetch(`${BackendURL}/ads/${id}/`);
+        if (!adResponse.ok) {
+          throw new Error(
+            adResponse.status === 404
+              ? "آگهی مورد نظر یافت نشد."
+              : "خطا در دریافت اطلاعات آگهی. لطفاً دوباره تلاش کنید."
+          );
+        }
+        const adDetails = await adResponse.json();
 
-        if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error("آگهی مورد نظر یافت نشد.");
-          } else if (response.status === 500) {
-            throw new Error("خطای داخلی سرور. لطفاً دوباره تلاش کنید.");
-          } else {
-            throw new Error(
-              "خطا در دریافت اطلاعات آگهی. لطفاً دوباره تلاش کنید."
-            );
-          }
+        // Get profile information
+        const fetchedProfile = await getProfile();
+        if (!fetchedProfile) {
+          throw new Error("خطا در دریافت اطلاعات کاربر");
         }
 
-        const data = await response.json();
-        setAdDetails(data);
-      } catch (error) {
-        console.error("Error fetching ad details:", error);
-        setError(error.message || "خطای ناشناخته‌ای رخ داد.");
+        // Check if the ad belongs to the user or not
+        const userAds = fetchedProfile?.cars?.results || [];
+        const foundAd = userAds.find((ad) => ad.id.toString() === id);
+
+        if (!foundAd) {
+          setError("⛔ دسترسی غیرمجاز: این آگهی متعلق به شما نیست.");
+        } else {
+          setAdData(foundAd);
+        }
+      } catch (err) {
+        setError(err.message || "خطای ناشناخته");
       } finally {
         setLoading(false);
       }
     };
 
     if (id) {
-      fetchAdDetails();
+      fetchData();
     } else {
       setError("شناسه آگهی معتبر نیست.");
       setLoading(false);
@@ -65,7 +72,7 @@ const ManageAdPage = () => {
       ) : (
         <div className="flex justify-center base:justify-start gap-6 h-fit max-w-screen-xl mx-auto">
           <DashboardPanel />
-          <AdEdit adDetails={adDetails} />
+          <AdEdit adDetails={adData} />
         </div>
       )}
     </div>

@@ -11,27 +11,33 @@ const AdEdit = ({ adDetails }) => {
   };
 
   const patchData = {
-    brand: adDetails.brand,
-    model: adDetails.model,
-    city: adDetails.city,
+    brand: adDetails?.brand,
+    model: adDetails?.model,
+    city: adDetails?.city,
     status: "inactive",
   };
 
   return (
     <div className="grid base:flex gap-2">
       <div className="flex flex-col h-fit gap-4 items-center bg-white p-6 rounded-[34px]">
-        <Image
-          className="rounded-2xl shadow-gray-400 shadow-md"
-          alt="ad image"
-          width={300}
-          height={150}
-          src={adDetails.images[0].image}
-        />
-        <h1 className="text-2xl">{adDetails.model}</h1>
+        {adDetails?.images?.length > 0 && adDetails?.images[0]?.image ? (
+          <Image
+            className="rounded-2xl shadow-gray-400 shadow-md"
+            alt="ad image"
+            width={300}
+            height={150}
+            src={adDetails?.images[0].image}
+          />
+        ) : (
+          <div className="w-[300px] h-[150px] flex items-center justify-center bg-gray-200 rounded-2xl">
+            <p className="text-gray-500 font-vazir">تصویری موجود نیست</p>
+          </div>
+        )}
+        <h1 className="text-2xl">{adDetails?.model}</h1>
         <h2 className="font-vazir font-bold">
-          {adDetails.price ? adDetails.price : "قیمت توافقی"}
+          {adDetails?.price ? adDetails.price : "قیمت توافقی"}
         </h2>
-        <Link className="w-full" href={`/ads/${adDetails.id}`}>
+        <Link className="w-full" href={`/ads/${adDetails?.id}`}>
           <button className="btn bg-[#bc1526] text-white w-full font-vazir font-medium text-base flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +56,7 @@ const AdEdit = ({ adDetails }) => {
           </button>
         </Link>
         <Link
-          href={`/createad?id=${adDetails.id}`}
+          href={`/createad?id=${adDetails?.id}`}
           className="btn bg-[#fca474] text-white w-full font-vazir font-medium text-base flex items-center"
         >
           <svg
