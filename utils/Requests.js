@@ -385,7 +385,29 @@ export const getColors = async () => {
 
 export const checkAds = async () => {
   try {
-    const response = await fetch("/api/ads/check");
+    // Get token
+    const cookies = parseCookies();
+    const token = cookies.access;
+
+    if (!token) {
+      return {
+        success: false,
+        message: "Token not found",
+      };
+    }
+
+    // Define headers
+    const myHeaders = new Headers({
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+
+    // request to server
+    const response = await fetch(`${BackendURL}/ads/check-athorization`, {
+      method: "GET",
+      headers: myHeaders,
+    });
+
     const data = await response.json();
 
     if (!response.ok) {
@@ -395,7 +417,7 @@ export const checkAds = async () => {
       };
     }
 
-    return data;
+    return { success: true };
   } catch (error) {
     console.error("Error checking ads authorization:", error.message);
     return { success: false, message: "خطای سرور هنگام بررسی مجوز" };
@@ -778,25 +800,41 @@ export const fetchAuctionsByFilter = async ({
   page,
 }) => {
   try {
+    // Get token
+    const cookies = parseCookies();
+    const token = cookies.access;
+
+    // Convert params to queryString
     const queryParams = new URLSearchParams({
-      category,
-      priceRangeMax: priceRange.max,
-      priceRangeMin: priceRange.min,
-      city,
-      query,
-      page,
+      auction_type: category || "",
+      base_price_max: priceRange?.max || "",
+      base_price_min: priceRange?.min || "",
+      city: city || "",
+      search: query || "",
+      page: page || 1,
     });
 
-    const response = await fetch(`/api/auctions?${queryParams.toString()}`, {
-      method: "GET",
-    });
+    // Header
+    const headers = new Headers();
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
+
+    // API request
+    const response = await fetch(
+      `${BackendURL}/auction/?${queryParams.toString()}`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
 
     const result = await response.json();
 
-    if (result.success) {
-      return result.data;
+    if (response.ok) {
+      return result;
     } else {
-      console.error("Error fetching filtered auctions:", result.message);
+      console.error("Error fetching filtered auctions");
       return [];
     }
   } catch (error) {
@@ -993,20 +1031,34 @@ export const newpw = async (otp, password) => {
 
 export const getProfile = async () => {
   try {
-    const response = await fetch("/api/profile", {
+    // Get token
+    const cookies = parseCookies();
+    const token = cookies.access;
+
+    if (!token) {
+      throw new Error("Token not found");
+    }
+
+    // Decode the token to extract userId
+    const decoded = jwt.decode(token);
+    const userId = decoded?.user_id;
+
+    if (!userId) {
+      throw new Error("User ID not found in token");
+    }
+
+    // Request to api
+    const response = await fetch(`${BackendURL}/accounts/profile/${userId}/`, {
       method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || "خطا در دریافت اطلاعات پروفایل");
     }
 
-    const result = await response.json();
-    if (!result.success) {
-      throw new Error(result.message || "خطا در دریافت اطلاعات");
-    }
-
-    return result.data;
+    return await response.json();
   } catch (error) {
     console.error("Error in getProfile:", error.message);
     return null;
@@ -1135,9 +1187,12 @@ export const fetchExhibitionData = async (exhibitionId) => {
   if (!exhibitionId) return null;
 
   try {
-    const response = await fetch(`${BackendURL}/ads/exhibition/${exhibitionId}/`, {
-      method: "GET",
-    });
+    const response = await fetch(
+      `${BackendURL}/ads/exhibition/${exhibitionId}/`,
+      {
+        method: "GET",
+      }
+    );
 
     if (!response.ok) {
       console.error("Error fetching exhibition data:", response.error);
@@ -1148,5 +1203,96 @@ export const fetchExhibitionData = async (exhibitionId) => {
   } catch (error) {
     console.error("Error fetching exhibition data:", error);
     return null;
+  }
+};
+
+export const updateProfile = async (profileData) => {
+  try {
+    const cookies = parseCookies();
+    const token = cookies.access;
+
+    if (!token) {
+      return { success: false, message: "Token not found" };
+    }
+
+    // Decoded userId
+    const decoded = jwt.decode(token);
+    const userId = decoded?.user_id;
+
+    if (!userId) {
+      return { success: false, message: "User ID not found in token" };
+    }
+
+    const formData = new FormData();
+    formData.append("first_name", profileData.firstName);
+    formData.append("last_name", profileData.lastName);
+    formData.append("email", profileData.email);
+    formData.append("city", profileData.city);
+    formData.append("gender", profileData.gender);
+    if (profileData.picture) {
+      formData.append("picture", profileData.picture);
+    }
+
+    // Headers
+    const requestOptions = {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    };
+
+    // request API
+    const response = await fetch(
+      `${BackendURL}/accounts/profile/${userId}/`,
+      requestOptions
+    );
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: result.message || "بروزرسانی اطلاعات با مشکل مواجه شد",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "بروزرسانی اطلاعات با موفقیت انجام شد",
+    };
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return { success: false, message: "خطای داخلی سرور رخ داد" };
+  }
+};
+
+export const fetchAuctionDetails = async (id) => {
+  try {
+    if (!id) {
+      return { message: "شناسه مزایده نامعتبر است" };
+    }
+
+    // Get token
+    const cookies = parseCookies();
+    const token = cookies.access;
+
+    if (!token) {
+      return { message: "Unauthorized" };
+    }
+
+    const response = await fetch(`${BackendURL}/auction/${id}/`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      return { message: error.message || "خطا در دریافت اطلاعات" };
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching auction details:", error);
+    return { message: "خطای داخلی سرور رخ داد" };
   }
 };

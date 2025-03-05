@@ -8,15 +8,15 @@ const UserDropDown = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    // Call the API route to remove cookies server-side
-    destroyCookie(null, "access");
-    destroyCookie(null, "refresh");
-    const response = await fetch("/api/logout", { method: "POST" });
-    if (response.ok) {
+    try {
+      // Remove cookies in client
+      destroyCookie(null, "access");
+      destroyCookie(null, "refresh");
+
       // Redirect to the login page after logout
       router.push("/login");
-    } else {
-      console.error("Failed to log out");
+    } catch (error) {
+      console.error("Failed to log out:", error);
     }
   };
 

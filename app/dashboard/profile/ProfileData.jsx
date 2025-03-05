@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { cities } from "@/utils/constants";
 import DashboardPanel from "../DashboardPanel";
 import { useState } from "react";
+import { updateProfile } from "@/utils/Requests";
 
 const ProfileData = ({ data }) => {
   const [loading, setLoading] = useState(false);
@@ -36,15 +37,8 @@ const ProfileData = ({ data }) => {
       setLoading(true);
 
       try {
-        const response = await fetch("/api/profile/update", {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
+        const result = await updateProfile(values);
 
-        const result = await response.json();
         if (result.success) {
           toast.success(result.message);
         } else {
