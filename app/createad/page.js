@@ -3,8 +3,8 @@ import CreateAd from "./CreateAd";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { fetchAdDetails } from "@/utils/Requests";
-import { getProfile } from "../dashboard/page";
 import LoadingComponent from "../components/global/LoadingComponent";
+import { getProfile } from "@/utils/Requests";
 
 const CreateAdPage = () => {
   const searchParams = useSearchParams();

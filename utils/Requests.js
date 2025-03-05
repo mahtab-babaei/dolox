@@ -1,5 +1,6 @@
 import { parseCookies } from "nookies";
 import { BackendURL } from "./URL";
+import jwt from "jsonwebtoken";
 
 export const fetchAdsByFilter = async ({
   brand = "",
@@ -766,5 +767,386 @@ export const fetchAdDetails = async (id) => {
     return {
       error: "خطای ناشناخته‌ای رخ داد.",
     };
+  }
+};
+
+export const fetchAuctionsByFilter = async ({
+  category,
+  priceRange,
+  city,
+  query,
+  page,
+}) => {
+  try {
+    const queryParams = new URLSearchParams({
+      category,
+      priceRangeMax: priceRange.max,
+      priceRangeMin: priceRange.min,
+      city,
+      query,
+      page,
+    });
+
+    const response = await fetch(`/api/auctions?${queryParams.toString()}`, {
+      method: "GET",
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      return result.data;
+    } else {
+      console.error("Error fetching filtered auctions:", result.message);
+      return [];
+    }
+  } catch (error) {
+    console.error("Error in fetchAuctionsByFilter:", error);
+    return [];
+  }
+};
+
+export const fetchBrands = async () => {
+  try {
+    const response = await fetch(`${BackendURL}/ads/brands/`, {
+      method: "GET",
+      redirect: "follow",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching brands:", error);
+    return [];
+  }
+};
+
+export const createUserReq = async (password, username, phonenumber) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    phone_number: phonenumber, // Use the provided phone number
+    username: username, // Use the provided username
+    password: password, // Use the provided password
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      BackendURL + "/accounts/users/",
+      requestOptions
+    );
+
+    if (response.status === 200) {
+      return await response.json(); // Return the parsed JSON for status 200
+    } else if (response.status === 400) {
+      return { message: "کابر قبلا ثبت نام کرده" }; // Custom message for status 400
+    } else {
+      console.log(response.status);
+      throw new Error("Failed with status code: " + response.status);
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const verifyAccount = async (otp, phonenumber) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    otp: otp,
+    phone_number: phonenumber,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      BackendURL + "/accounts/auth/verify-account/",
+      requestOptions
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const loginReq = async (phonenumber, password) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    phone_number: phonenumber,
+    password: password,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  return fetch(BackendURL + "/accounts/token", requestOptions)
+    .then(async (response) => {
+      console.log("Status Code:", response.status); // Log the status code
+
+      if (!response.ok) {
+        let errorMessage = "خطایی رخ داده است"; // Default error message
+        switch (response.status) {
+          case 400:
+            errorMessage = "درخواست اشتباه است. لطفا اطلاعات را بررسی کنید.";
+            break;
+          case 401:
+            errorMessage = "رمز یا شماره تلفن اشتباه است";
+            break;
+          case 403:
+            errorMessage = "دسترسی مجاز نیست. لطفا دوباره تلاش کنید";
+            break;
+          default:
+            errorMessage = "خطای ناشناخته. لطفا دوباره تلاش کنید";
+            break;
+        }
+
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message || errorMessage);
+        });
+      }
+
+      // If everything is fine, return the response data
+      return response.json();
+    })
+    .catch((error) => {
+      // Handle network or other errors
+      console.error("Login error:", error);
+      throw new Error("رمز یا شماره اشتباه است");
+    });
+};
+
+export const forgetpwReq = async (phonenumber) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    phone: phonenumber,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      BackendURL + "/accounts/auth/initiate-password-reset/",
+      requestOptions
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const newpw = async (otp, password) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    otp: otp,
+    new_password: password,
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      BackendURL + "/accounts/auth/create-password/",
+      requestOptions
+    );
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getProfile = async () => {
+  try {
+    const response = await fetch("/api/profile", {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "خطا در دریافت اطلاعات");
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error("Error in getProfile:", error.message);
+    return null;
+  }
+};
+
+export const fetchFavoritesList = async () => {
+  try {
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "اطلاعات احراز هویت یافت نشد",
+      };
+    }
+
+    const response = await fetch(`${BackendURL}/ads/favorites/list/`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return { success: false, message: data.message || "عملیات ناموفق" };
+    }
+    return { success: true, data };
+  } catch (error) {
+    console.error("Error fetching favorites list:", error.message);
+    return {
+      success: false,
+      message: "خطایی در دریافت لیست علاقه مندی ها رخ داد",
+    };
+  }
+};
+
+export const fetchAutosByFilter = async ({
+  city,
+  page,
+  sellsDomestic,
+  sellsChinese,
+  sellsForeign,
+}) => {
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (city) {
+      queryParams.append("city", city);
+    }
+    if (sellsChinese) {
+      queryParams.append("sells_chinese_cars", sellsChinese);
+    }
+    if (sellsDomestic) {
+      queryParams.append("sells_domestic_cars", sellsDomestic);
+    }
+    if (sellsForeign) {
+      queryParams.append("sells_foreign_cars", sellsForeign);
+    }
+    queryParams.append("page", page);
+
+    console.log(
+      "BACKENDURL: ",
+      `${BackendURL}/ads/exhibition/?${queryParams.toString()}`
+    );
+    const response = await fetch(
+      `${BackendURL}/ads/exhibition/?${queryParams.toString()}`,
+      {
+        method: "GET",
+      }
+    );
+    const result = await response.json();
+    return {
+      success: true,
+      data: result || { results: [] },
+    };
+  } catch (error) {
+    console.error("Error fetching auto galleries:", error);
+    return { success: false, data: { results: [] } };
+  }
+};
+
+export const getUser = async () => {
+  try {
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return null;
+    }
+    const decoded = jwt.decode(token); // Decode JWT
+    const userId = decoded?.user_id; // Extract user ID
+    if (!userId) return null;
+
+    // get user from server
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET", // Changed to GET for fetching user data
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    const response = await fetch(
+      `${BackendURL}/accounts/users/${userId}/`,
+      requestOptions
+    );
+
+    if (!response.ok) {
+      console.warn(`Non-ok response status: ${response.status}`);
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
+};
+
+export const fetchExhibitionData = async (exhibitionId) => {
+  if (!exhibitionId) return null;
+
+  try {
+    const response = await fetch(`${BackendURL}/ads/exhibition/${exhibitionId}/`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      console.error("Error fetching exhibition data:", response.error);
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching exhibition data:", error);
+    return null;
   }
 };

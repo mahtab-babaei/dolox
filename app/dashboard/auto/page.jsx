@@ -4,7 +4,7 @@ import React from "react";
 import DashboardPanel from "../DashboardPanel";
 import DashboardAuto from "./DashboardAuto";
 import { useEffect, useState } from "react";
-import { getProfile } from "../page";
+import { getProfile } from "@/utils/Requests";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
 
 const AutoPage = () => {

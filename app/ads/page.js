@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import TotalAds from "./TotalAds";
 import Spinner from "../components/global/Spinner";
-import { BackendURL } from "@/utils/URL";
+import { fetchBrands } from "@/utils/Requests";
 
 const AdsPage = () => {
   const searchParams = useSearchParams();
@@ -13,26 +13,14 @@ const AdsPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await fetch(`${BackendURL}/ads/brands/`, {
-          method: "GET",
-          redirect: "follow",
-        });
-        // Check if response is ok (status in range 200-299)
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setBrands(data);
-      } catch (error) {
-        console.error("Error fetching brands:", error);
-      } finally {
-        setLoading(false);
-      }
+    const getBrands = async () => {
+      setLoading(true);
+      const data = await fetchBrands();
+      setBrands(data);
+      setLoading(false);
     };
 
-    fetchBrands();
+    getBrands();
   }, []);
 
   if (loading) return <Spinner />;

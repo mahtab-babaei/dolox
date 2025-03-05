@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import AutoGalleryItem from "../components/global/AutoGalleryItem";
 import DekstopAutogalleryPanel from "./DekstopAutogalleryPanel";
-import { fetchAutosByFilter } from "./page";
+import { fetchAutosByFilter } from "@/utils/Requests";
 import PhoneAUtogalleryDrawer from "./PhoneAUtogalleryDrawer";
 
 const TotalAutogalleries = ({ initialData, next, prev }) => {

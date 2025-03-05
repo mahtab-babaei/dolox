@@ -21,7 +21,7 @@ import {
   editAdReq,
   getColors,
 } from "@/utils/Requests";
-import { getProfile } from "../dashboard/page";
+import { getProfile } from "@/utils/Requests";
 
 const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const router = useRouter();

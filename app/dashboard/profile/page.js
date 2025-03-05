@@ -1,9 +1,8 @@
 "use client";
-export const dynamic = "force-dynamic";
 import React from "react";
 import ProfileData from "./ProfileData";
 import { useState, useEffect } from "react";
-import { getProfile } from "../page";
+import { getProfile } from "@/utils/Requests";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
 
 const ProfilePage = () => {

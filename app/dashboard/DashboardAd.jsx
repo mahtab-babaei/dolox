@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getProfile } from "./page";
+import { getProfile } from "@/utils/Requests";
 import ProfileAd from "./ProfileAd";
 
 const DashboardAd = () => {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import CreateAutogallery from "./CreateAutogallery";
 import { useSearchParams } from "next/navigation";
-import { getProfile } from "../dashboard/page";
+import { getProfile } from "@/utils/Requests";
 import LoadingComponent from "../components/global/LoadingComponent";
 import { fetchAutoDetails } from "@/utils/Requests";
 

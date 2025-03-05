@@ -1,4 +1,4 @@
-import { forgetpwReq } from "./page";
+import { forgetpwReq } from "@/utils/Requests";
 import { ImageURL } from "@/utils/URL";
 import { useFormik } from "formik";
 import Image from "next/image";

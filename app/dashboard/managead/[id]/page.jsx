@@ -5,8 +5,7 @@ import { useParams } from "next/navigation";
 import DashboardPanel from "../../DashboardPanel";
 import AdEdit from "./AdEdit";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
-import { BackendURL } from "@/utils/URL";
-import { getProfile } from "../../page";
+import { getProfile } from "@/utils/Requests";
 
 const ManageAdPage = () => {
   const { id } = useParams();
@@ -21,15 +20,11 @@ const ManageAdPage = () => {
         setError(null);
 
         // Get ad information
-        const adResponse = await fetch(`${BackendURL}/ads/${id}/`);
-        if (!adResponse.ok) {
-          throw new Error(
-            adResponse.status === 404
-              ? "آگهی مورد نظر یافت نشد."
-              : "خطا در دریافت اطلاعات آگهی. لطفاً دوباره تلاش کنید."
-          );
+        const adDetails = await fetchAdDetails(id);
+
+        if (adDetails?.error) {
+          throw new Error(adDetails.error);
         }
-        const adDetails = await adResponse.json();
 
         // Get profile information
         const fetchedProfile = await getProfile();

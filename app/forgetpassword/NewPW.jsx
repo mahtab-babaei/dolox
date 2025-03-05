@@ -1,4 +1,4 @@
-import { newpw } from "./page";
+import { newpw } from "@/utils/Requests";
 import { ImageURL } from "@/utils/URL";
 import { useFormik } from "formik";
 import Image from "next/image";

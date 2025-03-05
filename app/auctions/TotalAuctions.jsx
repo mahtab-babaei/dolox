@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import AuctionItem from "./AuctionItem";
 import DesktopAuctionPanel from "./DesktopAuctionPanel";
 import PhoneAuctionDrawer from "./PhoneAuctionDrawer";
-import { fetchAuctionsByFilter } from "./page";
+import { fetchAuctionsByFilter } from "@/utils/Requests";
 
 const TotalAuctions = () => {
   const [auctionsData, setAuctionsData] = useState([]);

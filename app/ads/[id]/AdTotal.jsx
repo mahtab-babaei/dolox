@@ -9,42 +9,24 @@ import AdExhibition from "./AdExhibition";
 import AdDescription from "./AdDescription";
 import RelativeAds from "./RelativeAds";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
-import { BackendURL } from "@/utils/URL";
+import { fetchExhibitionData } from "@/utils/Requests";
 
 const AdTotal = ({ adDetails }) => {
   const [exhibitionData, setExhibitionData] = useState(null);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    const fetchAutoDetails = async () => {
+    const getExhibitionData = async () => {
       setLoading(true);
-      try {
-        const response = await fetch(
-          `${BackendURL}/ads/exhibition/${adDetails.exhibition}/`,
-          {
-            method: "GET",
-          }
-        );
-
-        if (!response.ok) {
-          console.error("Error fetching data:", response.error);
-          setExhibitionData(null);
-          return;
-        }
-
-        const data = await response.json();
-        setExhibitionData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setExhibitionData(null);
-      } finally {
-        setLoading(false);
-      }
+      const data = await fetchExhibitionData(adDetails?.exhibition);
+      setExhibitionData(data);
+      setLoading(false);
     };
 
-    if (adDetails.exhibition) {
-      fetchAutoDetails();
+    if (adDetails?.exhibition) {
+      getExhibitionData();
     }
-  }, []);
+  }, [adDetails?.exhibition]);
 
   if (loading) return <LoadingComponent />;
 
