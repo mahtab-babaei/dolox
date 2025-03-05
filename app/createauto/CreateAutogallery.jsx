@@ -10,7 +10,7 @@ const Videos = dynamic(() => import("./Videos"));
 import CreateAutoSteps from "./CreateAutoSteps";
 import toast from "react-hot-toast";
 import { autoVideos, createAutoReq } from "@/utils/Requests";
-const CreateAutogallery = () => {
+const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
   const [contactPhone, setContactPhone] = useState("");
@@ -25,6 +25,22 @@ const CreateAutogallery = () => {
   const [socialMediaLinks, setSocialMediaLinks] = useState([]);
   const [logo, setLogo] = useState(null);
   const [video, setVideo] = useState([]);
+
+  useEffect(() => {
+    if (isEdit && autoData) {
+      setContactPhone(autoData.contact_phone);
+      setContactName(autoData.contact_name);
+      setCompanyName(autoData.company_name);
+      setDescription(autoData.description);
+      setIsSellDomestic(autoData.sells_domestic_cars);
+      setIsSellChinese(autoData.sells_chinese_cars);
+      setIsSellForeign(autoData.sells_foreign_cars);
+      setCity(autoData.city);
+      setAddress(autoData.address);
+      setSocialMediaLinks(autoData.social_media_links);
+      setLogo(autoData.logo);
+    }
+  }, [isEdit, autoData]);
 
   useEffect(() => {
     const submitAuto = async () => {
@@ -86,6 +102,7 @@ const CreateAutogallery = () => {
             step={step}
             setStep={setStep}
             setContactPhone={setContactPhone}
+            contactPhone={contactPhone}
           />
         )}
         {step === 1 && (
@@ -93,8 +110,11 @@ const CreateAutogallery = () => {
             step={step}
             setStep={setStep}
             setContactName={setContactName}
+            contactName={contactName}
             setCompanyName={setCompanyName}
+            companyName={companyName}
             setDescription={setDescription}
+            description={description}
             isSellDomestic={isSellDomestic}
             setIsSellDomestic={setIsSellDomestic}
             isSellChinese={isSellChinese}
@@ -110,6 +130,7 @@ const CreateAutogallery = () => {
             setCity={setCity}
             setAddress={setAddress}
             city={city}
+            address={address}
           />
         )}
         {step === 3 && (
@@ -117,13 +138,14 @@ const CreateAutogallery = () => {
             step={step}
             setStep={setStep}
             setSocialMediaLinks={setSocialMediaLinks}
+            socialMediaLinks={socialMediaLinks}
           />
         )}
         {step === 4 && (
-          <Banner step={step} setStep={setStep} setLogo={setLogo} />
+          <Banner step={step} setStep={setStep} setLogo={setLogo} logo={logo} />
         )}
         {step === 5 && (
-          <Videos step={step} setStep={setStep} setVideo={setVideo} />
+          <Videos step={step} setStep={setStep} setVideo={setVideo} video={video} />
         )}
         {step === 7 && (
           <div>

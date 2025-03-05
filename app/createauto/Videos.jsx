@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import StepButtons from "../components/global/StepButtons";
 
-const Videos = ({ step, setStep, setVideo }) => {
+const Videos = ({ step, setStep, setVideo, video }) => {
+  console.log(video);
   const [error, setError] = useState("");
   const [videoForms, setVideoForms] = useState([
     { title: "", description: "", video_file: null },
@@ -56,7 +57,9 @@ const Videos = ({ step, setStep, setVideo }) => {
         <StepButtons step={step} setStep={setStep} onSubmit={handleSubmit} />
 
         <form className="px-4">
-          {error && <div className="mt-2 text-red-500 text-center text-sm">{error}</div>}
+          {error && (
+            <div className="mt-2 text-red-500 text-center text-sm">{error}</div>
+          )}
           {videoForms.map((form, index) => (
             <div key={index} className="mb-4">
               <label className="input mt-8 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral">

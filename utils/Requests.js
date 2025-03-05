@@ -543,7 +543,6 @@ export const createAutoReq = async ({
       body: formData,
     });
 
-
     if (!response.ok) {
       const errorData = await response.text();
       throw new Error(errorData.message || "خطا در ثبت اتوگالری");
@@ -596,10 +595,34 @@ export const autoVideos = async (autoId, videos) => {
       results.push(data);
     }
 
-    return results; 
+    return results;
   } catch (error) {
     console.error("Error uploading videos:", error.message);
     throw error;
+  }
+};
+
+export const fetchAutoDetails = async (id) => {
+  if (!id) {
+    throw new Error("شناسه اتوگالری معتبر نیست.");
+  }
+
+  try {
+    const response = await fetch(`${BackendURL}/ads/exhibition/${id}/`);
+    if (!response.ok) {
+      const errorMessage =
+        response.status === 404
+          ? "اتوگالری مورد نظر یافت نشد."
+          : response.status === 500
+          ? "خطای داخلی سرور. لطفاً دوباره تلاش کنید."
+          : "خطا در دریافت اطلاعات اتوگالری. لطفاً دوباره تلاش کنید.";
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching autogallery details:", error);
+    throw new Error(error.message || "خطای ناشناخته‌ای رخ داد.");
   }
 };
 

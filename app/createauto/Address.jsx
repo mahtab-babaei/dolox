@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
-const Address = ({ step, setStep, setCity, city, setAddress }) => {
+const Address = ({ step, setStep, setCity, city, setAddress, address = "" }) => {
   // validation schema
   const validationSchema = Yup.object({
     city: Yup.string().required("لطفا یک شهر انتخاب کنید"),
@@ -14,8 +14,8 @@ const Address = ({ step, setStep, setCity, city, setAddress }) => {
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      city: "",
-      address: "",
+      city: city || "",
+      address: address || "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -24,6 +24,7 @@ const Address = ({ step, setStep, setCity, city, setAddress }) => {
       setStep(3);
     },
     validateOnChange: true,
+    enableReinitialize: true,
   });
 
   if (step !== 2) return null;

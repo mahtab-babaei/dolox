@@ -1,13 +1,43 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import StepButtons from "../components/global/StepButtons";
 
-const SocialMedia = ({ step, setStep, setSocialMediaLinks }) => {
-  const [socialData, setSocialData] = useState([
-    { social: "", link: "" },
-    { social: "", link: "" },
-    { social: "", link: "" },
-    { social: "", link: "" },
-  ]);
+const SocialMedia = ({
+  step,
+  setStep,
+  setSocialMediaLinks,
+  socialMediaLinks,
+}) => {
+  // تابعی برای تبدیل رشته‌ی socialMediaLinks به آرایه‌ای از آبجکت‌ها
+  const parseSocialMediaLinks = (linksString) => {
+    if (!linksString || linksString === "{}") return [];
+
+    try {
+      // حذف `{}` از ابتدا و انتها و تبدیل به آبجکت
+      const cleanedString = linksString.replace(/^{|}$/g, "");
+      const entries = cleanedString.split(",").map((entry) => {
+        const [social, link] = entry.split(":").map((s) => s.trim());
+        return { social, link };
+      });
+
+      return entries;
+    } catch (error) {
+      console.error("Error parsing social media links:", error);
+      return [];
+    }
+  };
+
+  // مقداردهی اولیه بر اساس socialMediaLinks
+  const [socialData, setSocialData] = useState(() => {
+    const parsedLinks = parseSocialMediaLinks(socialMediaLinks);
+    return parsedLinks.length > 0
+      ? parsedLinks
+      : [
+          { social: "", link: "" },
+          { social: "", link: "" },
+          { social: "", link: "" },
+          { social: "", link: "" },
+        ];
+  });
 
   const handleSelectChange = useCallback(
     (index, e) => {

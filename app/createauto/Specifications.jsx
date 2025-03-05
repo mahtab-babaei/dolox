@@ -8,8 +8,11 @@ const Specifications = ({
   step,
   setStep,
   setContactName,
+  contactName = "",
   setCompanyName,
+  companyName = "",
   setDescription,
+  description = "",
   isSellDomestic,
   setIsSellDomestic,
   isSellChinese,
@@ -27,9 +30,9 @@ const Specifications = ({
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      contactName: "",
-      companyName: "",
-      description: "",
+      contactName: contactName || "",
+      companyName: companyName || "",
+      description: description || "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -39,13 +42,12 @@ const Specifications = ({
       setStep(2);
     },
     validateOnChange: true,
+    enableReinitialize: true,
   });
 
   const renderError = (field) =>
     formik.touched[field] &&
-    formik.errors[field] && (
-      <ErrorMessage>{formik.errors[field]}</ErrorMessage>
-    );
+    formik.errors[field] && <ErrorMessage>{formik.errors[field]}</ErrorMessage>;
 
   if (step !== 1) return null;
 
@@ -84,7 +86,7 @@ const Specifications = ({
           <label className="form-control">
             <textarea
               className="text-base text-black textarea mt-8 mb-1 h-40 flex items-center gap-2 md:max-w-screen-sm mx-auto bg-neutral placeholder:text-base-content w-full"
-              placeholder="درباره اتوگالری" 
+              placeholder="درباره اتوگالری"
               {...formik.getFieldProps("description")}
             ></textarea>
             {renderError("description")}

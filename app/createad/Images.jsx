@@ -5,7 +5,6 @@ import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
 const Images = ({ step, setStep, images, setImages }) => {
-  console.log(images);
   const [error, setError] = useState("");
 
   const handleImageUpload = (files) => {

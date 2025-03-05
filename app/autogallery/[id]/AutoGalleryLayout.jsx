@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
-import { BackendURL } from "@/utils/URL";
 import Image from "next/image";
 import Details from "./Details";
 import ContactButton from "./ContactButton";
 import Logo from "./Logo";
 import AutogallerySocialMedia from "./AutogallerySocialMedia";
+import { fetchAutoDetails } from "@/utils/Requests";
 
 const AutoGalleryLayout = ({ children }) => {
   const { id } = useParams();
@@ -15,33 +15,20 @@ const AutoGalleryLayout = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAutoDetails = async () => {
+    const getAutoDetails = async () => {
       try {
         setLoading(true);
         setError(null);
-
-        const response = await fetch(`${BackendURL}/ads/exhibition/${id}/`);
-        if (!response.ok) {
-          const errorMessage =
-            response.status === 404
-              ? "اتوگالری مورد نظر یافت نشد."
-              : response.status === 500
-              ? "خطای داخلی سرور. لطفاً دوباره تلاش کنید."
-              : "خطا در دریافت اطلاعات اتوگالری. لطفاً دوباره تلاش کنید.";
-          throw new Error(errorMessage);
-        }
-
-        const data = await response.json();
+        const data = await fetchAutoDetails(id);
         setAutoDetails(data);
       } catch (error) {
-        console.error("Error fetching autogallery details:", error);
-        setError(error.message || "خطای ناشناخته‌ای رخ داد.");
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) fetchAutoDetails();
+    if (id) getAutoDetails();
     else {
       setError("شناسه اتوگالری معتبر نیست.");
       setLoading(false);

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import ErrorMessage from "../components/global/ErrorMessage";
 
-const Phone = ({ step, setStep, setContactPhone }) => {
+const Phone = ({ step, setStep, setContactPhone, contactPhone = "" }) => {
   // validation schema
   const validationSchema = Yup.object({
     contactPhone: Yup.string()
@@ -14,7 +14,7 @@ const Phone = ({ step, setStep, setContactPhone }) => {
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      contactPhone: "",
+      contactPhone: contactPhone || "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -22,6 +22,7 @@ const Phone = ({ step, setStep, setContactPhone }) => {
       setStep(1);
     },
     validateOnChange: true,
+    enableReinitialize: true,
   });
 
   if (step !== 0) return null;

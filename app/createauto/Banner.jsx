@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import StepButtons from "../components/global/StepButtons";
 
-const Banner = ({ step, setStep, setLogo }) => {
-  const [selectedBanner, setSelectedBanner] = useState(null);
+const Banner = ({ step, setStep, setLogo, logo }) => {
+  const [selectedBanner, setSelectedBanner] = useState(logo);
   const [error, setError] = useState("");
 
   const handleImageUpload = (files) => {
@@ -28,7 +28,7 @@ const Banner = ({ step, setStep, setLogo }) => {
     e.stopPropagation();
     const files = e.dataTransfer.files;
     if (files.length > 1) {
-      setError("فقط یک لوگو می‌توانید آپلود کنید");
+      setError("فقط یک بنر می‌توانید آپلود کنید");
       return;
     }
     handleImageUpload(files);
@@ -56,7 +56,7 @@ const Banner = ({ step, setStep, setLogo }) => {
           <StepButtons
             onSubmit={() => {
               if (!selectedBanner) {
-                setError("لطفاً یک لوگو آپلود کنید");
+                setError("لطفاً یک بنر آپلود کنید");
                 return;
               }
               setStep(5);
@@ -66,7 +66,7 @@ const Banner = ({ step, setStep, setLogo }) => {
           />
         </div>
         <span className="text-base-content text-sm">
-          آپلود کردن لوگو به جذاب شدن اتوگالری شما کمک می‌کند
+          آپلود کردن بنر به جذاب شدن اتوگالری شما کمک می‌کند
         </span>
 
         <div

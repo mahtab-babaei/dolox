@@ -1,88 +1,75 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import CreateAutogallery from "./CreateAutogallery";
-
-export const createAutoReq = async ({
-  contactPhone,
-  contactName,
-  companyName,
-  description,
-  isSellDomestic,
-  isSellChinese,
-  isSellForeign,
-  city,
-  address,
-  socialMediaLinks,
-  logo,
-  isDeleted,
-}) => {
-  try {
-    const formData = new FormData();
-    formData.append("contact_phone", contactPhone);
-    formData.append("contact_name", contactName);
-    formData.append("company_name", companyName);
-    formData.append("description", description);
-    formData.append("sells_domestic_cars", isSellDomestic);
-    formData.append("sells_chinese_cars", isSellChinese);
-    formData.append("sells_foreign_cars", isSellForeign);
-    formData.append("city", city);
-    formData.append("address", address);
-    formData.append("is_deleted", isDeleted);
-    if (socialMediaLinks !== undefined) {
-      formData.append("social_media_links", socialMediaLinks);
-    }
-    if (logo !== undefined) {
-      formData.append("logo", logo);
-    }
-
-    const response = await fetch(`/api/auto/create`, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to create autogallery");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error in createAutoReq:", error.message);
-    throw error;
-  }
-};
-
-export const autoVideos = async (autoId, videos) => {
-  try {
-    const results = [];
-    for (const video of videos) {
-      const formData = new FormData();
-      formData.append("title", video.title);
-      formData.append("description", video.description);
-      formData.append("video_file", video.video_file);
-
-      const response = await fetch(`/api/auto/videos/${autoId}`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to upload videos");
-      }
-
-      const data = await response.json();
-      results.push(data);
-    }
-
-    return results; // برگرداندن همه نتایج
-  } catch (error) {
-    console.error("Error uploading videos:", error.message);
-    throw error;
-  }
-};
+import { useSearchParams } from "next/navigation";
+import { getProfile } from "../dashboard/page";
+import LoadingComponent from "../components/global/LoadingComponent";
+import { fetchAutoDetails } from "@/utils/Requests";
 
 const CreateAutogalleryPage = () => {
-  return <CreateAutogallery />;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const isEdit = !!id;
+
+  const [autoData, setAutoData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        if (!isEdit) {
+          setLoading(false);
+          return;
+        }
+
+        // Get auto information
+        const autoResponse = await fetchAutoDetails(id);
+        if (autoResponse.error) {
+          throw new Error("اتوگالری مورد نظر یافت نشد.");
+        }
+
+        // Get profile information
+        const fetchedProfile = await getProfile();
+        if (!fetchedProfile) {
+          throw new Error("خطا در دریافت اطلاعات کاربر");
+        }
+
+        // Check ad ownership
+        const userAuto = fetchedProfile?.exhibition || [];
+        const foundAuto = userAuto.find((auto) => auto.id.toString() === id);
+
+        if (!foundAuto) {
+          throw new Error("⛔ دسترسی غیرمجاز: این اتوگالری متعلق به شما نیست.");
+        }
+
+        setAutoData(foundAuto);
+      } catch (err) {
+        setError(err.message || "خطای ناشناخته‌ای رخ داد.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, isEdit]);
+
+  if (loading) return <LoadingComponent />;
+
+  return (
+    <>
+      {error ? (
+        <div className="text-base-content px-6 py-40 font-vazir text-center bg-neutral">
+          {error}
+        </div>
+      ) : (
+        <CreateAutogallery isEdit={isEdit} autoData={autoData} id={id} />
+      )}
+    </>
+  );
 };
 
 export default CreateAutogalleryPage;
