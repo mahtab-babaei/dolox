@@ -1,4 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Environment Variables Setup
+
+This project uses environment variables to manage configuration values. To keep sensitive data out of the source code, environment variables are defined in an .env file, which is ignored by Git.
+
+Set Up Environment Variables:
+1. Copy the example file:
+Run the following command in the root directory to create your own .env.local file:
+cp .env.example .env.local
+
+2. Edit .env.local:
+Open the .env.local file and fill in the missing values:
+NEXT_PUBLIC_IMAGE_URL=/images/
+NEXT_PUBLIC_BACKEND_URL=your_backend_url
+NEXT_PUBLIC_WS_URL=your_ws_url
+NEXT_PUBLIC_WORDPRESS_URL=your_wordpress_url
+
+3. Restart the Next.js server (if already running):
+npm run dev
 
 ## Getting Started
 

@@ -1,4 +1,4 @@
-export const ImageURL = "/images/";
-export const BackendURL = "https://dolox.ir/api";
-export const WSURL = "wss://dolox.ir/ws";
-export const WordPressURL = "https://blog.dolox.ir/wp-json/wp/v2";
+export const ImageURL = process.env.NEXT_PUBLIC_IMAGE_URL;
+export const BackendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+export const WSURL = process.env.NEXT_PUBLIC_WS_URL;
+export const WordPressURL = process.env.NEXT_PUBLIC_WORDPRESS_URL;
