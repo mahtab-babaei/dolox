@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getSubscriptionPlans } from "@/utils/Requests";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Package({ submitedAdID }) {
+  const currentPath = usePathname();
   const [openId, setOpenId] = useState(null);
   const [plansData, setPlansData] = useState({});
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -29,7 +31,6 @@ export default function Package({ submitedAdID }) {
           />
         </svg>
       ),
-      options: ["گزینه اول پلکان", "گزینه دوم پلکان", "گزینه سوم پلکان"],
     },
     {
       id: 2,
@@ -53,7 +54,6 @@ export default function Package({ submitedAdID }) {
           />
         </svg>
       ),
-      options: ["گزینه اول سراسری", "گزینه دوم سراسری"],
     },
     {
       id: 3,
@@ -75,7 +75,6 @@ export default function Package({ submitedAdID }) {
           />
         </svg>
       ),
-      options: ["گزینه اول سفارشی", "گزینه دوم سفارشی"],
     },
   ];
 
@@ -93,7 +92,12 @@ export default function Package({ submitedAdID }) {
 
   return (
     <div className="px-2 md:px-0">
-      <div dir="rtl" className="pt-8 md:max-w-lg mx-auto">
+      <div
+        dir="rtl"
+        className={`${
+          currentPath?.match(/^\/dashboard\/managead\/\d+$/) ? "" : "pt-8"
+        } md:max-w-lg mx-auto`}
+      >
         <div dir="ltr" className="justify-between w-full flex items-center ">
           <button
             className="btn btn-sm bg-secondary text-white border-none"
@@ -121,14 +125,24 @@ export default function Package({ submitedAdID }) {
 
           <Link
             href="/dashboard"
-            className="btn-sm text-secondary bg-transparent shadow-none border-none"
+            className={`btn-sm text-secondary bg-transparent shadow-none border-none 
+              ${
+                currentPath?.match(/^\/dashboard\/managead\/\d+$/)
+                  ? "hidden"
+                  : ""
+              }
+              `}
           >
             <span className="font-vazir font-bold">داشبورد</span>
           </Link>
         </div>
 
-        <div dir="ltr" className="py-2 md:max-w-lg mx-auto">
-          <h1 className="font-vazir text-black text-center py-4 text-lg font-bold flex justify-center gap-2">
+        <div dir="ltr" className="py-6 md:max-w-lg mx-auto">
+          <div
+            className={`font-vazir text-black text-center py-4 text-lg font-bold flex justify-center gap-2 ${
+              currentPath?.match(/^\/dashboard\/managead\/\d+$/) ? "hidden" : ""
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -144,7 +158,7 @@ export default function Package({ submitedAdID }) {
               />
             </svg>
             <span>آگهی خود را ارتقا دهید تا نتیجه بهتری کسب کنید</span>
-          </h1>
+          </div>
 
           <div className="space-y-2">
             {plansMeta.map((plan) => (
@@ -163,7 +177,9 @@ export default function Package({ submitedAdID }) {
 
                 <div
                   ref={(el) => (contentRefs.current[plan.id] = el)}
-                  className={`transition-all duration-300 bg-white ${openId === plan.id ? 'block' : 'hidden'}`}
+                  className={`transition-all duration-300 bg-white ${
+                    openId === plan.id ? "block" : "hidden"
+                  }`}
                 >
                   <ul dir="rtl" className="p-4 space-y-1 text-gray-700">
                     {plansData[plan.id] ? (
