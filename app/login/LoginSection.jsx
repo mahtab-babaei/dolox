@@ -93,7 +93,7 @@ const LoginSection = () => {
           });
 
           // Redirect to dashboard
-          await router.push("/dashboard");
+          router.push("/dashboard");
           router.refresh();
           console.log("Login successful");
         }
