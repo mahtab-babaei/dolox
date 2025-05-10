@@ -163,13 +163,7 @@ export default function Package({ submitedAdID }) {
 
                 <div
                   ref={(el) => (contentRefs.current[plan.id] = el)}
-                  className="overflow-hidden transition-[max-height] duration-300 bg-white"
-                  style={{
-                    maxHeight:
-                      openId === plan.id
-                        ? `${contentRefs.current[plan.id]?.scrollHeight}px`
-                        : "0px",
-                  }}
+                  className={`transition-all duration-300 bg-white ${openId === plan.id ? 'block' : 'hidden'}`}
                 >
                   <ul dir="rtl" className="p-4 space-y-1 text-gray-700">
                     {plansData[plan.id] ? (
