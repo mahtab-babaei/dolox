@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import LastAuctionItem from "../global/LastAuctionItem";
 
-const LastAuctions = ({ auctions }) => {
+const LastAuctions = () => {
   return (
     <section className="mx-auto bg-black">
       <div className="mx-auto max-w-screen-xl text-white relative pb-24">
@@ -16,10 +16,10 @@ const LastAuctions = ({ auctions }) => {
           </p>
           <div className="grid gap-10 py-24">
             <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 items-center text-center gap-6 px-4">
-              <LastAuctionItem auction={auctions[0]} />
-              <LastAuctionItem auction={auctions[1]} />
-              <LastAuctionItem auction={auctions[2]} />
-              <LastAuctionItem auction={auctions[3]} />
+              <LastAuctionItem />
+              <LastAuctionItem />
+              <LastAuctionItem />
+              <LastAuctionItem />
             </div>
 
             <div className="text-center">

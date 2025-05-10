@@ -13,16 +13,21 @@ export const revalidate = 3600; // ISR: update every 1 hour
 async function fetchData(url) {
   try {
     const response = await fetch(url, { method: "GET", cache: "no-cache" });
-    if (response.ok) return await response.json();
-    console.error(`HTTP error! status: ${response.status}`);
+
+    const data = await response.json(); 
+    if (!response.ok) {
+      console.error(`Error ${response.status} while fetching ${url}:`, data);
+      return { error: `HTTP ${response.status}`, data: null };
+    }
+
+    return { error: null, data };
   } catch (error) {
-    console.error(`Failed to fetch data from ${url}:`, error);
-    return null;
+    console.error(`Network or parsing error for ${url}:`, error);
+    return { error: error.message, data: null };
   }
 }
 
 const getAds = () => fetchData(`${BackendURL}/ads/`);
-const getAuctions = () => fetchData(`${BackendURL}/auction/?page=1`);
 const getAutogalleries = () => fetchData(`${BackendURL}/ads/exhibition/`);
 const getBlogs = () =>
   fetchData(`${WordPressURL}/posts?orderby=date&order=desc&per_page=3`);
@@ -30,24 +35,37 @@ export const getBrandsByType = (type) =>
   fetchData(`${BackendURL}/ads/brand_type/?type=${type}`);
 
 export default async function Home() {
-  const [ads, autoGalleries, auctions, blogs, brands] = await Promise.all([
+  const [adsRes, autoGalleriesRes, blogsRes, brandsRes] = await Promise.all([
     getAds(),
     getAutogalleries(),
-    getAuctions(),
     getBlogs(),
     getBrandsByType("سواری"),
   ]);
 
+  if (
+    adsRes.error ||
+    autoGalleriesRes.error ||
+    blogsRes.error ||
+    brandsRes.error
+  ) {
+    console.warn("Some data failed to load", {
+      adsError: adsRes.error,
+      autoGalleriesError: autoGalleriesRes.error,
+      blogsError: blogsRes.error,
+      brandsError: brandsRes.error,
+    });
+  }
+
   return (
     <>
       <Hero />
-      <LastAds ads={ads?.results || []} />
+      <LastAds ads={adsRes.data?.results || []} />
       <FreeAds />
-      <LastAutoGalleries autogalleries={autoGalleries?.results || []} />
+      <LastAutoGalleries autogalleries={autoGalleriesRes.data?.results || []} />
       <FreeAutoGallery />
-      <LastAuctions auctions={auctions?.results || []} />
-      <LastBlogs blogs={blogs || []} />
-      <WhatBrand initBrands={brands || []} />
+      <LastAuctions />
+      <LastBlogs blogs={blogsRes.data || []} />
+      <WhatBrand initBrands={brandsRes.data || []} />
     </>
   );
 }

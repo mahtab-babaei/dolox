@@ -6,6 +6,7 @@ import Navbar from "./components/global/Navbar";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "react-hot-toast";
+import UserProviderWrapper from "./components/home/UserProviderWrapper";
 
 const digirastin = localFont({
   src: "../public/fonts/digirastin.ttf",
@@ -23,21 +24,19 @@ const vazir = localFont({
 });
 
 export default async function RootLayout({ children }) {
-  const user = await getUser();
-
   return (
     <html lang="fa" dir="rtl">
       <body
         className={`${digirastin.variable} ${vazirBold.variable} ${vazir.variable} antialiased`}
       >
-        <UserProvider user={user}>
-          <Navbar user={user} />
+        <UserProviderWrapper>
+          <Navbar />
           <main>
             <Toaster
               toastOptions={{
                 style: {
-                  fontFamily: "vazir", 
-                  fontSize: "16px", 
+                  fontFamily: "vazir",
+                  fontSize: "16px",
                 },
               }}
               position="bottom-left"
@@ -46,8 +45,7 @@ export default async function RootLayout({ children }) {
             {children}
           </main>
           <Footer />
-        </UserProvider>
-        <SpeedInsights />
+        </UserProviderWrapper>
       </body>
     </html>
   );

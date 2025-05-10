@@ -6,14 +6,19 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const WhatBrand = ({ initBrands }) => {
+  console.log("initBrands", initBrands);
   const [category, setcategory] = useState("سواری");
   const [brands, setbrands] = useState(initBrands || []);
 
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const fetchedBrands = await getBrandsByType(category);
-        setbrands(Array.isArray(fetchedBrands) ? fetchedBrands : []);
+        const res = await getBrandsByType(category);
+        if (!res.error && Array.isArray(res.data)) {
+          setbrands(res.data);
+        } else {
+          setbrands([]);
+        }
       } catch (error) {
         console.error("Error fetching brands:", error);
         setbrands([]);

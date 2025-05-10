@@ -8,11 +8,13 @@ import SearchBox from "./SearchBox";
 import { links } from "@/utils/constants";
 import UserDropDown from "./UserDropDown";
 import { userIcon } from "@/utils/constants";
-import Notification from "./Notif";
 import Notif from "./Notif";
+import { useUser } from "@/context/UserContext";
 
-const Navbar = ({ user }) => {
-  const userName = user?.first_name || user?.username || "ورود";
+const Navbar = () => {
+  const user = useUser();
+  const userName =
+    user?.first_name || user?.username || user?.phone_number || "ورود";
   const [drawer, setDrawer] = useState(false);
   const currentPath = usePathname();
   const isActive = (href) =>
