@@ -6,6 +6,7 @@ import DashboardPanel from "../../DashboardPanel";
 import AdEdit from "./AdEdit";
 import LoadingComponent from "@/app/components/global/LoadingComponent";
 import { getProfile } from "@/utils/Requests";
+import { fetchAdDetails } from "@/utils/Requests";
 
 const ManageAdPage = () => {
   const { id } = useParams();

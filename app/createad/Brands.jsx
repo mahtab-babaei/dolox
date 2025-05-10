@@ -2,14 +2,7 @@ import { getBrandsByType } from "../page";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
-const Brands = ({
-  brands = [{}],
-  setBrand,
-  setStep,
-  step,
-  category,
-  setCategory,
-}) => {
+const Brands = ({ brands, setBrand, setStep, step, category, setCategory }) => {
   const [brandsData, setBrandsData] = useState(brands);
   const [searchData, setSearchData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -17,8 +10,12 @@ const Brands = ({
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const fetchedBrands = await getBrandsByType(category);
-        setBrandsData(Array.isArray(fetchedBrands) ? fetchedBrands : []);
+        const res = await getBrandsByType(category);
+        if (!res.error && Array.isArray(res.data)) {
+          setBrandsData(res.data);
+        } else {
+          setBrandsData([]);
+        }
       } catch (error) {
         console.error("Error fetching brands:", error);
         setBrandsData([]); // Set to an empty array if there is an error

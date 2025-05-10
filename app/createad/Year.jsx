@@ -5,7 +5,6 @@ import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
 const Year = ({ step, setStep, setYear, year }) => {
-  console.log(year);
   const currentYear = new Date().getFullYear();
 
   // Validation schema

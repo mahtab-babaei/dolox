@@ -371,7 +371,6 @@ export const getColors = async () => {
 
   try {
     const response = await fetch(`${BackendURL}/ads/colors/`, requestOptions);
-
     // Check if response is ok (status in range 200-299)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -677,7 +676,7 @@ export const editAdReq = async ({
       front_chassis_condition: body.frontChassisCondition,
       behind_chassis_condition: body.backChassisCondition,
       upholstery_condition: body.seatCondition,
-      color: body.bodyColor,
+      Color: body.bodyColor,
       fuel_type: body.gastype,
       transmission: body.gearType,
       kilometer,
@@ -708,7 +707,7 @@ export const editAdReq = async ({
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      bodyData,
+      body: JSON.stringify(bodyData),
     });
 
     if (!response.ok) {
@@ -727,40 +726,36 @@ export const editAdReq = async ({
 export const AdImages = async (adId, images) => {
   try {
     const formData = new FormData();
-    images.forEach((image) => {
-      formData.append("images", image);
-    });
-
-    // Get token and add it to headers
-    const cookies = parseCookies();
-    const token = cookies.access;
-    if (!token) {
-      return {
-        success: false,
-        message: "لطفا ابتدا وارد شوید",
-      };
-    }
+    images.forEach((img) => formData.append("images", img));
+    const token = parseCookies().access;
+    if (!token) return { success: false, message: "لطفا ابتدا وارد شوید" };
 
     const response = await fetch(`${BackendURL}/ads/cars/${adId}/images/`, {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
 
-    const responseText = await response.text(); // Get the raw response
-    console.log("Response Text:", responseText); // Log the raw response for debugging
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to upload images");
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { success: response.ok, message: text };
     }
-
-    return await response.json();
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.message || "خطا در آپلود تصاویر",
+      };
+    }
+    return data;
   } catch (error) {
-    console.error("Error uploading images:", error.message);
-    throw error;
+    console.error("Error uploading images:", error);
+    return {
+      success: false,
+      message: error.message || "خطای غیرمنتظره در آپلود تصاویر",
+    };
   }
 };
 
@@ -1294,5 +1289,22 @@ export const fetchAuctionDetails = async (id) => {
   } catch (error) {
     console.error("Error fetching auction details:", error);
     return { message: "خطای داخلی سرور رخ داد" };
+  }
+};
+
+export const getSubscriptionPlans = async (type) => {
+  try {
+    const response = await fetch(
+      `${BackendURL}/ads/subscription-plans/?type=${type}`
+    );
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.message || "خطا در دریافت پلن‌ها");
+    }
+    const data = await response.json();
+    return data.results; 
+  } catch (error) {
+    console.error("Error in getSubscriptionPlans:", error);
+    return [];
   }
 };

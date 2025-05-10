@@ -14,19 +14,13 @@ import Models from "./Models";
 import Package from "./Package";
 import Price from "./Price";
 import Year from "./Year";
-import {
-  AdImages,
-  checkAds,
-  createAdReq,
-  editAdReq,
-  getColors,
-} from "@/utils/Requests";
+import { AdImages, checkAds, createAdReq, editAdReq } from "@/utils/Requests";
 import { getProfile } from "@/utils/Requests";
+import Submit from "./Submit";
 
 const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const router = useRouter();
   const user = useUser();
-  console.log(user);
   const [step, setStep] = useState(0);
   const [category, setCategory] = useState("سواری");
   const [brand, setBrand] = useState(null);
@@ -57,7 +51,9 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const [esxhibitionId, setExhibitionId] = useState(0);
   const [adable, setAdable] = useState({});
   const [brands, setBrands] = useState([]);
-  const [colors, setColors] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [submitedAdID, setSubmitedAdID] = useState(null);
 
   useEffect(() => {
     if (isEdit && adData) {
@@ -90,22 +86,21 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [adableRes, brandsRes, colorsRes, profile] = await Promise.all([
+        setIsFetching(true);
+        const [adableRes, brandsRe, profile] = await Promise.all([
           checkAds(),
           getBrandsByType("سواری"),
-          getColors(),
           getProfile(),
         ]);
-
         setAdable(adableRes);
         setBrands(brandsRes);
-        setColors(colorsRes.results);
         setExhibitionId(profile.exhibition[0].id);
       } catch (error) {
-        setAdable({});
+        setAdable({ success: false });
         setBrands([]);
-        setColors([]);
         setExhibitionId(null);
+      } finally {
+        setIsFetching(false);
       }
     };
 
@@ -144,6 +139,7 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
             const result = await createAdReq(requestData);
             console.log("Response from createAdReq:", result);
             if (result.success) {
+              setSubmitedAdID(result.message.id);
               console.log(images);
 
               const imageResult = await AdImages(result.message.id, images);
@@ -151,30 +147,29 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
               if (imageResult.success) {
                 setStep(10);
                 toast.success("اطلاعات با موفقیت ثبت شد!");
-                setTimeout(() => {
-                  router.push("/dashboard");
-                }, 200);
               } else {
+                setErrorMessage(imageResult.message || "آگهی شما ساخته نشد");
                 setStep(11);
               }
             } else {
+              setErrorMessage(result.message || "آگهی شما ساخته نشد");
               setStep(11);
             }
           } else {
             const result = await editAdReq(requestData);
             console.log("Response from editAdReq:", result);
-            if (result.success) {
+            if (result && result.id) {
+              setSubmitedAdID(result.id);
               setStep(10);
               toast.success("اطلاعات با موفقیت ثبت شد!");
-              setTimeout(() => {
-                router.push("/dashboard");
-              }, 200);
             } else {
+              setErrorMessage(result.message || "آگهی شما ویرایش نشد");
               setStep(11);
             }
           }
         } catch (error) {
           console.error("Error creating ad:", error);
+          setErrorMessage("خطا در برقراری ارتباط با سرور");
           setStep(11);
         } finally {
           setLoading(false);
@@ -191,105 +186,122 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
         <h1 className="text-center text-xl text-black">
           {isEdit ? "ویرایش آگهی" : "ثبت آگهی"}
         </h1>
-        {/* steps */}
-        {(step !== 9 || adable.success) && (
-          <CreateAdSteps step={step} setStep={setStep} />
-        )}
-        {adable.success && (
-          <Brands
-            brands={brands}
-            setBrand={setBrand}
-            setStep={setStep}
-            step={step}
-            category={category}
-            setCategory={setCategory}
-          />
-        )}
-        <Models
-          setStep={setStep}
-          step={step}
-          setModel={setModel}
-          brand={brand}
-        />
-        <Year setStep={setStep} step={step} setYear={setYear} year={year} />
-        <Body
-          setStep={setStep}
-          step={step}
-          colors={colors}
-          setBody={setBody}
-          category={category}
-          bodyCondition={bodyCondition}
-          bodyColor={bodyColor}
-          gearType={gearType}
-          frontChassisCondition={frontChassisCondition}
-          backChassisCondition={backChassisCondition}
-          gastype={gastype}
-          insurance={insurance}
-          seatCondition={seatCondition}
-        />
-        <Description
-          setStep={setStep}
-          step={step}
-          setKilometer={setKilometer}
-          setDescription={setDescription}
-          category={category}
-          setEngineSize={setEngineSize}
-          setEngine={setEngine}
-          setAcceleration={setAcceleration}
-          setCombinedUse={setCombinedUse}
-          kilometer={kilometer}
-          description={description}
-          engine={engine}
-          engineSize={engineSize}
-          acceleration={acceleration}
-          combinedUse={combinedUse}
-        />
-        <Price
-          setStep={setStep}
-          step={step}
-          setInstallments={setInstallments}
-          setPrice={setPrice}
-          setRentorsale={setRentorsale}
-          price={price}
-          rentorsale={rentorsale}
-          installments={installments}
-        />
-        <Images
-          setStep={setStep}
-          step={step}
-          images={images}
-          setImages={setImages}
-        />
-        <Location setStep={setStep} step={step} setCity={setCity} city={city} />
-        <Package setStep={setStep} step={step} setPackage={setPackagePlan} />
-
-        {step === 10 && (
-          <div>
-            <p className="px-8 text-center font-vazir py-36">
-              اگهی شما با موفقیت ساخته شد
-            </p>
+        {isFetching ? (
+          <div className="flex justify-center items-center py-20">
+            <span className="loading loading-spinner loading-lg"></span>
           </div>
-        )}
-        {step === 11 && (
-          <p className="px-8 text-center font-vazir py-36">
-            اگهی شما ساخته نشد
-          </p>
-        )}
-        {loading && step !== 11 && (
-          <div className="w-full mx-auto  text-center pt-8">
-            <p className="text-lg font-vazir w-full  mx-auto font-bold ">
-              در حال ساخت اگهی
-            </p>
-            <p className="text-sm font-vazir w-full  mx-auto  ">
-              لطفا صبر کنید
-            </p>
-            <span className="loading loading-ball loading-lg"></span>
-          </div>
-        )}
+        ) : (
+          <>
+            {/* steps */}
+            {(step !== 9 || adable.success) && (
+              <CreateAdSteps step={step} setStep={setStep} />
+            )}
+            {/* {adable.success && ( */}
+            <Brands
+              brands={brands}
+              setBrand={setBrand}
+              setStep={setStep}
+              step={step}
+              category={category}
+              setCategory={setCategory}
+            />
+            {/* )} */}
+            <Models
+              setStep={setStep}
+              step={step}
+              setModel={setModel}
+              brand={brand}
+            />
+            <Year setStep={setStep} step={step} setYear={setYear} year={year} />
+            {!isFetching && step === 3 && (
+              <Body
+                setStep={setStep}
+                step={step}
+                setBody={setBody}
+                category={category}
+                bodyCondition={bodyCondition}
+                bodyColor={bodyColor}
+                gearType={gearType}
+                frontChassisCondition={frontChassisCondition}
+                backChassisCondition={backChassisCondition}
+                gastype={gastype}
+                insurance={insurance}
+                seatCondition={seatCondition}
+              />
+            )}
+            <Description
+              setStep={setStep}
+              step={step}
+              setKilometer={setKilometer}
+              setDescription={setDescription}
+              category={category}
+              setEngineSize={setEngineSize}
+              setEngine={setEngine}
+              setAcceleration={setAcceleration}
+              setCombinedUse={setCombinedUse}
+              kilometer={kilometer}
+              description={description}
+              engine={engine}
+              engineSize={engineSize}
+              acceleration={acceleration}
+              combinedUse={combinedUse}
+            />
+            <Price
+              setStep={setStep}
+              step={step}
+              setInstallments={setInstallments}
+              setPrice={setPrice}
+              setRentorsale={setRentorsale}
+              price={price}
+              rentorsale={rentorsale}
+              installments={installments}
+            />
+            <Images
+              setStep={setStep}
+              step={step}
+              images={images}
+              setImages={setImages}
+            />
+            <Location
+              setStep={setStep}
+              step={step}
+              setCity={setCity}
+              city={city}
+            />
+            <Submit setStep={setStep} step={step} />
 
-        {/* user can't submit Ad */}
-        {!adable.success && (
-          <p className="px-8 text-center font-vazir py-36">{adable.message}</p>
+            {step === 10 && (
+              <div>
+                <p className="px-8 text-center font-vazir text-base-100">
+                  آگهی شما با موفقیت ساخته شد 😉
+                </p>
+                <Package submitedAdID={submitedAdID} />
+              </div>
+            )}
+            {step === 11 && (
+              <p className="px-8 text-center font-vazir py-36 text-gray-500">
+                {errorMessage || "آگهی شما ساخته نشد"}
+              </p>
+            )}
+            {loading && step !== 11 && (
+              <div className="w-full mx-auto  text-center pt-8">
+                <p className="text-lg font-vazir w-full  mx-auto font-bold text-black">
+                  در حال ساخت اگهی
+                </p>
+                <p className="text-sm font-vazir w-full  mx-auto  text-black">
+                  لطفا صبر کنید
+                </p>
+                <span className="loading loading-ball loading-lg text-secondary"></span>
+              </div>
+            )}
+
+            {/* user can't submit Ad */}
+            {!adable.success && (
+              <p className="px-8 text-center font-vazir py-36">
+                {adable.message}
+              </p>
+            )}
+          </>
         )}
       </div>
     </div>

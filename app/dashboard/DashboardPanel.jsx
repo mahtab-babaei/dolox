@@ -34,7 +34,7 @@ const DashboardPanel = () => {
           alt="profile pic"
         />
       )}
-      <h2 className="w-full text-center pt-4 pb-4 text-md">
+      <h2 className="w-full text-center pt-4 pb-4 text-md text-black">
         {" "}
         {user?.profile?.first_name} خوش آمدید 👋{" "}
       </h2>

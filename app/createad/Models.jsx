@@ -8,7 +8,6 @@ const Models = ({ brand, setStep, step, setModel }) => {
 
   useEffect(() => {
     const fetchModels = async () => {
-      console.log("does run", brand);
       try {
         const fetchedModel = await getModelsByBrand(brand);
         setModelData(Array.isArray(fetchedModel) ? fetchedModel : []);

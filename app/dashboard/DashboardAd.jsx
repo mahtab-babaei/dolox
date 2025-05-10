@@ -52,10 +52,10 @@ const DashboardAd = () => {
           </div>
         ) : profile?.cars?.results?.length === 0 ? (
           <div className="h-96 flex justify-center items-center flex-col">
-            <h3 className="font-vazir font-bold text-lg">
+            <h3 className="font-vazir font-bold text-lg text-black">
               شما هنوز آگهی ندارید
             </h3>
-            <p className="font-vazir py-2">همین حالا ثبت آگهی کنید!</p>
+            <p className="font-vazir py-2 text-black">همین حالا ثبت آگهی کنید!</p>
             <Link
               className="btn bg-secondary border-secondary text-white border-none"
               href="/createad"
