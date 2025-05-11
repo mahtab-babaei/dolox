@@ -3,23 +3,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
-import Features from "./Features";
 
 const Description = ({
   step,
   setStep,
   setKilometer,
   setDescription,
-  setEngineSize,
-  setEngine,
-  setAcceleration,
-  setCombinedUse,
   kilometer,
   description,
-  engine,
-  engineSize,
-  acceleration,
-  combinedUse,
 }) => {
   const formik = useFormik({
     initialValues: {
@@ -121,16 +112,6 @@ const Description = ({
                 <span className="absolute top-3 right-6">کیلومتر</span>
               </label>
             )}
-            <Features
-              setEngineSize={setEngineSize}
-              setEngine={setEngine}
-              setAcceleration={setAcceleration}
-              setCombinedUse={setCombinedUse}
-              engineSize={engineSize}
-              engine={engine}
-              combinedUse={combinedUse}
-              acceleration={acceleration}
-            />
           </div>
         </div>
       </div>

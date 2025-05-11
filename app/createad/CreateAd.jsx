@@ -38,16 +38,11 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const [insurance, setInsurance] = useState(null);
   const [kilometer, setKilometer] = useState(null);
   const [description, setDescription] = useState(null);
-  const [engineSize, setEngineSize] = useState("");
-  const [engine, setEngine] = useState("");
-  const [acceleration, setAcceleration] = useState("");
-  const [combinedUse, setCombinedUse] = useState("");
   const [price, setPrice] = useState(null); // if was null me negotiable
   const [installments, setInstallments] = useState(false); // pay montly or something
   const [rentorsale, setRentorsale] = useState("sale");
   const [images, setImages] = useState([]);
   const [city, setCity] = useState("");
-  const [packagePlan, setPackagePlan] = useState("");
   const [loading, setLoading] = useState(false);
   const [esxhibitionId, setExhibitionId] = useState(0);
   const [adable, setAdable] = useState({});
@@ -69,11 +64,6 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
       setSeatCondition(adData.upholstery_condition);
       setGastype(adData.fuel_type);
       setInsurance(adData.insurance);
-      setKilometer(adData.kilometer);
-      setEngineSize(adData.features[0]?.name);
-      setEngine(adData.features[1]?.name);
-      setAcceleration(adData.features[2]?.name);
-      setCombinedUse(adData.features[3]?.name);
       setDescription(adData.description);
       setPrice(adData.price);
       setInstallments(adData.is_negotiable);
@@ -88,7 +78,7 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
     const fetchData = async () => {
       try {
         setIsFetching(true);
-        const [adableRes, brandsRe, profile] = await Promise.all([
+        const [adableRes, brandsRes, profile] = await Promise.all([
           checkAds(),
           getBrandsByType("سواری"),
           getProfile(),
@@ -128,11 +118,6 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
             city,
             phone: user.phone_number,
             category,
-            engineSize,
-            engine,
-            acceleration,
-            combinedUse,
-            packagePlan,
             exhibition: esxhibitionId,
           };
           console.log("requestData", requestData);
@@ -236,16 +221,8 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
               setKilometer={setKilometer}
               setDescription={setDescription}
               category={category}
-              setEngineSize={setEngineSize}
-              setEngine={setEngine}
-              setAcceleration={setAcceleration}
-              setCombinedUse={setCombinedUse}
               kilometer={kilometer}
               description={description}
-              engine={engine}
-              engineSize={engineSize}
-              acceleration={acceleration}
-              combinedUse={combinedUse}
             />
             <Price
               setStep={setStep}

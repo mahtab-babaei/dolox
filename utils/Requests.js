@@ -436,10 +436,6 @@ export const createAdReq = async ({
   rentorsale,
   city,
   phone,
-  engineSize,
-  engine,
-  acceleration,
-  combinedUse,
   exhibition,
 }) => {
   try {
@@ -471,16 +467,6 @@ export const createAdReq = async ({
 
     if (exhibition > 0) {
       formData.append("exhibition", exhibition);
-    }
-
-    const features = [];
-    if (engineSize) features.push({ name: engineSize });
-    if (engine) features.push({ name: engine });
-    if (acceleration) features.push({ name: acceleration });
-    if (combinedUse) features.push({ name: combinedUse });
-
-    if (features.length > 0) {
-      formData.append("features", JSON.stringify(features));
     }
 
     // Get token and add it to headers
