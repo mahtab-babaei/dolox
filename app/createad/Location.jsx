@@ -44,7 +44,12 @@ const Location = ({ step, setStep, setCity, city }) => {
           >
             <option value="" label="شهر خود را انتخاب کنید" />
             {cities.map((item) => (
-              <option className="text-black" key={item} value={item}>
+              <option
+                className="text-black"
+                key={item}
+                value={item}
+                disabled={item === "همه شهر ها"}
+              >
                 {item}
               </option>
             ))}
