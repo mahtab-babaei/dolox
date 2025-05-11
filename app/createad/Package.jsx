@@ -39,7 +39,9 @@ export default function Package({ submitedAdID }) {
           <button
             className="btn btn-sm bg-secondary text-white border-none disabled:bg-secondary disabled:text-white disabled:opacity-50"
             onClick={() =>
-              selectedType === "extra_ad"
+              selectedType === "extra_ad" ||
+              selectedType === "submit_exhibition" ||
+              selectedType === "view_auction"
                 ? console.log({
                     subscription_plan: selectedPlan,
                   })
@@ -106,23 +108,29 @@ export default function Package({ submitedAdID }) {
             <span>آگهی خود را ارتقا دهید تا نتیجه بهتری کسب کنید</span>
           </div>
 
-          <div className="space-y-2">
+          <div className="gap-2">
             {plansMeta.map((plan) => (
               <div key={plan.id}>
                 <div
+                  style={{ backgroundColor: plan.bg }}
                   dir="rtl"
-                  className={`${
-                    plan.bg
-                  } flex h-28 items-center justify-between p-6 text-white rounded-2xl cursor-pointer ${
-                    (plan.type === "renew" && currentPath !== "/dashboard") ||
-                    (plan.type !== "renew" && currentPath === "/dashboard") ||
-                    (plan.type === "extra_ad" &&
-                      currentPath.startsWith("/createad")) ||
-                    (plan.type !== "extra_ad" &&
-                      currentPath === "/dashboard/additionalad")
-                      ? "hidden"
-                      : ""
-                  } }`}
+                  className={`
+                    flex h-28 items-center justify-between p-6 mb-2 text-white rounded-2xl cursor-pointer
+                    ${
+                      (plan.type === "renew" && currentPath !== "/dashboard") ||
+                      (plan.type !== "renew" && currentPath === "/dashboard") ||
+                      (plan.type !== "submit_exhibition" &&
+                        currentPath === "/dashboard/autosubscription") ||
+                      (plan.type === "submit_exhibition" &&
+                        currentPath.startsWith("/createad")) ||
+                      (plan.type === "extra_ad" &&
+                        currentPath.startsWith("/createad")) ||
+                      (plan.type !== "extra_ad" &&
+                        currentPath === "/dashboard/additionalad")
+                        ? "hidden"
+                        : ""
+                    }
+                    `}
                   onClick={() => toggle(plan.id)}
                 >
                   <div>
@@ -138,7 +146,7 @@ export default function Package({ submitedAdID }) {
                     openId === plan.id ? "max-h-[700px] py-4" : "max-h-0 py-0"
                   }`}
                 >
-                  <ul dir="rtl" className="space-y-1 text-base-100 px-4">
+                  <ul dir="rtl" className="gap-1 text-base-100 px-4">
                     {plansData[plan.id] ? (
                       plansData[plan.id].map((item) => (
                         <li
@@ -147,7 +155,7 @@ export default function Package({ submitedAdID }) {
                             setSelectedType(item.type);
                           }}
                           key={item.id}
-                          className={`font-vazir cursor-pointer text-sm flex items-center p-2 rounded-lg border-4 ${
+                          className={`font-vazir cursor-pointer text-sm flex items-center p-2 mb-2 rounded-lg border-4 ${
                             selectedPlan === item.id
                               ? "border-primary"
                               : "border-base-100"
@@ -164,7 +172,7 @@ export default function Package({ submitedAdID }) {
                                 {item.description}
                               </p>
                             </div>
-                            <span>{item.price} هزار تومان</span>
+                            <span>{item.price} تومان</span>
                           </div>
                         </li>
                       ))

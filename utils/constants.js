@@ -110,7 +110,7 @@ export const plansMeta = [
     type: "is_urgent",
     title: "پلکان",
     subtitle: "آگهیتو بیار بالای دیگر آگهی ها !",
-    bg: "bg-[#FF2B41]",
+    bg: "#ff2b41",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +131,7 @@ export const plansMeta = [
     type: "nationwide",
     title: "ثبت آگهی در تمام شهر ها",
     subtitle: "آگهی شما در کل کشور دیده می شود !",
-    bg: "bg-[#E9172D]",
+    bg: "#e6273b",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +154,7 @@ export const plansMeta = [
     type: "is_promoted",
     title: "ثبت سفارشی آگهی",
     subtitle: "آگهی خود را از دیگر آگهی ها متمایز کنید !",
-    bg: "bg-[#D2172A]",
+    bg: "#cc2234",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +175,7 @@ export const plansMeta = [
     type: "renew",
     title: "تمدید آگهی",
     subtitle: "آگهی منقضی شده خود را تمدید کنید !",
-    bg: "bg-[#B21828]",
+    bg: "#b31e2e",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +198,7 @@ export const plansMeta = [
     type: "extra_ad",
     title: "آگهی اضافه",
     subtitle: "تعداد آگهی های خود را افزایش دهید !",
-    bg: "bg-[#B21828]",
+    bg: "#991a27",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -227,6 +227,29 @@ export const plansMeta = [
           strokeWidth="5"
           d="M43 55L65 55M54 44L54 67"
         ></path>
+      </svg>
+    ),
+  },
+  {
+    id: 6,
+    type: "submit_exhibition",
+    title: "ثبت نمایشگاه",
+    subtitle: "با ثبت رسمی نمایشگاه خود در دولوکس فروشت را چند برابر کن !",
+    bg: "#801621",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.25"
+        stroke="#ffffff"
+        className="w-14 h-14"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+        />
       </svg>
     ),
   },
