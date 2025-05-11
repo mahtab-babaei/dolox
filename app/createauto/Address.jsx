@@ -4,7 +4,14 @@ import * as Yup from "yup";
 import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
-const Address = ({ step, setStep, setCity, city, setAddress, address = "" }) => {
+const Address = ({
+  step,
+  setStep,
+  setCity,
+  city,
+  setAddress,
+  address = "",
+}) => {
   // validation schema
   const validationSchema = Yup.object({
     city: Yup.string().required("لطفا یک شهر انتخاب کنید"),
@@ -48,7 +55,12 @@ const Address = ({ step, setStep, setCity, city, setAddress, address = "" }) => 
             >
               <option className="text-black" value="" label="انتخاب شهر" />
               {cities.map((item) => (
-                <option className="text-black" key={item} value={item}>
+                <option
+                  className="text-black"
+                  key={item}
+                  value={item}
+                  disabled={item === "همه شهر ها"}
+                >
                   {item}
                 </option>
               ))}

@@ -25,6 +25,7 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
   const [socialMediaLinks, setSocialMediaLinks] = useState([]);
   const [logo, setLogo] = useState(null);
   const [video, setVideo] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (isEdit && autoData) {
@@ -74,14 +75,15 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
               setStep(7);
               toast.success("اطلاعات با موفقیت ثبت شد!");
             } else {
+              setErrorMessage(videoResult.message || "اتوگالری شما ساخته نشد");
               setStep(8);
             }
           } else {
-            console.log("Error1 occured");
+            setErrorMessage(result.message || "اتوگالری شما ساخته نشد");
             setStep(8);
           }
         } catch (error) {
-          console.error("Error creating auto:", error);
+          setErrorMessage(error.message || "درخواست شما ثبت نشد");
           setStep(8);
         } finally {
           setLoading(false);
@@ -145,7 +147,12 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
           <Banner step={step} setStep={setStep} setLogo={setLogo} logo={logo} />
         )}
         {step === 5 && (
-          <Videos step={step} setStep={setStep} setVideo={setVideo} video={video} />
+          <Videos
+            step={step}
+            setStep={setStep}
+            setVideo={setVideo}
+            video={video}
+          />
         )}
         {step === 7 && (
           <div>
@@ -156,8 +163,10 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
           </div>
         )}
         {step === 8 && (
-          <p className="px-8 text-center font-vazir py-36">
-            درخواست شما ثبت نشد
+          <p className="px-8 text-center font-vazir py-36 text-gray-500">
+            {errorMessage.includes("contact_phone")
+              ? "برای ثبت اتوگالری شماره تلفن ثابت وارد کنید، شماره موبایل قابل قبول نیست."
+              : errorMessage}
           </p>
         )}
         {loading && step !== 8 && (
