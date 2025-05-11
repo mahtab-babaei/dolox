@@ -503,7 +503,10 @@ export const createAdReq = async ({
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "حطا در ثبت آگهی");
+      throw {
+        message: errorData.message || "خطا در ثبت آگهی",
+        success: false,
+      };
     }
 
     return await response.json();
@@ -1302,7 +1305,7 @@ export const getSubscriptionPlans = async (type) => {
       throw new Error(err.message || "خطا در دریافت پلن‌ها");
     }
     const data = await response.json();
-    return data.results; 
+    return data.results;
   } catch (error) {
     console.error("Error in getSubscriptionPlans:", error);
     return [];

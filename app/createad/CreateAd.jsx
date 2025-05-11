@@ -169,7 +169,7 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
           }
         } catch (error) {
           console.error("Error creating ad:", error);
-          setErrorMessage("خطا در برقراری ارتباط با سرور");
+          setErrorMessage(error.message || "خطا در برقراری ارتباط با سرور");
           setStep(11);
         } finally {
           setLoading(false);
