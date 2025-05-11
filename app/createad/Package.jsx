@@ -8,6 +8,7 @@ export default function Package({ submitedAdID }) {
   const [openId, setOpenId] = useState(null);
   const [plansData, setPlansData] = useState({});
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
   const contentRefs = useRef({});
 
   const plansMeta = [
@@ -99,6 +100,43 @@ export default function Package({ submitedAdID }) {
         </svg>
       ),
     },
+    {
+      id: 5,
+      type: "extra_ad",
+      title: "آگهی اضافه",
+      subtitle: "تعداد آگهی های خود را افزایش دهید !",
+      bg: "bg-[#B21828]",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="64"
+          height="64"
+          fill="none"
+          viewBox="0 0 96 96"
+          id="add"
+        >
+          <rect
+            width="63"
+            height="63"
+            stroke="#ffffff"
+            strokeWidth="5"
+            rx="9"
+            transform="matrix(-1 0 0 1 86 24)"
+          ></rect>
+          <path
+            stroke="#ffffff"
+            strokeWidth="5"
+            d="M72 23L72 19C72 14.0294 67.9706 10 63 10L18 10C13.0294 9.99999 9 14.0294 9 19L9 64C8.99999 68.9706 13.0294 73 18 73L23 73"
+          ></path>
+          <path
+            stroke="#ffffff"
+            strokeLinecap="round"
+            strokeWidth="5"
+            d="M43 55L65 55M54 44L54 67"
+          ></path>
+        </svg>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -128,12 +166,16 @@ export default function Package({ submitedAdID }) {
           <button
             className="btn btn-sm bg-secondary text-white border-none disabled:bg-secondary disabled:text-white disabled:opacity-50"
             onClick={() =>
-              console.log({
-                ad: submitedAdID,
-                subscription_plan: selectedPlan,
-              })
+              selectedType === "extra_ad"
+                ? console.log({
+                    subscription_plan: selectedPlan,
+                  })
+                : console.log({
+                    ad: submitedAdID,
+                    subscription_plan: selectedPlan,
+                  })
             }
-            disabled={!selectedPlan || !submitedAdID}
+            disabled={!selectedPlan}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +242,11 @@ export default function Package({ submitedAdID }) {
                     plan.bg
                   } flex h-28 items-center justify-between p-6 text-white rounded-2xl cursor-pointer ${
                     (plan.type === "renew" && currentPath !== "/dashboard") ||
-                    (plan.type !== "renew" && currentPath === "/dashboard")
+                    (plan.type !== "renew" && currentPath === "/dashboard") ||
+                    (plan.type === "extra_ad" &&
+                      currentPath.startsWith("/createad")) ||
+                    (plan.type !== "extra_ad" &&
+                      currentPath === "/dashboard/additionalad")
                       ? "hidden"
                       : ""
                   } }`}
@@ -225,6 +271,7 @@ export default function Package({ submitedAdID }) {
                         <li
                           onClick={() => {
                             setSelectedPlan(item.id);
+                            setSelectedType(item.type);
                           }}
                           key={item.id}
                           className={`font-vazir cursor-pointer text-sm flex items-center p-2 rounded-lg border-4 ${

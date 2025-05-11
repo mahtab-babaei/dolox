@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 const AdEdit = ({ adDetails }) => {
-  console.log(adDetails)
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleDeleteAd = () => {

@@ -17,6 +17,7 @@ import Year from "./Year";
 import { AdImages, checkAds, createAdReq, editAdReq } from "@/utils/Requests";
 import { getProfile } from "@/utils/Requests";
 import Submit from "./Submit";
+import Link from "next/link";
 
 const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const router = useRouter();
@@ -279,9 +280,19 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
               </div>
             )}
             {step === 11 && (
-              <p className="px-8 text-center font-vazir py-36 text-gray-500">
-                {errorMessage || "آگهی شما ساخته نشد"}
-              </p>
+              <div className="px-8 text-center py-36">
+                <p className=" font-vazir text-gray-500">
+                  {errorMessage || "آگهی شما ساخته نشد"}
+                </p>
+                {errorMessage === "شما نمیتوانید بیشتر از سه اگهی ثبت کنید" && (
+                  <Link
+                    className="btn bg-primary text-white border-none mt-5"
+                    href="/dashboard/additionalad"
+                  >
+                    ساخت آگهی اضافه
+                  </Link>
+                )}
+              </div>
             )}
             {loading && step !== 11 && (
               <div className="w-full mx-auto  text-center pt-8">

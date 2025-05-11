@@ -27,19 +27,27 @@ const DashboardAd = () => {
     };
     fetchProfile();
   }, []);
-  
+
   return (
     <div className="h-full w-full px-4">
       <div className="bg-white w-full max-w-screen-lg h-fit rounded-[34px] p-8 flex flex-col">
         <div className="flex justify-between align-center mb-6">
           <h1 className="text-xl text-black">آگهی‌های من</h1>
           {profile?.cars?.results?.length !== 0 && (
-            <Link
-              className="btn bg-secondary border-secondary text-white border-none"
-              href="/createad"
-            >
-              ثبت آگهی
-            </Link>
+            <div className="flex gap-2">
+              <Link
+                className="btn bg-primary text-white border-none"
+                href="/dashboard/additionalad"
+              >
+                آگهی اضافه
+              </Link>
+              <Link
+                className="btn bg-secondary text-white border-none"
+                href="/createad"
+              >
+                ثبت آگهی
+              </Link>
+            </div>
           )}
         </div>
         {loading ? (
@@ -55,7 +63,9 @@ const DashboardAd = () => {
             <h3 className="font-vazir font-bold text-lg text-black">
               شما هنوز آگهی ندارید
             </h3>
-            <p className="font-vazir py-2 text-black">همین حالا ثبت آگهی کنید!</p>
+            <p className="font-vazir py-2 text-black">
+              همین حالا ثبت آگهی کنید!
+            </p>
             <Link
               className="btn bg-secondary border-secondary text-white border-none"
               href="/createad"
