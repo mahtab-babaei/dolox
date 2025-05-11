@@ -104,7 +104,7 @@ const AdEdit = ({ adDetails }) => {
           <h2 className="text-2xl text-nowrap text-base-100">ارتقا آگهی</h2>
           <div className="h-[1px] w-full bg-black opacity-40" />
         </div>
-        <Package submitedAdID={adDetails.id} />
+        <Package submitedAdID={adDetails?.id} />
       </div>
     </div>
   );

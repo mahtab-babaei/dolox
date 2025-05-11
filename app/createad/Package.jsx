@@ -76,6 +76,29 @@ export default function Package({ submitedAdID }) {
         </svg>
       ),
     },
+    {
+      id: 4,
+      type: "renew",
+      title: "تمدید آگهی",
+      subtitle: "آگهی منقضی شده خود را تمدید کنید !",
+      bg: "bg-[#B21828]",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          id="recycling"
+          width="64"
+          height="64"
+          enableBackground="new 0 0 511.992 511.992"
+          viewBox="0 0 511.992 511.992"
+          fill="#ffffff"
+        >
+          <g>
+            <path d="m276.688 325.654 19.205 23.047 13.248-11.04v2.081c0 21.243-17.282 38.525-38.525 38.525v30c37.785 0 68.525-30.74 68.525-68.525v-2.08l13.247 11.039 19.205-23.047-47.452-39.543zM172.851 302.917v2.08l-13.248-11.039-19.205 23.047 47.453 39.542 47.453-39.542-19.205-23.047-13.248 11.039v-2.08c0-21.243 17.282-38.525 38.525-38.525v-30c-37.785 0-68.525 30.74-68.525 68.525z"></path>
+            <path d="m511.992 62.8-21.213-21.213-70.663 70.663h-328.241l-70.662-70.663-21.213 21.213 70.663 70.663v336.941h370.667v-336.941zm-290.999 79.45h70.006v30.183h-70.006zm190.336 298.155h-310.666v-298.155h90.331v60.183h130.006v-60.183h90.33v298.155z"></path>
+          </g>
+        </svg>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -95,18 +118,22 @@ export default function Package({ submitedAdID }) {
       <div
         dir="rtl"
         className={`${
-          currentPath?.match(/^\/dashboard\/managead\/\d+$/) ? "" : "pt-8"
+          currentPath?.match(/^\/dashboard\/managead\/\d+$/) ||
+          currentPath?.match("/dashboard")
+            ? ""
+            : "pt-8"
         } md:max-w-lg mx-auto`}
       >
         <div dir="ltr" className="justify-between w-full flex items-center ">
           <button
-            className="btn btn-sm bg-secondary text-white border-none"
+            className="btn btn-sm bg-secondary text-white border-none disabled:bg-secondary disabled:text-white disabled:opacity-50"
             onClick={() =>
               console.log({
                 ad: submitedAdID,
                 subscription_plan: selectedPlan,
               })
             }
+            disabled={!selectedPlan || !submitedAdID}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +154,8 @@ export default function Package({ submitedAdID }) {
             href="/dashboard"
             className={`btn-sm text-secondary bg-transparent shadow-none border-none 
               ${
-                currentPath?.match(/^\/dashboard\/managead\/\d+$/)
+                currentPath?.match(/^\/dashboard\/managead\/\d+$/) ||
+                currentPath?.match("/dashboard")
                   ? "hidden"
                   : ""
               }
@@ -140,7 +168,10 @@ export default function Package({ submitedAdID }) {
         <div dir="ltr" className="py-6 md:max-w-lg mx-auto">
           <div
             className={`font-vazir text-black text-center py-4 text-lg font-bold flex justify-center gap-2 ${
-              currentPath?.match(/^\/dashboard\/managead\/\d+$/) ? "hidden" : ""
+              currentPath?.match(/^\/dashboard\/managead\/\d+$/) ||
+              currentPath?.match("/dashboard")
+                ? "hidden"
+                : ""
             }`}
           >
             <svg
@@ -165,7 +196,14 @@ export default function Package({ submitedAdID }) {
               <div key={plan.id}>
                 <div
                   dir="rtl"
-                  className={`${plan.bg} flex h-28 items-center justify-between p-6 text-white rounded-2xl cursor-pointer`}
+                  className={`${
+                    plan.bg
+                  } flex h-28 items-center justify-between p-6 text-white rounded-2xl cursor-pointer ${
+                    (plan.type === "renew" && currentPath !== "/dashboard") ||
+                    (plan.type !== "renew" && currentPath === "/dashboard")
+                      ? "hidden"
+                      : ""
+                  } }`}
                   onClick={() => toggle(plan.id)}
                 >
                   <div>
@@ -181,7 +219,7 @@ export default function Package({ submitedAdID }) {
                     openId === plan.id ? "block" : "hidden"
                   }`}
                 >
-                  <ul dir="rtl" className="p-4 space-y-1 text-gray-700">
+                  <ul dir="rtl" className="p-4 space-y-1 text-base-100">
                     {plansData[plan.id] ? (
                       plansData[plan.id].map((item) => (
                         <li
@@ -191,8 +229,8 @@ export default function Package({ submitedAdID }) {
                           key={item.id}
                           className={`font-vazir cursor-pointer text-sm flex items-center p-2 rounded-lg border-4 ${
                             selectedPlan === item.id
-                              ? "border-[#FF2B41]"
-                              : "border-gray-700"
+                              ? "border-primary"
+                              : "border-base-100"
                           }`}
                         >
                           <div>
