@@ -3,6 +3,8 @@ import React from "react";
 import DoubleSlider from "./DoubleSlider";
 
 const DesktopAuctionPanel = ({
+  loading,
+  expireTime,
   setPriceRange,
   setQuery,
   query,
@@ -15,8 +17,19 @@ const DesktopAuctionPanel = ({
   return (
     <div className="text-black pr-2">
       <div className="bg-primary h-28 flex justify-center items-center text-white flex-col rounded-[21px] ">
-        <h2 className="text-xl">پلن فعال شما</h2>
-        <p className="pt-4">تست رایگان 15 روزه </p>
+        {loading ? (
+          <span className="loading loading-spinner loading-lg text-white"></span>
+        ) : expireTime ? (
+          <>
+            <h2 className="text-xl">اشتراک دیدن مزایده</h2>
+            <p className="pt-4">{expireTime}</p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-xl">پلن فعال شما</h2>
+            <p className="pt-4">تست رایگان 15 روزه</p>
+          </>
+        )}
       </div>
 
       <div className="bg-white h-full mt-2 pt-10 rounded-[15px]">

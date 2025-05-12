@@ -64,7 +64,7 @@ export default async function Home() {
       <LastAutoGalleries autogalleries={autoGalleriesRes.data?.results || []} />
       <FreeAutoGallery />
       <LastAuctions />
-      <LastBlogs blogs={blogsRes.data || []} />
+      {/* <LastBlogs blogs={blogsRes?.data || []} /> */}
       <WhatBrand initBrands={brandsRes.data || []} />
     </>
   );

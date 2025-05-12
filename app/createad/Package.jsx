@@ -123,6 +123,10 @@ export default function Package({ submitedAdID }) {
                         currentPath === "/dashboard/autosubscription") ||
                       (plan.type === "submit_exhibition" &&
                         currentPath.startsWith("/createad")) ||
+                      (plan.type !== "view_auction" &&
+                        currentPath === "/dashboard/auctionsubscription") ||
+                      (plan.type === "view_auction" &&
+                        currentPath.startsWith("/createad")) ||
                       (plan.type === "extra_ad" &&
                         currentPath.startsWith("/createad")) ||
                       (plan.type !== "extra_ad" &&

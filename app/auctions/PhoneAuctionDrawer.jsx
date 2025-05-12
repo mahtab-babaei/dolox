@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import DoubleSlider from "./DoubleSlider";
 
 const PhoneAuctionDrawer = ({
+  loading,
+  expireTime,
   setPriceRange,
   setQuery,
   query,
@@ -15,9 +17,20 @@ const PhoneAuctionDrawer = ({
   const [drawer, setdrawer] = useState(false);
   return (
     <div className="text-black">
-      <div className="bg-primary h-28 flex justify-center items-center text-white flex-col rounded-[21px] md:hidden">
-        <h2 className="text-xl">پلن فعال شما</h2>
-        <p className="pt-4">تست رایگان 15 روزه </p>
+      <div className="bg-primary h-28 flex justify-center items-center text-white flex-col rounded-[21px] ">
+        {loading ? (
+          <span className="loading loading-spinner loading-lg text-white"></span>
+        ) : expireTime ? (
+          <>
+            <h2 className="text-xl">اشتراک دیدن مزایده</h2>
+            <p className="pt-4">{expireTime}</p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-xl">پلن فعال شما</h2>
+            <p className="pt-4">تست رایگان 15 روزه</p>
+          </>
+        )}
       </div>
       <div className="flex justify-end md:hidden ">
         <button

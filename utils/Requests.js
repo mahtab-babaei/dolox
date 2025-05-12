@@ -818,12 +818,12 @@ export const fetchAuctionsByFilter = async ({
     if (response.ok) {
       return result;
     } else {
-      console.error("Error fetching filtered auctions");
-      return [];
+      console.error("Error fetching filtered auctions:", result);
+      throw new Error(result.message || "حطا در دریافت مزایده ها");
     }
   } catch (error) {
     console.error("Error in fetchAuctionsByFilter:", error);
-    return [];
+    throw error;
   }
 };
 
