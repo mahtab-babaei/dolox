@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 const Brands = ({ brands, setBrand, setStep, step, category, setCategory }) => {
-  const [brandsData, setBrandsData] = useState(brands);
+  const [brandsData, setBrandsData] = useState(brands?.data);
   const [searchData, setSearchData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
