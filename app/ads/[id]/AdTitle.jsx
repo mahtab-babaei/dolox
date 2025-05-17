@@ -99,7 +99,19 @@ const AdTitle = ({ id, model, year, city, price, phone }) => {
             {loading ? "در حال بارگذاری..." : "چت"}
           </div>
         </button>
-        <button className="btn px-2 sm:px-4 border border-secondary bg-white text-secondary">
+        <button
+          className="btn px-2 sm:px-4 border border-secondary bg-white text-secondary"
+          onClick={() => {
+            navigator.clipboard
+              .writeText(window.location.href)
+              .then(() => {
+                toast.success("لینک آگهی با موفقیت کپی شد.");
+              })
+              .catch(() => {
+                toast.error("خطا در کپی کردن لینک.");
+              });
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
