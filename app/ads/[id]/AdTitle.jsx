@@ -1,14 +1,13 @@
-import { useUser } from "@/context/UserContext";
 import { joinChatRoom } from "@/utils/Requests";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const AdTitle = ({ id, model, year, city, price }) => {
+const AdTitle = ({ id, model, year, city, price, phone }) => {
   const [loading, setLoading] = useState(false);
+  const [showNumber, setShowNumber] = useState(false);
   const router = useRouter();
-  const user = useUser();
 
   const handleChatClick = async () => {
     setLoading(true);
@@ -31,7 +30,7 @@ const AdTitle = ({ id, model, year, city, price }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-2xl">
+    <div className="bg-white p-4 rounded-2xl h-fit">
       <h1 className="mb-2 text-[18px] text-black">{model}</h1>
       <p className="text-base-content font-vazir-bold">{year}</p>
       <div className="flex justify-between items-center font-vazir-bold mb-2">
@@ -60,7 +59,10 @@ const AdTitle = ({ id, model, year, city, price }) => {
         )}
       </div>
       <div className="flex gap-2 justify-center items-center mb-2">
-        <button className="btn px-2 sm:px-4 bg-secondary text-white border-none">
+        <button
+          onClick={() => setShowNumber(!showNumber)}
+          className="btn px-2 sm:px-4 bg-secondary text-white border-none"
+        >
           <div className="flex items-center justify-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +114,31 @@ const AdTitle = ({ id, model, year, city, price }) => {
           </svg>
         </button>
       </div>
+      {showNumber && (
+        <div className="my-4 font-vazir text-base-100 flex justify-between align-middle">
+          <span className="text-base-100">{phone}</span>
+          <a
+            href={`tel:${phone}`}
+            className="flex gap-2 text-secondary cursor-pointer"
+          >
+            <span>تماس</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-4 mt-1"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M20.25 3.75v4.5m0-4.5h-4.5m4.5 0-6 6m3 12c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 0 1 4.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.054.902-.417 1.173l-1.293.97a1.062 1.062 0 0 0-.38 1.21 12.035 12.035 0 0 0 7.143 7.143c.441.162.928-.004 1.21-.38l.97-1.293a1.125 1.125 0 0 1 1.173-.417l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 0 1-2.25 2.25h-2.25Z"
+              />
+            </svg>
+          </a>
+        </div>
+      )}
       <div className="flex justify-between items-center text-primary text-sm font-vazir">
         <Link className="flex items-center justify-center gap-1" href="#">
           <svg

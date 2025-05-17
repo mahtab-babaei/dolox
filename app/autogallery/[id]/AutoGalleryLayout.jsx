@@ -36,7 +36,6 @@ const AutoGalleryLayout = ({ children }) => {
   }, [id]);
 
   if (loading) return <LoadingComponent />;
-
   return (
     <div className="px-6 pt-40 bg-neutral">
       <div className="max-w-screen-xl mx-auto text-black">
@@ -64,7 +63,7 @@ const AutoGalleryLayout = ({ children }) => {
               <div className="flex flex-col sm:hidden items-center justify-center gap-4">
                 <h1 className="text-xl pt-4">{autoDetails.company_name}</h1>
                 <Logo logo={autoDetails.logo} />
-                <ContactButton />
+                <ContactButton phone={autoDetails.contact_phone} />
                 <Details>{autoDetails.address}</Details>
                 <div className="font-vazir pb-4 px-2 text-center">
                   {autoDetails.description}
@@ -73,7 +72,7 @@ const AutoGalleryLayout = ({ children }) => {
               <div className="hidden sm:flex items-start justify-start gap-4">
                 <div className="p-4 -translate-y-32">
                   <Logo logo={autoDetails.logo} />
-                  <ContactButton />
+                  <ContactButton phone={autoDetails.contact_phone} />
                   <Details>{autoDetails.address}</Details>
                 </div>
                 <div className="p-4">

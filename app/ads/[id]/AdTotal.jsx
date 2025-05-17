@@ -33,13 +33,14 @@ const AdTotal = ({ adDetails }) => {
   return (
     <div className="flex flex-col justify-center gap-4 items-center w-full">
       <div className="hidden md:flex gap-4 w-full">
-        <div className="grid gap-4">
+        <div className="grid gap-4 h-fit">
           <AdTitle
             id={adDetails.id}
             model={adDetails.model}
             year={adDetails.year}
             city={adDetails.city}
             price={adDetails.price}
+            phone={adDetails.phone_numbers}
           />
           <AdCondition
             kilometer={adDetails.kilometer}
