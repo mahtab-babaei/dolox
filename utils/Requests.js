@@ -1297,3 +1297,44 @@ export const getSubscriptionPlans = async (type) => {
     return [];
   }
 };
+
+export const createSubscription = async (data) => {
+  const cookies = parseCookies();
+  const token = cookies.access;
+  if (!token) {
+    return {
+      success: false,
+      message: "لطفا ابتدا وارد شوید",
+    };
+  }
+
+  const res = await fetch(`${BackendURL}/ads/subscription-create/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const responseBody = await res.json();
+  if (!res.ok) throw { status: res.status, data: responseBody };
+
+  return responseBody;
+};
+
+export async function requestPayment({ description, phone, subscription_id }) {
+  const res = await fetch(`${BackendURL}/ads/payment/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ description, phone, subscription_id }),
+  });
+
+  const responseBody = await res.json();
+  if (!res.ok) throw { status: res.status, data: responseBody };
+
+  return responseBody;
+}
