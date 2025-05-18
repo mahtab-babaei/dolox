@@ -53,7 +53,7 @@ const TotalAutogalleries = ({ initialData, next, prev }) => {
     setPrevPage(filteredAutos?.data.previous);
     setLoading(false);
   };
-
+   
   return (
     <div className="bg-base-200 pt-40 px-2 flex gap-2 justify-center">
       <div className="h-full max-w-xs hidden md:block">
@@ -90,9 +90,12 @@ const TotalAutogalleries = ({ initialData, next, prev }) => {
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
-            {autosData.map((autoGallery, index) => (
-              <AutoGalleryItem key={index} autoGallery={autoGallery} />
-            ))}
+            {autosData.map(
+              (autoGallery, index) =>
+                !autoGallery.is_deleted && (
+                  <AutoGalleryItem key={index} autoGallery={autoGallery} />
+                )
+            )}
           </div>
         )}
         {/* Pagination buttons */}

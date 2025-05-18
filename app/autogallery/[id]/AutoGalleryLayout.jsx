@@ -35,7 +35,13 @@ const AutoGalleryLayout = ({ children }) => {
     }
   }, [id]);
 
+  if (autoDetails?.is_deleted)
+    return (
+      <div className="text-base-content px-6 py-60 font-vazir text-center bg-neutral">اتوگالری یافت نشد</div>
+    );
+
   if (loading) return <LoadingComponent />;
+
   return (
     <div className="px-6 pt-40 bg-neutral">
       <div className="max-w-screen-xl mx-auto text-black">
