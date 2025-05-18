@@ -42,8 +42,8 @@ const AutoGalleryItem = ({ autoGallery }) => {
         </div>
       </div>
       <div className="bg-white w-full text-right pt-4 px-6 rounded-b-[30px]">
-        <h2>{autoGallery?.company_name}</h2>
-        <p className="font-vazir h-fit overflow-hidden py-4">
+        <h2 className="text-base-100">{autoGallery?.company_name}</h2>
+        <p className="font-vazir h-fit overflow-hidden py-4 text-base-100">
           {autoGallery?.description
             ?.split(" ")
             .slice(0, 25)
