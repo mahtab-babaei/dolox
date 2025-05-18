@@ -10,6 +10,8 @@ const Videos = dynamic(() => import("./Videos"));
 import CreateAutoSteps from "./CreateAutoSteps";
 import toast from "react-hot-toast";
 import { autoVideos, createAutoReq } from "@/utils/Requests";
+import Link from "next/link";
+
 const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
@@ -163,11 +165,20 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
           </div>
         )}
         {step === 8 && (
-          <p className="px-8 text-center font-vazir py-36 text-gray-500">
-            {errorMessage.includes("contact_phone")
-              ? "برای ثبت اتوگالری شماره تلفن ثابت وارد کنید، شماره موبایل قابل قبول نیست."
-              : errorMessage}
-          </p>
+          <div className="px-8 text-center font-vazir py-36 text-gray-500">
+            {errorMessage.includes("contact_phone") ? (
+              "برای ثبت اتوگالری شماره تلفن ثابت وارد کنید، شماره موبایل قابل قبول نیست."
+            ) : errorMessage.includes("مجوز") ? (
+              <div>
+                <p>{errorMessage}</p>
+                <Link className="btn bg-secondary text-white mt-4 border-none" href="/dashboard/autosubscription">
+                  خرید اشتراک ثبت نمایشگاه
+                </Link>
+              </div>
+            ) : (
+              <span>{errorMessage}</span>
+            )}
+          </div>
         )}
         {loading && step !== 8 && (
           <div className="w-full mx-auto  text-center pt-8">
