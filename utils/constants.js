@@ -107,7 +107,7 @@ export const orderButtons = [
 export const plansMeta = [
   {
     id: 1,
-    type: "is_urgent",
+    type: "is_promoted",
     title: "پلکان",
     subtitle: "آگهیتو بیار بالای دیگر آگهی ها !",
     bg: "#ff4054",
@@ -151,7 +151,7 @@ export const plansMeta = [
   },
   {
     id: 3,
-    type: "is_promoted",
+    type: "is_urgent",
     title: "ثبت سفارشی آگهی",
     subtitle: "آگهی خود را از دیگر آگهی ها متمایز کنید !",
     bg: "#e6273b",

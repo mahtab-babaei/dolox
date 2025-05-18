@@ -33,7 +33,11 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
   if (ad === undefined) return <div className="h-72"></div>;
   return (
     <div
-      className={`!rounded-[30px] bg-${bgColor} shadow-xl transition-shadow duration-300`}
+      className={`!rounded-[30px] bg-${bgColor} ${
+        ad.is_urgent
+          ? "shadow-[0_0_30px_rgba(250,69,5,1)]"
+          : "shadow-xl transition-shadow duration-300"
+      }`}
     >
       <div className="relative cursor-pointer z-10">
         <img
@@ -54,7 +58,7 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
           >
             <path
               d="M10.2421 1.72856C7.89912 -0.576187 4.10037 -0.576187 1.75737 1.72856C1.20109 2.27204 0.759054 2.92124 0.45726 3.63799C0.155466 4.35475 0 5.12461 0 5.90231C0 6.68002 0.155466 7.44987 0.45726 8.16663C0.759054 8.88339 1.20109 9.53259 1.75737 10.0761L5.99937 14.2498L10.2421 10.0761C10.7984 9.53259 11.2404 8.88339 11.5422 8.16663C11.844 7.44987 11.9995 6.68002 11.9995 5.90231C11.9995 5.12461 11.844 4.35475 11.5422 3.63799C11.2404 2.92124 10.7984 2.27204 10.2421 1.72856ZM5.99937 7.87481C5.49837 7.87481 5.02812 7.67981 4.67337 7.32581C4.32219 6.97388 4.12495 6.497 4.12495 5.99981C4.12495 5.50263 4.32219 5.02575 4.67337 4.67381C5.02737 4.31981 5.49837 4.12481 5.99937 4.12481C6.50037 4.12481 6.97137 4.31981 7.32537 4.67381C7.67656 5.02575 7.87379 5.50263 7.87379 5.99981C7.87379 6.497 7.67656 6.97388 7.32537 7.32581C6.97137 7.67981 6.50037 7.87481 5.99937 7.87481Z"
-              fill='#ffff'
+              fill="#ffff"
             />
           </svg>
           <span>{ad.city}</span>
@@ -67,38 +71,40 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
               </div>
             </div>
 
-            <div
-              className="tooltip text-white font-vazir"
-              data-tip="این اگهی در سرارسر کشور دیده می شود"
-            >
-              <div className="p-2 text-black bg-secondary rounded-full flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="36"
-                  height="36"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <g clipPath="url(#clip0_296_14464)">
-                    <path
-                      d="M11 6.5H10V7.5H11V6.5ZM12 6.5H13V7.5H12V6.5ZM15 6.5H14V7.5H15V6.5ZM10 8.5H11V9.5H10V8.5ZM13 8.5H12V9.5H13V8.5ZM14 8.5H15V9.5H14V8.5ZM11 10.5H10V11.5H11V10.5ZM12 10.5H13V11.5H12V10.5ZM15 10.5H14V11.5H15V10.5ZM10 12.5H11V13.5H10V12.5ZM13 12.5H12V13.5H13V12.5ZM10 14.5H11V15.5H10V14.5ZM13 14.5H12V15.5H13V14.5ZM10 16.5H11V17.5H10V16.5ZM13 16.5H12V17.5H13V16.5ZM10 18.5H11V19.5H10V18.5ZM13 18.5H12V19.5H13V18.5ZM15.5 15H17V14H15.5V15ZM17 17H15.5V16H17V17ZM15.5 19H17V18H15.5V19Z"
-                      fill={fillColor}
-                    />
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M8.5 2L16.5 5V12H18.5C18.6326 12 18.7598 12.0527 18.8536 12.1464C18.9473 12.2402 19 12.3674 19 12.5V21H19.5C19.6326 21 19.7598 21.0527 19.8536 21.1464C19.9473 21.2402 20 21.3674 20 21.5C20 21.6326 19.9473 21.7598 19.8536 21.8536C19.7598 21.9473 19.6326 22 19.5 22H4.5C4.36739 22 4.24021 21.9473 4.14645 21.8536C4.05268 21.7598 4 21.6326 4 21.5C4 21.3674 4.05268 21.2402 4.14645 21.1464C4.24021 21.0527 4.36739 21 4.5 21H5V10.5C5 10.3674 5.05268 10.2402 5.14645 10.1464C5.24021 10.0527 5.36739 10 5.5 10H6.5V6.5H7.5V10H8.5V2ZM9.5 3.443L15.5 5.693V12H14C13.8674 12 13.7402 12.0527 13.6464 12.1464C13.5527 12.2402 13.5 12.3674 13.5 12.5V21H9.5V3.443ZM6 11V21H8.5V11H6ZM18 21H17V20H15.5V21H14.5V13H18V21Z"
-                      fill={fillColor}
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_296_14464">
-                      <rect width="24" height="24" fill={fillColor} />
-                    </clipPath>
-                  </defs>
-                </svg>
+            {ad.city === "همه شهر ها" && (
+              <div
+                className="tooltip text-white font-vazir"
+                data-tip="این اگهی در سرارسر کشور دیده می شود"
+              >
+                <div className="p-2 text-black bg-secondary rounded-full flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <g clipPath="url(#clip0_296_14464)">
+                      <path
+                        d="M11 6.5H10V7.5H11V6.5ZM12 6.5H13V7.5H12V6.5ZM15 6.5H14V7.5H15V6.5ZM10 8.5H11V9.5H10V8.5ZM13 8.5H12V9.5H13V8.5ZM14 8.5H15V9.5H14V8.5ZM11 10.5H10V11.5H11V10.5ZM12 10.5H13V11.5H12V10.5ZM15 10.5H14V11.5H15V10.5ZM10 12.5H11V13.5H10V12.5ZM13 12.5H12V13.5H13V12.5ZM10 14.5H11V15.5H10V14.5ZM13 14.5H12V15.5H13V14.5ZM10 16.5H11V17.5H10V16.5ZM13 16.5H12V17.5H13V16.5ZM10 18.5H11V19.5H10V18.5ZM13 18.5H12V19.5H13V18.5ZM15.5 15H17V14H15.5V15ZM17 17H15.5V16H17V17ZM15.5 19H17V18H15.5V19Z"
+                        fill={fillColor}
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M8.5 2L16.5 5V12H18.5C18.6326 12 18.7598 12.0527 18.8536 12.1464C18.9473 12.2402 19 12.3674 19 12.5V21H19.5C19.6326 21 19.7598 21.0527 19.8536 21.1464C19.9473 21.2402 20 21.3674 20 21.5C20 21.6326 19.9473 21.7598 19.8536 21.8536C19.7598 21.9473 19.6326 22 19.5 22H4.5C4.36739 22 4.24021 21.9473 4.14645 21.8536C4.05268 21.7598 4 21.6326 4 21.5C4 21.3674 4.05268 21.2402 4.14645 21.1464C4.24021 21.0527 4.36739 21 4.5 21H5V10.5C5 10.3674 5.05268 10.2402 5.14645 10.1464C5.24021 10.0527 5.36739 10 5.5 10H6.5V6.5H7.5V10H8.5V2ZM9.5 3.443L15.5 5.693V12H14C13.8674 12 13.7402 12.0527 13.6464 12.1464C13.5527 12.2402 13.5 12.3674 13.5 12.5V21H9.5V3.443ZM6 11V21H8.5V11H6ZM18 21H17V20H15.5V21H14.5V13H18V21Z"
+                        fill={fillColor}
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_296_14464">
+                        <rect width="24" height="24" fill={fillColor} />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className="bg-secondary h-full text-white text-center align-middle flex items-center relative cut-right before:border-t-secondary">
@@ -132,8 +138,29 @@ const AdsItem = ({ ad, bgColor, fillColor }) => {
       <div
         className={`w-full text-right text-${fillColor} p-4 rounded-b-[30px]`}
       >
-        <Link href={`/ads/${ad.id}`}>{ad.model}</Link>
+        <div className="flex justify-between ">
+          <Link href={`/ads/${ad.id}`}>{ad.model}</Link>
+          {ad.is_promoted && (
+            <div className="flex items-center gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="#bc1526"
+                className="size-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                />
+              </svg>
 
+              <p className="text-sm font-bold text-primary">پیشنهادی</p>
+            </div>
+          )}
+        </div>
         <div className="flex justify-between">
           <div>
             <div className="flex gap-2 font-vazir items-center mt-2">

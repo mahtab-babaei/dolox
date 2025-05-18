@@ -160,7 +160,7 @@ const TotalAds = ({ brands, searchQuery }) => {
           hasMore={hasMore}
           loader={<Spinner />}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-8">
             {adsData?.map((ad, index) => (
               <AdsItem key={index} bgColor="white" fillColor="black" ad={ad} />
             ))}
