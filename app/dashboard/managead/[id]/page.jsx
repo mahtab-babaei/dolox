@@ -66,7 +66,7 @@ const ManageAdPage = () => {
           {error}
         </div>
       ) : (
-        <div className="flex justify-center base:justify-start gap-6 h-fit max-w-screen-xl mx-auto">
+        <div className="flex justify-start bg-base-200 w-full pb-10  gap-4">
           <DashboardPanel />
           <AdEdit adDetails={adData} />
         </div>

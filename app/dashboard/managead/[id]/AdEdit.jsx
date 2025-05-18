@@ -19,7 +19,7 @@ const AdEdit = ({ adDetails }) => {
   };
 
   return (
-    <div className="grid base:flex gap-2">
+    <div className="grid base:flex gap-4">
       <div className="flex flex-col h-fit gap-4 items-center bg-white p-6 rounded-[34px]">
         {adDetails?.images?.length > 0 && adDetails?.images[0]?.image ? (
           <Image

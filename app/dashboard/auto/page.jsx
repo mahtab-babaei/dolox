@@ -37,7 +37,7 @@ const AutoPage = () => {
       خطا در بارگذاری اطلاعات: {error}
     </div>
   ) : (
-    <div className="flex justify-start h-fit bg-base-200 w-full pt-40 pb-10">
+    <div className="flex justify-start h-fit bg-base-200 w-full pt-40 pb-10 px-4">
       <DashboardPanel />
       <DashboardAuto profile={profile} />
     </div>

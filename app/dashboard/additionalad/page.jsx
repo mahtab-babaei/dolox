@@ -5,8 +5,7 @@ import Package from "@/app/createad/Package";
 
 const AdditionalAdPage = () => {
   return (
-    <div className="bg-base-200 w-full py-40 px-4">
-      <div className="flex justify-center base:justify-start gap-6 h-fit max-w-screen-xl mx-auto">
+    <div className="flex justify-start  bg-base-200 w-full pt-40 pb-10 px-4">
         <DashboardPanel />
         <div className="h-full w-full px-4">
           <div className="bg-white w-full max-w-screen-md h-fit rounded-[34px] p-8 flex flex-col">
@@ -18,7 +17,6 @@ const AdditionalAdPage = () => {
             <Package />
           </div>
         </div>
-      </div>
     </div>
   );
 };

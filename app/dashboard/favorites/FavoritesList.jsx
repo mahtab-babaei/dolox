@@ -29,7 +29,7 @@ const FavoritesList = () => {
 
   return (
     <div className="h-full w-full px-4">
-      <div className="bg-white w-full max-w-screen-lg h-fit rounded-[34px] p-4 base:p-8 flex flex-col">
+      <div className="bg-white w-full max-w-screen-lg h-full rounded-[34px] p-4 base:p-8 flex flex-col">
         <h1 className="text-xl text-black mb-6">آگهی های مورد علاقه</h1>
         <div className="grid grid-cols-1 base:grid-cols-2 gap-4">
           {favoritesList.map((favorite) => (
