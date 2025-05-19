@@ -39,7 +39,7 @@ const AdEdit = ({ adDetails }) => {
           {adDetails?.price ? adDetails.price : "قیمت توافقی"}
         </h2>
         <Link className="w-full" href={`/ads/${adDetails?.id}`}>
-          <button className="btn bg-[#bc1526] text-white w-full font-vazir font-medium text-base flex items-center">
+          <button className="border-none btn bg-[#bc1526] text-white w-full font-vazir font-medium text-base flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -58,7 +58,7 @@ const AdEdit = ({ adDetails }) => {
         </Link>
         <Link
           href={`/createad?id=${adDetails?.id}`}
-          className="btn bg-[#fca474] text-white w-full font-vazir font-medium text-base flex items-center"
+          className="border-none btn bg-[#fca474] text-white w-full font-vazir font-medium text-base flex items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ const AdEdit = ({ adDetails }) => {
         </Link>
         <button
           onClick={handleDeleteAd}
-          className="btn bg-[#ff051f] text-white w-full font-vazir font-medium text-base flex items-center"
+          className="border-none btn bg-[#ff051f] text-white w-full font-vazir font-medium text-base flex items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

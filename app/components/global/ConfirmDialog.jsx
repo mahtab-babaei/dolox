@@ -31,11 +31,11 @@ const ConfirmDialog = ({ isOpen, onClose, data, id }) => {
     isOpen && (
       <div className="fixed z-20 inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
         <div className="modal modal-open">
-          <div className="modal-box">
+          <div className="modal-box bg-white">
             <p className="font-vazir">آیا از حذف این آگهی مطمئن هستید؟</p>
             <div className="modal-action flex justify-between">
               <button
-                className="btn bg-primary text-white font-vazir"
+                className="btn bg-primary text-white font-vazir border-none"
                 onClick={onClose}
               >
                 انصراف

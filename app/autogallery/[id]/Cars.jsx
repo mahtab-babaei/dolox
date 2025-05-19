@@ -1,7 +1,7 @@
 import React from "react";
 import AdsItem from "@/app/components/global/AdsItem";
 
-const Cars = ({ cars }) => {
+const Cars = ({ cars, isEdit }) => {
   if (cars.length > 0)
     return (
       <>
@@ -10,7 +10,7 @@ const Cars = ({ cars }) => {
         </div>
         <div className="grid grid-cols-1 base:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
           {cars.map((car, index) => (
-            <AdsItem key={index} bgColor="white" fillColor="black" ad={car} />
+            <AdsItem key={index} bgColor="white" fillColor="black" ad={car} isEdit={isEdit}/>
           ))}
         </div>
       </>

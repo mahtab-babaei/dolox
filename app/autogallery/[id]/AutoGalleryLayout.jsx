@@ -7,8 +7,9 @@ import ContactButton from "./ContactButton";
 import Logo from "./Logo";
 import AutogallerySocialMedia from "./AutogallerySocialMedia";
 import { fetchAutoDetails } from "@/utils/Requests";
+import Link from "next/link";
 
-const AutoGalleryLayout = ({ children }) => {
+const AutoGalleryLayout = ({ children, isEdit }) => {
   const { id } = useParams();
   const [autoDetails, setAutoDetails] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +38,9 @@ const AutoGalleryLayout = ({ children }) => {
 
   if (autoDetails?.is_deleted)
     return (
-      <div className="text-base-content px-6 py-60 font-vazir text-center bg-neutral">اتوگالری یافت نشد</div>
+      <div className="text-base-content px-6 py-60 font-vazir text-center bg-neutral">
+        اتوگالری یافت نشد
+      </div>
     );
 
   if (loading) return <LoadingComponent />;
@@ -59,6 +62,22 @@ const AutoGalleryLayout = ({ children }) => {
                   alt="autogalleryBanner"
                   src="/images/autogalleybanner.png"
                 />
+                {isEdit && (
+                  <Link
+                    className="flex gap-2 items-center justify-center font-vazir absolute top-4 left-4 bg-[#FCA474] text-white border-none py-3 px-3 rounded-lg text-sm"
+                    href={`/createauto?id=${autoDetails?.id}`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="size-4"
+                    >
+                      <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                    </svg>
+                    ویرایش
+                  </Link>
+                )}
                 <div className="absolute bottom-2 left-2">
                   <AutogallerySocialMedia
                     links={autoDetails.social_media_links}

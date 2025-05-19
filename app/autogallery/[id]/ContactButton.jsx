@@ -6,7 +6,7 @@ const ContactButton = ({ phone }) => {
     <>
       <button
         onClick={() => setShowNumber(!showNumber)}
-        className="btn border-none text-nowrap px-2 sm:px-4 my-2 bg-secondary text-white"
+        className="btn border-none text-nowrap px-2 sm:px-4 my-2 bg-secondary text-white font-vazir font-normal"
       >
         <div className="flex items-center justify-center gap-1">
           <svg

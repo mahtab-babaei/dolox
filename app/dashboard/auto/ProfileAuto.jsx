@@ -16,7 +16,6 @@ const ProfileAuto = ({ exhibition, picture }) => {
     is_deleted: true,
   };
 
-  console.log(exhibition.contact_phone);
   return (
     <div
       className={`my-2 rounded-[6px] flex justify-between flex-col md:flex-row ${
@@ -37,7 +36,7 @@ const ProfileAuto = ({ exhibition, picture }) => {
       </div>
       <div className="md:border-r-2 flex flex-col sm:flex-row gap-2 items-center justify-center py-3 px-6 sm:min-w-[270px] rounded-l-[6px]">
         <Link
-          href={`/createauto?id=${exhibition?.id}`}
+          href={`/autogallery/${exhibition?.id}?edit=${exhibition?.id}`}
           className="btn bg-white text-black border-none hover:text-white"
         >
           مدیریت اتوگالری
