@@ -60,7 +60,7 @@ const AutoGalleryLayout = ({ children, isEdit }) => {
                   width={1280}
                   height={720}
                   alt="autogalleryBanner"
-                  src="/images/autogalleybanner.png"
+                  src="/images/autogalleybanner1.jpg"
                 />
                 {isEdit && (
                   <Link
