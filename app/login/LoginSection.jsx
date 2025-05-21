@@ -83,14 +83,15 @@ const LoginSection = () => {
           setCookie(null, "access", response.access, {
             maxAge: 60 * 60 * 24 * 7, // 1 week
             path: "/", // Accessible across the entire app
-            secure: false, 
+            secure: false,
             sameSite: "Lax",
           });
+          console.log("Access cookie set:", response.access);
 
           setCookie(null, "refresh", response.refresh, {
             maxAge: 60 * 60 * 24 * 30, // 30 days
             path: "/",
-            secure: false, 
+            secure: false,
             sameSite: "Lax",
           });
 
