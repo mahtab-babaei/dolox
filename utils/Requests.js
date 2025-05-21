@@ -922,6 +922,7 @@ export const loginReq = async (phonenumber, password) => {
     headers: myHeaders,
     body: raw,
     redirect: "follow",
+    credentials: "include",
   };
 
   return fetch(BackendURL + "/accounts/token", requestOptions)
