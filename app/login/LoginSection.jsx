@@ -74,7 +74,6 @@ const LoginSection = () => {
       try {
         // Sending login request to the backend
         const response = await loginReq(values.phonenumber, values.password);
-        console.log(response);
 
         if (response.error) {
           setMessage(response.message); // Display error message
@@ -83,16 +82,13 @@ const LoginSection = () => {
           setCookie(null, "access", response.access, {
             maxAge: 60 * 60 * 24 * 7, // 1 week
             path: "/", // Accessible across the entire app
-            secure: false,
-            sameSite: "Lax",
+            secure: true, // Always use secure cookies
           });
-          console.log("Access cookie set:", response.access);
 
           setCookie(null, "refresh", response.refresh, {
             maxAge: 60 * 60 * 24 * 30, // 30 days
             path: "/",
-            secure: false,
-            sameSite: "Lax",
+            sameSite: "None",
           });
 
           // Redirect to dashboard
