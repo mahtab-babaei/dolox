@@ -112,7 +112,7 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
             body,
             description,
             kilometer,
-            price: price !== null ? price : undefined,
+            price: price,
             installments,
             rentorsale,
             city,
@@ -225,6 +225,7 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
               description={description}
             />
             <Price
+              isEdit={isEdit}
               setStep={setStep}
               step={step}
               setInstallments={setInstallments}

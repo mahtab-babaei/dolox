@@ -16,6 +16,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const Price = ({
+  isEdit,
   step,
   setStep,
   setPrice,
@@ -28,17 +29,19 @@ const Price = ({
   const [category, setCategory] = useState("نقدی");
   const [isRent, setIsRent] = useState(false);
 
-  // مقداردهی اولیه در حالت edit
+  // Initial value in edit page
   useEffect(() => {
-    if (installments) {
-      setCategory("اقساط");
-    } else if (!price) {
-      setCategory("توافقی");
-    } else {
-      setCategory("نقدی");
+    if (isEdit) {
+      if (installments) {
+        setCategory("اقساط");
+      } else if (!price) {
+        setCategory("توافقی");
+      } else {
+        setCategory("نقدی");
+      }
     }
     setIsRent(rentorsale === "rent");
-  }, [installments, rentorsale, price]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -46,14 +49,18 @@ const Price = ({
     },
     validationSchema,
     onSubmit: (values) => {
-      if (category === "توافقی") {
-        setPrice(null);
-      } else {
-        setPrice(values.price);
-      }
+      const finalPrice =
+        category === "توافقی"
+          ? null
+          : values.price === ""
+          ? null
+          : values.price;
+
+      setPrice(finalPrice);
       setRentorsale(isRent ? "rent" : "sale");
       setStep(6);
     },
+
     enableReinitialize: true,
   });
 
@@ -137,7 +144,7 @@ const Price = ({
               onChange={() => setIsRent(!isRent)}
               className="checkbox border-orange-400 [--chkbg:theme(colors.secondary)] [--chkfg:white]"
             />
-            <p className="text-black">خودرو را اجاره هم می دهم</p>
+            <p className="text-black">خودرو را اجاره می دهم</p>
           </div>
         </div>
       </div>
