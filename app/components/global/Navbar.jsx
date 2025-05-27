@@ -68,9 +68,9 @@ const Navbar = () => {
         <div className="flex gap-4">
           <Link
             className="btn bg-primary border-primary text-white  hidden base:flex"
-            href="/"
+            href="/createauto"
           >
-            ثبت رایگان اتو گالری
+            ثبت رایگان اتوگالری
           </Link>
           <Link
             className="btn bg-secondary border-secondary text-white border-none hidden base:flex"
@@ -133,9 +133,9 @@ const Navbar = () => {
         <div className="flex flex-col justify-end mb-8">
           <Link
             className="btn bg-primary border-primary text-white mb-2"
-            href="/"
+            href="/createauto"
           >
-            ثبت رایگان اتو گالری
+            ثبت رایگان اتوگالری
           </Link>
           <Link
             className="btn bg-secondary border-secondary text-white"

@@ -5,8 +5,8 @@ import { useFormik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { setCookie } from "nookies"; // Import nookies for setting cookies
-import { useState } from "react";
+import { parseCookies, setCookie, destroyCookie } from "nookies"; // Import nookies for setting cookies
+import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import ErrorMessage from "../components/global/ErrorMessage";
 
@@ -15,6 +15,17 @@ const LoginSection = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const [message, setMessage] = useState(""); // Message state
   const [showPassword, setShowPassword] = useState(false); // Password visibility state
+
+  useEffect(() => {
+    const cookies = parseCookies();
+    const token = cookies.access || null;
+
+    if (token) {
+      destroyCookie(null, "access");
+      destroyCookie(null, "refresh");
+      router.replace("/login");
+    }
+  }, []);
 
   const eyeIcon = (
     <svg
