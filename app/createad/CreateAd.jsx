@@ -178,117 +178,122 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
           </div>
         ) : (
           <>
-            {/* steps */}
-            {(step !== 9 || adable.success) && (
-              <CreateAdSteps step={step} setStep={setStep} />
-            )}
-            {/* {adable.success && ( */}
-            <Brands
-              brands={brands}
-              setBrand={setBrand}
-              setStep={setStep}
-              step={step}
-              category={category}
-              setCategory={setCategory}
-            />
-            {/* )} */}
-            <Models
-              setStep={setStep}
-              step={step}
-              setModel={setModel}
-              brand={brand}
-            />
-            <Year setStep={setStep} step={step} setYear={setYear} year={year} />
-            {!isFetching && step === 3 && (
-              <Body
-                setStep={setStep}
-                step={step}
-                setBody={setBody}
-                category={category}
-                bodyCondition={bodyCondition}
-                bodyColor={bodyColor}
-                gearType={gearType}
-                frontChassisCondition={frontChassisCondition}
-                backChassisCondition={backChassisCondition}
-                gastype={gastype}
-                insurance={insurance}
-                seatCondition={seatCondition}
-              />
-            )}
-            <Description
-              setStep={setStep}
-              step={step}
-              setKilometer={setKilometer}
-              setDescription={setDescription}
-              category={category}
-              kilometer={kilometer}
-              description={description}
-            />
-            <Price
-              isEdit={isEdit}
-              setStep={setStep}
-              step={step}
-              setInstallments={setInstallments}
-              setPrice={setPrice}
-              setRentorsale={setRentorsale}
-              price={price}
-              rentorsale={rentorsale}
-              installments={installments}
-            />
-            <Images
-              setStep={setStep}
-              step={step}
-              images={images}
-              setImages={setImages}
-            />
-            <Location
-              setStep={setStep}
-              step={step}
-              setCity={setCity}
-              city={city}
-            />
-            <Submit setStep={setStep} step={step} />
-
-            {step === 10 && (
-              <div>
-                <p className="px-8 text-center font-vazir text-base-100">
-                  آگهی شما با موفقیت ساخته شد 😉
-                </p>
-                <Package submitedAdID={submitedAdID} />
-              </div>
-            )}
-            {step === 11 && (
-              <div className="px-8 text-center py-36">
-                <p className=" font-vazir text-gray-500">
-                  {errorMessage || "آگهی شما ساخته نشد"}
-                </p>
-                {errorMessage === "شما نمیتوانید بیشتر از سه اگهی ثبت کنید" && (
-                  <Link
-                    className="btn bg-primary text-white border-none mt-5"
-                    href="/dashboard/additionalad"
-                  >
-                    ساخت آگهی اضافه
-                  </Link>
-                )}
-              </div>
-            )}
-            {loading && step !== 11 && (
-              <div className="w-full mx-auto  text-center pt-8">
-                <p className="text-lg font-vazir w-full  mx-auto font-bold text-black">
-                  در حال ساخت اگهی
-                </p>
-                <p className="text-sm font-vazir w-full  mx-auto  text-black">
-                  لطفا صبر کنید
-                </p>
-                <span className="loading loading-ball loading-lg text-secondary"></span>
-              </div>
-            )}
-
-            {/* user can't submit Ad */}
-            {!adable.success && (
-              <p className="px-8 text-center font-vazir py-36">
+            {/* اگه اجازه ثبت آگهی نداشت و حالت ویرایش هم نبود فقط پیام خطا رو نشون بده */}
+            {!adable.success && !isEdit ? (
+              <p className="px-8 text-center font-vazir py-36 text-base-content">
                 {adable.message}
               </p>
+            ) : (
+              <>
+                {/* steps */}
+                {(step !== 9 || adable.success) && (
+                  <CreateAdSteps step={step} setStep={setStep} />
+                )}
+                <Brands
+                  brands={brands}
+                  setBrand={setBrand}
+                  setStep={setStep}
+                  step={step}
+                  category={category}
+                  setCategory={setCategory}
+                />
+                <Models
+                  setStep={setStep}
+                  step={step}
+                  setModel={setModel}
+                  brand={brand}
+                />
+                <Year
+                  setStep={setStep}
+                  step={step}
+                  setYear={setYear}
+                  year={year}
+                />
+                {!isFetching && step === 3 && (
+                  <Body
+                    setStep={setStep}
+                    step={step}
+                    setBody={setBody}
+                    category={category}
+                    bodyCondition={bodyCondition}
+                    bodyColor={bodyColor}
+                    gearType={gearType}
+                    frontChassisCondition={frontChassisCondition}
+                    backChassisCondition={backChassisCondition}
+                    gastype={gastype}
+                    insurance={insurance}
+                    seatCondition={seatCondition}
+                  />
+                )}
+                <Description
+                  setStep={setStep}
+                  step={step}
+                  setKilometer={setKilometer}
+                  setDescription={setDescription}
+                  category={category}
+                  kilometer={kilometer}
+                  description={description}
+                />
+                <Price
+                  isEdit={isEdit}
+                  setStep={setStep}
+                  step={step}
+                  setInstallments={setInstallments}
+                  setPrice={setPrice}
+                  setRentorsale={setRentorsale}
+                  price={price}
+                  rentorsale={rentorsale}
+                  installments={installments}
+                />
+                <Images
+                  setStep={setStep}
+                  step={step}
+                  images={images}
+                  setImages={setImages}
+                />
+                <Location
+                  setStep={setStep}
+                  step={step}
+                  setCity={setCity}
+                  city={city}
+                />
+                <Submit setStep={setStep} step={step} />
+                {step === 10 && (
+                  <div>
+                    <p className="px-8 text-center font-vazir text-base-100">
+                      آگهی شما با موفقیت ساخته شد 😉
+                    </p>
+                    <Package submitedAdID={submitedAdID} />
+                  </div>
+                )}
+                {step === 11 && (
+                  <div className="px-8 text-center py-36">
+                    <p className=" font-vazir text-gray-500">
+                      {errorMessage || "آگهی شما ساخته نشد"}
+                    </p>
+                    {errorMessage ===
+                      "شما نمیتوانید بیشتر از سه اگهی ثبت کنید" && (
+                      <Link
+                        className="btn bg-primary text-white border-none mt-5"
+                        href="/dashboard/additionalad"
+                      >
+                        ساخت آگهی اضافه
+                      </Link>
+                    )}
+                  </div>
+                )}
+                {loading && step !== 11 && (
+                  <div className="w-full mx-auto  text-center pt-8">
+                    <p className="text-lg font-vazir w-full  mx-auto font-bold text-black">
+                      در حال ساخت اگهی
+                    </p>
+                    <p className="text-sm font-vazir w-full  mx-auto  text-black">
+                      لطفا صبر کنید
+                    </p>
+                    <span className="loading loading-ball loading-lg text-secondary"></span>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
