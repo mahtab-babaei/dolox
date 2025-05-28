@@ -1,18 +1,24 @@
 import React from "react";
 import exhibitionImage from "@/public/images/sampleautogallery.png";
 import Link from "next/link";
+import Image from "next/image";
 
 const AdExhibition = ({ exhibitionId, logo, autoDescription, companyName }) => {
   return (
     <div className="grid md:flex bg-white text-black p-8 rounded-2xl w-full gap-4 items-center">
-      <div className="flex justify-center">
+      {logo ? (
         <img
           alt="exhibitionImage"
-          className="rounded-lg"
-          src={logo || exhibitionImage}
+          className="rounded-lg md:max-w-56 mx-auto"
+          src={logo}
         />
-      </div>
-      <div className="w-[90%]">
+      ) : (
+        <Image
+          src={exhibitionImage}
+          className="rounded-lg md:max-w-56 mx-auto"
+        />
+      )}
+      <div className="w-full">
         <h1 className="flex justify-center md:justify-start mb-2 text-[18px]">
           {companyName}
         </h1>
