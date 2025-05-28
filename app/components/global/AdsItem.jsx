@@ -49,11 +49,11 @@ const AdsItem = ({ ad, bgColor, fillColor, isEdit }) => {
       <div className="relative cursor-pointer z-10">
         <img
           onClick={handleClick}
-          className="mx-auto object-cover w-full object-center rounded-t-[30px] bg-gray-600"
+          className="mx-auto object-cover w-full h-52 object-center rounded-t-[30px] bg-gray-600"
           src={ad?.images[0]?.image}
           width={370}
           height={208}
-          alt="car"
+          alt={ad?.model || "car"}
         />
         <div className="absolute top-0 right-0 bg-primary text-white flex py-2 px-4 gap-2 items-center rounded-tr-[30px] rounded-bl-[14px]">
           <svg
