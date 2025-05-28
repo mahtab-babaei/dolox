@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { destroyCookie } from "nookies";
 
 const DashboardPanel = () => {
-  const user = useUser();
+  const { user, setUser } = useUser();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -15,6 +15,9 @@ const DashboardPanel = () => {
       // Remove cookies in client
       destroyCookie(null, "access");
       destroyCookie(null, "refresh");
+
+      // Update user's state in context
+      setUser(null);
 
       // Redirect to the login page after logout
       router.push("/login");

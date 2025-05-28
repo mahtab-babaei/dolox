@@ -2,18 +2,21 @@
 
 import { createContext, useContext } from "react";
 
-// Create Context for user
-const UserContext = createContext(null);
+// Change the initial value of context to an object
+export const UserContext = createContext({
+  user: null,
+  setUser: () => {}, 
+});
 
-// Hook to access the user
+// Hook to access context
 export const useUser = () => {
   return useContext(UserContext);
 };
 
-// Provider to pass user to child components
-export const UserProvider = ({ user, children }) => {
+// Provider to pass user and setUser to children
+export const UserProvider = ({ user, setUser, children }) => { 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{ user, setUser }}> 
       {children}
     </UserContext.Provider>
   );

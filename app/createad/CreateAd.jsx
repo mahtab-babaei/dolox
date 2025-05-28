@@ -21,7 +21,7 @@ import Link from "next/link";
 
 const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const router = useRouter();
-  const user = useUser();
+  const { user } = useUser();
   const [step, setStep] = useState(0);
   const [category, setCategory] = useState("سواری");
   const [brand, setBrand] = useState(null);

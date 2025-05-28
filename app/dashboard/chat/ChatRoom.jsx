@@ -4,7 +4,7 @@ import { formatTime } from "@/utils/Cal";
 import { useUser } from "@/context/UserContext";
 
 export default function ChatRoom({ roomName, onBackToList }) {
-  const user = useUser();
+  const { user } = useUser();
   const {
     chatSocket,
     messages,

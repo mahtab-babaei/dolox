@@ -3,15 +3,20 @@ import Link from "next/link";
 import { destroyCookie } from "nookies";
 import { useRouter } from "next/navigation";
 import { menuItems } from "@/utils/constants";
+import { useUser } from "@/context/UserContext";
 
 const UserDropDown = () => {
   const router = useRouter();
+  const { setUser } = useUser();
 
   const handleLogout = async () => {
     try {
       // Remove cookies in client
       destroyCookie(null, "access");
       destroyCookie(null, "refresh");
+
+      // Update user's state in context
+      setUser(null);
 
       // Redirect to the login page after logout
       router.push("/login");
@@ -31,7 +36,7 @@ const UserDropDown = () => {
           <Link
             className="flex gap-2 rounded-[10px] items-center h-10 pr-2 hover:bg-slate-300 duration-300"
             href={item.href}
-            onClick={item.label === "خروج" && handleLogout}
+            onClick={item.label === "خروج" ? handleLogout : undefined}
           >
             <svg
               width={12}

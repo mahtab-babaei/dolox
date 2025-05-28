@@ -12,7 +12,7 @@ import Notif from "./Notif";
 import { useUser } from "@/context/UserContext";
 
 const Navbar = () => {
-  const user = useUser();
+  const { user } = useUser();
   const userName =
     user?.first_name || user?.username || user?.phone_number || "ورود";
   const [drawer, setDrawer] = useState(false);
