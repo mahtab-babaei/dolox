@@ -1,15 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-const Phone = dynamic(() => import("./Phone"));
-const Specifications = dynamic(() => import("./Specifications"));
-const Address = dynamic(() => import("./Address"));
-const SocialMedia = dynamic(() => import("./SocialMedia"));
-const Banner = dynamic(() => import("./Banner"));
-const Videos = dynamic(() => import("./Videos"));
+import Phone from "./Phone";
+import Specifications from "./Specifications";
+import Address from "./Address";
+import SocialMedia from "./SocialMedia";
+import Banner from "./Banner";
+import Videos from "./Videos";
 import CreateAutoSteps from "./CreateAutoSteps";
 import toast from "react-hot-toast";
-import { autoVideos, createAutoReq } from "@/utils/Requests";
+import { autoVideos, createAutoReq, getProfile } from "@/utils/Requests";
 import Link from "next/link";
 
 const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
@@ -28,6 +27,8 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
   const [logo, setLogo] = useState(null);
   const [video, setVideo] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [hasExhibition, setHasExhibition] = useState(null);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     if (isEdit && autoData) {
@@ -44,6 +45,57 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
       setLogo(autoData.logo);
     }
   }, [isEdit, autoData]);
+
+  // Check user has autogallery or not
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsFetching(true);
+      setErrorMessage("");
+
+      try {
+        const profile = await getProfile();
+        if (profile && profile.exhibition) {
+          if (profile.exhibition.length === 0) {
+            setHasExhibition(false);
+          } else {
+            const firstExhibition = profile.exhibition[0];
+            if (firstExhibition.is_deleted === true) {
+              setHasExhibition(false);
+            } else if (firstExhibition.is_deleted === false) {
+              setHasExhibition(true);
+            } else {
+              console.warn(
+                "profile.exhibition[0].is_deleted is neither true nor false:",
+                firstExhibition.is_deleted
+              );
+              setHasExhibition(true);
+            }
+          }
+        } else {
+          setHasExhibition(false);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching profile or checking exhibition status:",
+          error
+        );
+        setHasExhibition(false);
+        setErrorMessage(
+          "خطا در بررسی سابقه نمایشگاه شما. لطفاً صفحه را رفرش کنید یا بعداً تلاش کنید."
+        );
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    if (!isEdit) {
+      fetchData();
+    } else {
+      setIsFetching(false);
+      setHasExhibition(false);
+      setErrorMessage("");
+    }
+  }, [isEdit]);
 
   useEffect(() => {
     const submitAuto = async () => {
@@ -99,95 +151,132 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
   return (
     <div className="justify-start bg-base-200 w-full pt-40 pb-10 px-4">
       <div className="max-w-screen-sm mx-auto bg-white py-10 rounded-[34px] text-black">
-        <h1 className="text-center text-xl">ثبت اتوگالری</h1>
-        {step !== 6 && <CreateAutoSteps step={step} setStep={setStep} />}
-        {step === 0 && (
-          <Phone
-            step={step}
-            setStep={setStep}
-            setContactPhone={setContactPhone}
-            contactPhone={contactPhone}
-          />
-        )}
-        {step === 1 && (
-          <Specifications
-            step={step}
-            setStep={setStep}
-            setContactName={setContactName}
-            contactName={contactName}
-            setCompanyName={setCompanyName}
-            companyName={companyName}
-            setDescription={setDescription}
-            description={description}
-            isSellDomestic={isSellDomestic}
-            setIsSellDomestic={setIsSellDomestic}
-            isSellChinese={isSellChinese}
-            setIsSellChinese={setIsSellChinese}
-            isSellForeign={isSellForeign}
-            setIsSellForeign={setIsSellForeign}
-          />
-        )}
-        {step === 2 && (
-          <Address
-            step={step}
-            setStep={setStep}
-            setCity={setCity}
-            setAddress={setAddress}
-            city={city}
-            address={address}
-          />
-        )}
-        {step === 3 && (
-          <SocialMedia
-            step={step}
-            setStep={setStep}
-            setSocialMediaLinks={setSocialMediaLinks}
-            socialMediaLinks={socialMediaLinks}
-          />
-        )}
-        {step === 4 && (
-          <Banner step={step} setStep={setStep} setLogo={setLogo} logo={logo} />
-        )}
-        {step === 5 && (
-          <Videos
-            step={step}
-            setStep={setStep}
-            setVideo={setVideo}
-            video={video}
-          />
-        )}
-        {step === 7 && (
-          <div>
-            <p className="px-6 sm:px-28 text-center font-vazir py-36 max-full">
-              درخواست شما با موفقیت ثبت شد. جهت تایید اطلاعات تا 48 ساعت کاری
-              آینده با شما تماس گرفته خواهد شد.
-            </p>
+        <h1 className="text-center text-xl">
+          {isEdit ? "ویرایش اتوگالری" : "ثبت اتوگالری"}
+        </h1>
+        {isFetching ? (
+          <div className="flex justify-center items-center py-20">
+            <span className="loading loading-spinner loading-lg"></span>
           </div>
-        )}
-        {step === 8 && (
-          <div className="px-8 text-center font-vazir py-36 text-gray-500">
-            {errorMessage.includes("contact_phone") ? (
-              "برای ثبت اتوگالری شماره تلفن ثابت وارد کنید، شماره موبایل قابل قبول نیست."
-            ) : errorMessage.includes("مجوز") ? (
-              <div>
-                <p>{errorMessage}</p>
-                <Link className="btn bg-secondary text-white mt-4 border-none" href="/dashboard/autosubscription">
-                  خرید اشتراک ثبت نمایشگاه
-                </Link>
-              </div>
+        ) : (
+          <>
+            {!isEdit && hasExhibition ? (
+              <p className="px-8 text-center font-vazir py-36 text-base-content">
+                شما قبلا اتوگالری خود را ثبت کرده اید
+              </p>
+            ) : errorMessage ? (
+              <p className="px-8 text-center font-vazir py-36 text-base-content">
+                {errorMessage}
+              </p>
             ) : (
-              <span>{errorMessage}</span>
+              <>
+                {/* steps */}
+                {step !== 6 && (
+                  <CreateAutoSteps step={step} setStep={setStep} />
+                )}
+                {step === 0 && (
+                  <Phone
+                    step={step}
+                    setStep={setStep}
+                    setContactPhone={setContactPhone}
+                    contactPhone={contactPhone}
+                  />
+                )}
+                {step === 1 && (
+                  <Specifications
+                    step={step}
+                    setStep={setStep}
+                    setContactName={setContactName}
+                    contactName={contactName}
+                    setCompanyName={setCompanyName}
+                    companyName={companyName}
+                    setDescription={setDescription}
+                    description={description}
+                    isSellDomestic={isSellDomestic}
+                    setIsSellDomestic={setIsSellDomestic}
+                    isSellChinese={isSellChinese}
+                    setIsSellChinese={setIsSellChinese}
+                    isSellForeign={isSellForeign}
+                    setIsSellForeign={setIsSellForeign}
+                  />
+                )}
+                {step === 2 && (
+                  <Address
+                    step={step}
+                    setStep={setStep}
+                    setCity={setCity}
+                    setAddress={setAddress}
+                    city={city}
+                    address={address}
+                  />
+                )}
+                {step === 3 && (
+                  <SocialMedia
+                    step={step}
+                    setStep={setStep}
+                    setSocialMediaLinks={setSocialMediaLinks}
+                    socialMediaLinks={socialMediaLinks}
+                  />
+                )}
+                {step === 4 && (
+                  <Banner
+                    step={step}
+                    setStep={setStep}
+                    setLogo={setLogo}
+                    logo={logo}
+                  />
+                )}
+                {step === 5 && (
+                  <Videos
+                    step={step}
+                    setStep={setStep}
+                    setVideo={setVideo}
+                    video={video}
+                  />
+                )}
+                {step === 7 && (
+                  <div>
+                    <p className="px-6 sm:px-28 text-center font-vazir py-36 max-full">
+                      درخواست شما با موفقیت ثبت شد. جهت تایید اطلاعات تا 48 ساعت
+                      کاری آینده با شما تماس گرفته خواهد شد.
+                    </p>
+                  </div>
+                )}
+                {step === 8 && (
+                  <div className="px-8 text-center font-vazir py-36 text-gray-500">
+                    {errorMessage.includes("contact_phone") ? (
+                      "برای ثبت اتوگالری شماره تلفن ثابت وارد کنید، شماره موبایل قابل قبول نیست."
+                    ) : errorMessage.includes("company_name") ? (
+                      "اتوگالری با نامی که انتخاب کردید قبلا به ثبت رسیده است."
+                    ) : errorMessage.includes("مجوز") ? (
+                      <div>
+                        <p>{errorMessage}</p>
+                        <Link
+                          className="btn bg-secondary text-white mt-4 border-none"
+                          href="/dashboard/autosubscription"
+                        >
+                          خرید اشتراک ثبت نمایشگاه
+                        </Link>
+                      </div>
+                    ) : (
+                      <span>خطایی در ثبت اتوگالری رخ داد</span>
+                    )}
+                  </div>
+                )}
+                {loading && step !== 8 && (
+                  <div className="w-full mx-auto  text-center pt-8">
+                    <p className="text-lg font-vazir w-full  mx-auto font-bold ">
+                      در حال ثبت درخواست
+                    </p>
+                    <p className="text-sm font-vazir w-full  mx-auto">
+                      لطفا صبر کنید
+                    </p>
+                    <span className="loading loading-ball loading-lg"></span>
+                  </div>
+                )}
+              </>
             )}
-          </div>
-        )}
-        {loading && step !== 8 && (
-          <div className="w-full mx-auto  text-center pt-8">
-            <p className="text-lg font-vazir w-full  mx-auto font-bold ">
-              در حال ثبت درخواست
-            </p>
-            <p className="text-sm font-vazir w-full  mx-auto">لطفا صبر کنید</p>
-            <span className="loading loading-ball loading-lg"></span>
-          </div>
+          </>
         )}
       </div>
     </div>
