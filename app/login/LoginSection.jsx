@@ -1,5 +1,5 @@
 "use client";
-import { loginReq } from "@/utils/Requests";
+import { loginReq, getUser } from "@/utils/Requests";
 import { ImageURL } from "@/utils/URL";
 import { useFormik } from "formik";
 import Image from "next/image";
@@ -9,9 +9,12 @@ import { parseCookies, setCookie, destroyCookie } from "nookies"; // Import nook
 import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import ErrorMessage from "../components/global/ErrorMessage";
+import { useUser } from "@/context/UserContext";
 
 const LoginSection = () => {
   const router = useRouter();
+  const { setUser } = useUser();
+
   const [loading, setLoading] = useState(false); // Loading state
   const [message, setMessage] = useState(""); // Message state
   const [showPassword, setShowPassword] = useState(false); // Password visibility state
@@ -23,9 +26,10 @@ const LoginSection = () => {
     if (token) {
       destroyCookie(null, "access");
       destroyCookie(null, "refresh");
+      setUser(null);
       router.replace("/login");
     }
-  }, []);
+  }, [setUser]);
 
   const eyeIcon = (
     <svg
@@ -102,10 +106,13 @@ const LoginSection = () => {
             sameSite: "None",
           });
 
+          // Retrieve user information with new cookies
+          const userData = await getUser();
+          // Update UserContext
+          setUser(userData);
+
           // Redirect to dashboard
           router.push("/dashboard");
-          router.refresh();
-          console.log("Login successful");
         }
       } catch (error) {
         // Handle errors from the backend
