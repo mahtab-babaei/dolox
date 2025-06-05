@@ -757,9 +757,7 @@ export const editAutoReq = async (dataToEdit) => {
     sells_chinese_cars: isSellChinese,
     sells_foreign_cars: isSellForeign,
     sells_domestic_cars: isSellDomestic,
-    social_media_links: socialMediaLinks
-      ? JSON.stringify(socialMediaLinks)
-      : JSON.stringify({}),
+    social_media_links: socialMediaLinks || "{}",
   };
   Object.keys(baseApiPayload).forEach((key) => {
     if (baseApiPayload[key] === undefined) {

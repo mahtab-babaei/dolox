@@ -7,12 +7,12 @@ const SocialMedia = ({
   setSocialMediaLinks,
   socialMediaLinks,
 }) => {
-  // تابعی برای تبدیل رشته‌ی socialMediaLinks به آرایه‌ای از آبجکت‌ها
+  // Function to convert the string socialMediaLinks to an array of objects
   const parseSocialMediaLinks = (linksString) => {
-    if (!linksString || linksString === "{}") return [];
+    if (typeof linksString !== "string" || !linksString || linksString === "{}")
+      return [];
 
     try {
-      // حذف `{}` از ابتدا و انتها و تبدیل به آبجکت
       const cleanedString = linksString.replace(/^{|}$/g, "");
       const entries = cleanedString.split(",").map((entry) => {
         const [social, link] = entry.split(":").map((s) => s.trim());
@@ -26,17 +26,15 @@ const SocialMedia = ({
     }
   };
 
-  // مقداردهی اولیه بر اساس socialMediaLinks
   const [socialData, setSocialData] = useState(() => {
     const parsedLinks = parseSocialMediaLinks(socialMediaLinks);
-    return parsedLinks.length > 0
-      ? parsedLinks
-      : [
-          { social: "", link: "" },
-          { social: "", link: "" },
-          { social: "", link: "" },
-          { social: "", link: "" },
-        ];
+    const filled = [...parsedLinks];
+
+    while (filled.length < 4) {
+      filled.push({ social: "", link: "" });
+    }
+
+    return filled;
   });
 
   const handleSelectChange = useCallback(
