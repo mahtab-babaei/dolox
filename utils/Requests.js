@@ -613,6 +613,87 @@ export const autoVideos = async (autoId, videos) => {
   }
 };
 
+export const editAutoVideos = async (autoId, video) => {
+  try {
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const formData = new FormData();
+
+    if (video.title !== undefined) {
+      formData.append("title", video.title);
+    }
+    if (video.description !== undefined) {
+      formData.append("description", video.description);
+    }
+    if (video.video_file instanceof File) {
+      formData.append("video_file", video.video_file);
+    }
+
+    const response = await fetch(
+      `${BackendURL}/ads/exhibitions/${autoId}/videos/${video.id}/`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to upload videos");
+    } else {
+      return { success: true, message: "ویدیو با موفقیت ویرایش شد" };
+    }
+  } catch (error) {
+    console.error("Error editing videos:", error.message);
+    throw error;
+  }
+};
+
+export const deleteAutoVideos = async (autoId, videoId) => {
+  try {
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const response = await fetch(
+      `${BackendURL}/ads/exhibitions/${autoId}/videos/${videoId}/`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to delete videos");
+    } else {
+      return { success: true, message: "ویدیو با موفقیت حذف شد" };
+    }
+  } catch (error) {
+    console.error("Error deleting videos:", error.message);
+    throw error;
+  }
+};
+
 export const fetchAutoDetails = async (id) => {
   if (!id) {
     throw new Error("شناسه اتوگالری معتبر نیست.");
@@ -637,6 +718,103 @@ export const fetchAutoDetails = async (id) => {
   }
 };
 
+export const editAutoReq = async (dataToEdit) => {
+  const {
+    id,
+    contactPhone,
+    contactName,
+    companyName,
+    description,
+    isSellDomestic,
+    isSellChinese,
+    isSellForeign,
+    city,
+    address,
+    socialMediaLinks,
+    logo,
+  } = dataToEdit;
+
+  const cookies = parseCookies();
+  const token = cookies.access;
+  if (!token) {
+    return { success: false, message: "لطفا ابتدا وارد شوید" };
+  }
+
+  let requestBody;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const isNewLogoFile = logo instanceof File;
+
+  const baseApiPayload = {
+    company_name: companyName,
+    contact_name: contactName,
+    contact_phone: contactPhone,
+    city: city,
+    address: address,
+    description: description,
+    sells_chinese_cars: isSellChinese,
+    sells_foreign_cars: isSellForeign,
+    sells_domestic_cars: isSellDomestic,
+    social_media_links: socialMediaLinks
+      ? JSON.stringify(socialMediaLinks)
+      : JSON.stringify({}),
+  };
+  Object.keys(baseApiPayload).forEach((key) => {
+    if (baseApiPayload[key] === undefined) {
+      delete baseApiPayload[key];
+    }
+  });
+
+  if (isNewLogoFile) {
+    console.log("editAutoReq: Sending as FormData (new logo file present)");
+
+    requestBody = new FormData();
+    for (const key in baseApiPayload) {
+      requestBody.append(key, baseApiPayload[key]);
+    }
+    requestBody.append("logo", logo, logo.name);
+  } else {
+    headers["Content-Type"] = "application/json";
+    console.log(
+      "editAutoReq: Sending as application/json (logo field is OMITTED as it's not a new file)"
+    );
+
+    const jsonPayload = { ...baseApiPayload };
+
+    requestBody = JSON.stringify(jsonPayload);
+  }
+
+  try {
+    const response = await fetch(`${BackendURL}/ads/exhibition/${id}/`, {
+      method: "PATCH",
+      headers: headers,
+      body: requestBody,
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      console.error("Backend error response on PATCH:", responseData);
+      throw new Error(responseData.message || "خطا در ویرایش اتوگالری");
+    }
+    return responseData;
+  } catch (error) {
+    const requestType = isNewLogoFile ? "FormData" : "JSON";
+    console.error(
+      `Error in editAutoReq (sent as ${requestType}):`,
+      error.message,
+      error
+    );
+    return {
+      success: false,
+      message:
+        error.message ||
+        `خطای ناشناخته در ویرایش (ارسال شده به عنوان ${requestType})`,
+    };
+  }
+};
+
 export const editAdReq = async ({
   id,
   brand,
@@ -650,10 +828,6 @@ export const editAdReq = async ({
   rentorsale,
   city,
   phone,
-  engineSize,
-  engine,
-  acceleration,
-  combinedUse,
   exhibition,
 }) => {
   try {
@@ -1282,10 +1456,26 @@ export const fetchAuctionDetails = async (id) => {
 };
 
 export const getSubscriptionPlans = async (type) => {
+  const cookies = parseCookies();
+  const token = cookies.access;
+  if (!token) {
+    return {
+      success: false,
+      message: "لطفا ابتدا وارد شوید",
+    };
+  }
+
   try {
     const response = await fetch(
-      `${BackendURL}/ads/subscription-plans/?type=${type}`
+      `${BackendURL}/payment/subscription-plans/?type=${type}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
+
     if (!response.ok) {
       const err = await response.json();
       throw new Error(err.message || "خطا در دریافت پلن‌ها");
@@ -1308,11 +1498,10 @@ export const createSubscription = async (data) => {
     };
   }
 
-  const res = await fetch(`${BackendURL}/ads/subscription-create/`, {
+  const res = await fetch(`${BackendURL}/payment/subscription-create/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
@@ -1325,7 +1514,7 @@ export const createSubscription = async (data) => {
 };
 
 export async function requestPayment({ description, phone, subscription_id }) {
-  const res = await fetch(`${BackendURL}/ads/payment/`, {
+  const res = await fetch(`${BackendURL}/payment/payment/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

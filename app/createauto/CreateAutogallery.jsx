@@ -8,7 +8,14 @@ import Banner from "./Banner";
 import Videos from "./Videos";
 import CreateAutoSteps from "./CreateAutoSteps";
 import toast from "react-hot-toast";
-import { autoVideos, createAutoReq, getProfile } from "@/utils/Requests";
+import {
+  autoVideos,
+  deleteAutoVideos,
+  editAutoVideos,
+  createAutoReq,
+  editAutoReq,
+  getProfile,
+} from "@/utils/Requests";
 import Link from "next/link";
 
 const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
@@ -26,6 +33,8 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
   const [socialMediaLinks, setSocialMediaLinks] = useState([]);
   const [logo, setLogo] = useState(null);
   const [video, setVideo] = useState([]);
+  const [deletedVideo, setDeletedVideo] = useState({});
+  const [editedVideo, setEditedVideo] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [hasExhibition, setHasExhibition] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -103,7 +112,7 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
         try {
           setLoading(true);
           console.log(logo);
-          const result = await createAutoReq({
+          const requestData = {
             contactPhone,
             contactName,
             companyName,
@@ -115,26 +124,78 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
             address,
             socialMediaLinks,
             logo,
-            isDeleted: false,
-          });
+          };
 
-          console.log("Response from createAutoReq:", result);
-          console.log("RESULTID:", result.id);
-          if (result.id) {
-            console.log(video);
+          if (!isEdit) {
+            const result = await createAutoReq({
+              ...requestData,
+              isDeleted: false,
+            });
 
-            const videoResult = await autoVideos(result.id, video);
+            console.log("Response from createAutoReq:", result);
+            console.log("RESULTID:", result.id);
+            if (result.id) {
+              console.log(video);
 
-            if (videoResult) {
-              setStep(7);
-              toast.success("اطلاعات با موفقیت ثبت شد!");
+              const videoResult = await autoVideos(result.id, video);
+              console.log("videoResult:", videoResult);
+              if (videoResult) {
+                setStep(7);
+                toast.success("اطلاعات با موفقیت ثبت شد!");
+              } else {
+                setErrorMessage(
+                  videoResult.message || "اتوگالری شما ساخته نشد"
+                );
+                setStep(8);
+              }
             } else {
-              setErrorMessage(videoResult.message || "اتوگالری شما ساخته نشد");
+              setErrorMessage(result.message || "اتوگالری شما ساخته نشد");
               setStep(8);
             }
           } else {
-            setErrorMessage(result.message || "اتوگالری شما ساخته نشد");
-            setStep(8);
+            const result = await editAutoReq({
+              id,
+              ...requestData,
+            });
+            console.log("Response from editAutoReq:", result);
+            if (result.success) {
+              const newVideosResult = await autoVideos(id, video);
+
+              const deleteVideosResults = await Promise.all(
+                (deletedVideo?.ids || []).map((videoId) =>
+                  deleteAutoVideos(id, videoId)
+                )
+              );
+              console.log("editedVideos:", editedVideo);
+
+              const editVideosResults = await Promise.all(
+                (editedVideo || []).map((videoObj) =>
+                  editAutoVideos(id, videoObj)
+                )
+              );
+
+              const hasNewVideos = video && video.length > 0;
+              const hasDeletedVideos = deletedVideo?.ids?.length > 0;
+              const hasEditedVideos = editedVideo?.length > 0;
+
+              const allSucceeded =
+                (!hasNewVideos || newVideosResult) &&
+                (!hasDeletedVideos ||
+                  deleteVideosResults.every((r) => r?.success)) &&
+                (!hasEditedVideos ||
+                  editVideosResults.every((r) => r?.success));
+
+              if (allSucceeded) {
+                setStep(7);
+                toast.success("اطلاعات با موفقیت ثبت شد!");
+              } else {
+                setErrorMessage("خطایی در ویرایش اتوگالری رخ داد");
+                setStep(8);
+              }
+            } else {
+              setErrorMessage(result.message || "اتوگالری شما ویرایش نشد");
+              setStep(8);
+            }
           }
         } catch (error) {
           setErrorMessage(error.message || "درخواست شما ثبت نشد");
@@ -228,19 +289,26 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
                 )}
                 {step === 5 && (
                   <Videos
+                    exhibitionId={id}
                     step={step}
                     setStep={setStep}
                     setVideo={setVideo}
-                    video={video}
+                    setDeletedVideo={setDeletedVideo}
+                    setEditedVideo={setEditedVideo}
                   />
                 )}
-                {step === 7 && (
-                  <div>
+                {step === 7 && !isEdit ? (
+                  <p className="px-6 sm:px-28 text-center font-vazir py-36 max-full">
+                    درخواست شما با موفقیت ثبت شد. جهت تایید اطلاعات تا 48 ساعت
+                    کاری آینده با شما تماس گرفته خواهد شد.
+                  </p>
+                ) : (
+                  step === 7 &&
+                  isEdit && (
                     <p className="px-6 sm:px-28 text-center font-vazir py-36 max-full">
-                      درخواست شما با موفقیت ثبت شد. جهت تایید اطلاعات تا 48 ساعت
-                      کاری آینده با شما تماس گرفته خواهد شد.
+                      اتوگالری شما با موفقیت ویرایش شد
                     </p>
-                  </div>
+                  )
                 )}
                 {step === 8 && (
                   <div className="px-8 text-center font-vazir py-36 text-gray-500">
