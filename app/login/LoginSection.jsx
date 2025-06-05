@@ -98,13 +98,12 @@ const LoginSection = () => {
             maxAge: 60 * 60 * 24 * 7, // 1 week
             path: "/", // Accessible across the entire app
             secure: true, // Always use secure cookies
-            sameSite: "None",
           });
 
           setCookie(null, "refresh", response.refresh, {
             maxAge: 60 * 60 * 24 * 30, // 30 days
             path: "/",
-            sameSite: "None",
+            secure: true, // Always use secure cookies
           });
 
           // Retrieve user information with new cookies
