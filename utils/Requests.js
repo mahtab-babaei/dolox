@@ -1512,9 +1512,19 @@ export const createSubscription = async (data) => {
 };
 
 export async function requestPayment({ description, phone, subscription_id }) {
+  const cookies = parseCookies();
+  const token = cookies.access;
+  if (!token) {
+    return {
+      success: false,
+      message: "لطفا ابتدا وارد شوید",
+    };
+  }
+
   const res = await fetch(`${BackendURL}/payment/payment/`, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ description, phone, subscription_id }),
@@ -1525,3 +1535,25 @@ export async function requestPayment({ description, phone, subscription_id }) {
 
   return responseBody;
 }
+
+export const getVerifyPayment = async (verifyQueries) => {
+  console.log(`${BackendURL}/payment/verify-payment${verifyQueries}`);
+  try {
+    const response = await fetch(
+      `${BackendURL}/payment/verify-payment${verifyQueries}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error in getVerifyPayment:", error);
+    return {
+      status: "false",
+      message: "خطا در عملیات پرداخت",
+    };
+  }
+};
