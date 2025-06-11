@@ -14,7 +14,13 @@ import Models from "./Models";
 import Package from "./Package";
 import Price from "./Price";
 import Year from "./Year";
-import { AdImages, checkAds, createAdReq, editAdReq } from "@/utils/Requests";
+import {
+  AdImages,
+  deleteAdImages,
+  checkAds,
+  createAdReq,
+  editAdReq,
+} from "@/utils/Requests";
 import { getProfile } from "@/utils/Requests";
 import Submit from "./Submit";
 import Link from "next/link";
@@ -42,6 +48,7 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
   const [installments, setInstallments] = useState(false); // pay montly or something
   const [rentorsale, setRentorsale] = useState("sale");
   const [images, setImages] = useState([]);
+  const [deletedImages, setDeletedImages] = useState([]);
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const [esxhibitionId, setExhibitionId] = useState(0);
@@ -144,10 +151,36 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
           } else {
             const result = await editAdReq(requestData);
             console.log("Response from editAdReq:", result);
+
             if (result && result.id) {
-              setSubmitedAdID(result.id);
-              setStep(10);
-              toast.success("اطلاعات با موفقیت ثبت شد!");
+              const newFiles = images.filter((img) => img instanceof File);
+              let newImagesResults = { success: true };
+
+              if (newFiles.length > 0) {
+                newImagesResults = await AdImages(id, newFiles);
+              }
+
+              const deleteImagesResults = await Promise.all(
+                (deletedImages || []).map((imageId) =>
+                  deleteAdImages(id, imageId)
+                )
+              );
+
+              const hasDeletedImages = deletedImages?.length > 0;
+
+              const allSucceeded =
+                newImagesResults.success &&
+                (!hasDeletedImages ||
+                  deleteImagesResults.every((r) => r?.success));
+
+              if (allSucceeded) {
+                setSubmitedAdID(result.id);
+                setStep(10);
+                toast.success("اطلاعات با موفقیت ثبت شد!");
+              } else {
+                setErrorMessage("آگهی شما ساخته نشد");
+                setStep(11);
+              }
             } else {
               setErrorMessage(result.message || "آگهی شما ویرایش نشد");
               setStep(11);
@@ -178,7 +211,7 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
           </div>
         ) : (
           <>
-            {/* اگه اجازه ثبت آگهی نداشت و حالت ویرایش هم نبود فقط پیام خطا رو نشون بده */}
+            {/* If user don't have permission to post ad & there is no edit mode, just show error message */}
             {!adable.success && !isEdit ? (
               <p className="px-8 text-center font-vazir py-36 text-base-content">
                 {adable.message}
@@ -246,6 +279,8 @@ const CreateAd = ({ isEdit = false, adData = null, id }) => {
                   installments={installments}
                 />
                 <Images
+                  isEdit={isEdit}
+                  setDeletedImages={setDeletedImages}
                   setStep={setStep}
                   step={step}
                   images={images}

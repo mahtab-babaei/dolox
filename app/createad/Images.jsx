@@ -4,7 +4,14 @@ import React, { useState } from "react";
 import StepButtons from "../components/global/StepButtons";
 import ErrorMessage from "../components/global/ErrorMessage";
 
-const Images = ({ step, setStep, images, setImages }) => {
+const Images = ({
+  step,
+  setStep,
+  images,
+  setImages,
+  setDeletedImages,
+  isEdit,
+}) => {
   const [error, setError] = useState("");
 
   const handleImageUpload = (files) => {
@@ -34,10 +41,21 @@ const Images = ({ step, setStep, images, setImages }) => {
     if (e.stopPropagation) {
       e.stopPropagation();
     }
-    setImages((prevImages) => prevImages.filter((img) => img !== image));
+
+    if (image?.id) {
+      console.log("image?.id", image?.id);
+      setDeletedImages((prev) => [...prev, image?.id]);
+    }
+
+    setImages((prevImages) =>
+      prevImages.filter((img) =>
+        img.id ? img.id !== image?.id : img !== image
+      )
+    );
   };
 
   const setCoverImage = (image) => {
+    if (isEdit) return;
     setImages((prevImages) => {
       const filteredImages = prevImages.filter((img) => img !== image);
       return [image, ...filteredImages]; // Move the selected image to the front

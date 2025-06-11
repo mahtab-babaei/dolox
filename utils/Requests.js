@@ -920,6 +920,40 @@ export const AdImages = async (adId, images) => {
   }
 };
 
+export const deleteAdImages = async (adId, imageId) => {
+  try {
+    // Get token and add it to headers
+    const cookies = parseCookies();
+    const token = cookies.access;
+    if (!token) {
+      return {
+        success: false,
+        message: "لطفا ابتدا وارد شوید",
+      };
+    }
+
+    const response = await fetch(
+      `${BackendURL}/ads/cars/${adId}/images/${imageId}/`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to delete videos");
+    } else {
+      return { success: true, message: "تصویر با موفقیت حذف شد" };
+    }
+  } catch (error) {
+    console.error("Error deleting image:", error.message);
+    throw error;
+  }
+};
+
 export const fetchAdDetails = async (id) => {
   try {
     const response = await fetch(`${BackendURL}/ads/${id}/`, {
