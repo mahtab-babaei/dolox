@@ -52,8 +52,7 @@ export default function Package({ submitedAdID }) {
       }
     } catch (error) {
       if (error.status === 400) {
-        const messages = Object.values(error.data).flat().join("، ");
-        setErrorMessage(`خطا: ${messages}`);
+        setErrorMessage("مشکلی پیش آمده لطفا با پشتیبانی تماس بگیرید");
       } else if (error.status === 401) {
         setErrorMessage(error.data.message || "خطای احراز هویت");
       } else {

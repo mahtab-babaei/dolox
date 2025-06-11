@@ -166,7 +166,6 @@ const CreateAutogallery = ({ isEdit = false, autoData = null, id }) => {
                   deleteAutoVideos(id, videoId)
                 )
               );
-              console.log("editedVideos:", editedVideo);
 
               const editVideosResults = await Promise.all(
                 (editedVideo || []).map((videoObj) =>

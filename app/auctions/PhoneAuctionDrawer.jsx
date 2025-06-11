@@ -17,7 +17,7 @@ const PhoneAuctionDrawer = ({
   const [drawer, setdrawer] = useState(false);
   return (
     <div className="text-black">
-      <div className="bg-primary h-28 flex justify-center items-center text-white flex-col rounded-[21px] ">
+      <div className="md:hidden bg-primary h-28 flex justify-center items-center text-white flex-col rounded-[21px] ">
         {loading ? (
           <span className="loading loading-spinner loading-lg text-white"></span>
         ) : expireTime ? (

@@ -25,7 +25,11 @@ const AdsPage = () => {
 
   if (loading) return <Spinner />;
 
-  return <TotalAds brands={brands} searchQuery={searchQuery} />;
+  return (
+    <div className="min-h-screen">
+      <TotalAds brands={brands} searchQuery={searchQuery} />
+    </div>
+  );
 };
 
 export default AdsPage;

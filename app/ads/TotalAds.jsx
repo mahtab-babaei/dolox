@@ -111,7 +111,7 @@ const TotalAds = ({ brands, searchQuery }) => {
 
   if (loading) return <LoadingComponent />;
   return (
-    <div className="bg-base-200 pt-40 px-2 flex gap-2 justify-center">
+    <div className="bg-base-200 pt-40 px-2 flex gap-2 justify-center h-full min-h-screen">
       <div className="w-1/4 h-full max-w-xs hidden md:block">
         <DesktopAdsPanel
           setCity={setCity}

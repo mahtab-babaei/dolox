@@ -69,7 +69,7 @@ const TotalAuctions = () => {
         setPrevPage(initialData?.previous);
       } catch (error) {
         console.error("Error in fetching auctions:", error);
-        setErrorMessage(error.message || "خطا در برقراری ارتباط با سرور");
+        setErrorMessage("خطا در برقراری ارتباط با سرور");
       } finally {
         setLoading(false);
       }
