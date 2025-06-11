@@ -11,18 +11,26 @@ const LastAuctions = () => {
         <div className="w-full h-full z-30 relative bg-transparent">
           <h2 className="text-3xl w-full text-center pt-24">آخرین مزایده ها</h2>
           <p className="text-center font-vazir pb-10 pt-3">
-            کامل ترین مزایدات کشور در{" "}
+            کامل ترین مزایدات کشور در
             <span className="text-secondary">دولوکس</span>
           </p>
           <div className="grid gap-10 py-24">
             <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 items-center text-center gap-6 px-4">
-              <LastAuctionItem />
-              <LastAuctionItem />
-              <LastAuctionItem />
-              <LastAuctionItem />
+              <Link href="/auctions">
+                <LastAuctionItem />
+              </Link>
+              <Link href="/auctions">
+                <LastAuctionItem />
+              </Link>
+              <Link href="/auctions">
+                <LastAuctionItem />
+              </Link>
+              <Link href="/auctions">
+                <LastAuctionItem />
+              </Link>
             </div>
 
-            <div className="text-center">
+            <div className="text-center pb-8">
               <Link href="/auctions" className="text-secondary">
                 مشاهده بیشتر
               </Link>

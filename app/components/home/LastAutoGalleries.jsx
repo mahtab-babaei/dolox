@@ -3,6 +3,7 @@ import React from "react";
 import AutoGalleryItem from "../global/AutoGalleryItem";
 
 const LastAutoGalleries = ({ autogalleries }) => {
+  console.log("autogalleries", autogalleries);
   return (
     <section className="mx-auto  pt-32 bg-base-300 px-4 pb-32">
       <div className="mx-auto max-w-screen-xl text-black">
@@ -15,9 +16,15 @@ const LastAutoGalleries = ({ autogalleries }) => {
           </Link>
         </div>
         <div className="grid lg:grid-cols-3  md:grid-cols-2 grid-cols-1 items-center text-center mt-6 gap-16 px-2">
-          <AutoGalleryItem autoGallery={autogalleries[0]} />
-          <AutoGalleryItem autoGallery={autogalleries[1]} />
-          <AutoGalleryItem autoGallery={autogalleries[2]} />
+          {autogalleries[0] && (
+            <AutoGalleryItem autoGallery={autogalleries[0]} />
+          )}
+          {autogalleries[1] && (
+            <AutoGalleryItem autoGallery={autogalleries[1]} />
+          )}
+          {autogalleries[2] && (
+            <AutoGalleryItem autoGallery={autogalleries[2]} />
+          )}
         </div>
 
         <div className="text-center py-10">

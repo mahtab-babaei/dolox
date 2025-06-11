@@ -10,17 +10,9 @@ import UserDropDown from "./UserDropDown";
 import { userIcon } from "@/utils/constants";
 import Notif from "./Notif";
 import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { user } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user === null) {
-      router.push("/login");
-    }
-  }, [user]);
 
   const isLoggedIn = !!user;
   const userName = user?.first_name || user?.username || user?.phone_number;
