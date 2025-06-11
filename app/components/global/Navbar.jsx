@@ -3,18 +3,27 @@ import logo from "@/public/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBox from "./SearchBox";
 import { links } from "@/utils/constants";
 import UserDropDown from "./UserDropDown";
 import { userIcon } from "@/utils/constants";
 import Notif from "./Notif";
 import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { user } = useUser();
-  const userName =
-    user?.first_name || user?.username || user?.phone_number || "ورود";
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user === null) {
+      router.push("/login");
+    }
+  }, [user]);
+
+  const isLoggedIn = !!user;
+  const userName = user?.first_name || user?.username || user?.phone_number;
   const [drawer, setDrawer] = useState(false);
   const currentPath = usePathname();
   const isActive = (href) =>
@@ -79,13 +88,13 @@ const Navbar = () => {
             ثبت رایگان آگهی
           </Link>
 
-          {!user && (
+          {!isLoggedIn && (
             <Link className="flex items-center gap-2" href="/login">
               {userIcon}
-              <span className="text-black">{userName}</span>
+              <span className="text-black">ورود</span>
             </Link>
           )}
-          {user && (
+          {isLoggedIn && (
             <div className="flex gap-2 items-center">
               <Notif />
               <div
