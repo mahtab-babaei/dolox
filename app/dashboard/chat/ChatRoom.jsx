@@ -45,7 +45,7 @@ export default function ChatRoom({ roomName, onBackToList }) {
     sendMessage({
       content: inputValue,
       command: "new_message",
-      username: user.username,
+      username: user?.username,
       roomName: roomName,
     });
 
@@ -53,35 +53,37 @@ export default function ChatRoom({ roomName, onBackToList }) {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 overflow-y-auto">
-      <div className="sticky top-0 left-0 text-left bg-white z-10 p-2">
-        <button onClick={onBackToList} className="sm:hidden text-black">
-          لیست مخاطبین ←
-        </button>
-      </div>
+    <div className="w-full h-full flex flex-col justify-between px-8 pb-8 overflow-y-auto">
+      <div>
+        <div className="sticky top-0 left-0 text-left bg-white z-10 px-2 py-4">
+          <button onClick={onBackToList} className="sm:hidden text-black">
+            لیست مخاطبین ←
+          </button>
+        </div>
 
-      <div className="flex flex-col gap-3 overflow-y-auto">
-        {messages?.map((msg, index) => (
-          <div
-            key={index}
-            className={`chat ${
-              msg.__str__ === user.username ? "chat-start" : "chat-end"
-            } font-vazir`}
-          >
-            <div className="chat-header text-black">{msg.__str__}</div>
+        <div className="flex flex-col gap-3 overflow-y-auto">
+          {messages?.map((msg, index) => (
             <div
-              className={`chat-bubble text-white ${
-                msg.__str__ === user.username ? "bg-primary" : "bg-secondary"
-              }`}
+              key={index}
+              className={`chat ${
+                msg.__str__ === user?.username ? "chat-start" : "chat-end"
+              } font-vazir`}
             >
-              {msg.content}
+              <div className="chat-header text-black">{msg.__str__}</div>
+              <div
+                className={`chat-bubble text-white ${
+                  msg.__str__ === user?.username ? "bg-primary" : "bg-secondary"
+                }`}
+              >
+                {msg.content}
+              </div>
+              <time className="chat-footer text-xs opacity-50 text-black pt-1">
+                {formatTime(msg.timestamp)}
+              </time>
             </div>
-            <time className="chat-footer text-xs opacity-50 text-black pt-1">
-              {formatTime(msg.timestamp)}
-            </time>
-          </div>
-        ))}
-        <div ref={messagesEndRef}></div>
+          ))}
+          <div ref={messagesEndRef}></div>
+        </div>
       </div>
 
       <div className="flex w-full items-center py-6 gap-2">

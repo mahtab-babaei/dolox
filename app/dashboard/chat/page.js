@@ -18,13 +18,13 @@ const ChatPage = () => {
   }, [roomName]);
 
   const handleBackToList = () => {
-    router.push("/dashboard/chat"); // حذف `room` از URL
+    router.push("/dashboard/chat"); // Remove `room` from URL
   };
 
   return (
     <div className="bg-base-200 w-full">
       <div className="flex justify-start pt-40 pb-10 px-4 gap-4 max-w-screen-lg">
-        {/* نمایش لیست چت در موبایل فقط در صورتی که room انتخاب نشده باشد */}
+        {/* Show chat list on mobile only if room is not selected */}
         <div
           className={`${
             roomName ? "hidden" : "block"
@@ -33,7 +33,7 @@ const ChatPage = () => {
           <ChatList />
         </div>
 
-        {/* نمایش چت روم فقط در صورتی که room انتخاب شده باشد */}
+        {/* Show chat room only if room is selected */}
         <div
           className={`${
             roomName ? "block" : "hidden"
