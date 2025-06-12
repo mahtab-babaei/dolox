@@ -11,6 +11,7 @@ export default function VerifyPaymentPage() {
   const [success, setSuccess] = useState(null);
   const [refId, setRefId] = useState(null);
   const [code, setCode] = useState(null);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const subscription_plan_id = searchParams.get("subscription_plan_id");
@@ -21,6 +22,7 @@ export default function VerifyPaymentPage() {
     if (!subscription_plan_id || !user_id || !Authority || Status !== "OK") {
       setSuccess(false);
       setLoading(false);
+      setMessage("خطا در دریافت اطلاعات");
       return;
     }
 
@@ -66,10 +68,15 @@ export default function VerifyPaymentPage() {
         )}
 
         {/* Failed */}
-        {!loading && success === false && code !== 101 && (
+        {!loading && success === false && code !== 101 && !message && (
           <p className="text-gray-700 mt-2">
             پرداخت با خطا مواجه شد 😞 لطفاً مجدداً تلاش کنید.
           </p>
+        )}
+
+        {/* No parameters */}
+        {!loading && success === false && message && (
+          <p className="text-gray-700 mt-2">{message}</p>
         )}
 
         {/* Already done */}
