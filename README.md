@@ -1,13 +1,14 @@
-## Environment Variables Setup
+# Next.js Frontend Project
+This is a Next.js frontend project that has been containerized using Docker for easy development, testing, and deployment.
 
-This project uses environment variables to manage configuration values. To keep sensitive data out of the source code, environment variables are defined in an .env file, which is ignored by Git.
+# Environment Variables Setup
+This project uses environment variables to manage configuration values. To keep sensitive data out of the source code, environment variables are defined in an .env.local file, which is ignored by Git.
 
-Set Up Environment Variables:
-1. Copy the example file:
-Run the following command in the root directory to create your own .env.local file:
+1. Copy the Example File
+Run the following command in the project root to create your own .env.local file:
 cp .env.example .env.local
 
-2. Edit .env.local:
+2. Edit .env.local
 Open the .env.local file and fill in the missing values:
 NEXT_PUBLIC_IMAGE_URL=/images/
 NEXT_PUBLIC_BACKEND_URL=your_backend_url
@@ -17,37 +18,48 @@ NEXT_PUBLIC_WORDPRESS_URL=your_wordpress_url
 3. Restart the Next.js server (if already running):
 npm run dev
 
-## Getting Started
+# How to Build and Run the Project Development Mode
 
-First, run the development server:
+1. Install dependencies:
+npm install
 
-```bash
+2. Start the development server:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+# How to Build and Run the Project with Docker
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Build the Docker Image
+Run the following command in the project root to build the Docker image:
+docker build -t next-frontend .
+- This command creates a Docker image named `next-frontend` using the `Dockerfile`.
 
-## Learn More
+2. Run the Docker Container
+Start a container from the built image in detached mode:
+docker run -d -p 3000:3000 next-frontend
 
-To learn more about Next.js, take a look at the following resources:
+- `-d`: Runs the container in the background.
+- `-p 3000:3000`: Maps port 3000 on your host to port 3000 in the container.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Access the Application
+Open your browser and navigate to:
+http://localhost:3000
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The Next.js application should be up and running.
 
-## Deploy on Vercel
+4. Stop and Remove the Container (Optional)
+To stop and remove the running container:
+docker ps
+docker stop <container-id>
+docker rm <container-id>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. Troubleshooting
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Port Conflict**: If port 3000 is already in use, you can map a different host port, e.g., `-p 3001:3000`.
+
+**Build Issues**: Ensure you have enough disk space and memory allocated to Docker (check Docker Desktop settings on Windows/Mac).
+
+**Application Not Loading**: Check container logs for errors:
+  docker logs <container-id>
+
