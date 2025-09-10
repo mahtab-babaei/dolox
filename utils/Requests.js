@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const fetchAdsByFilter = async ({
   brand = "",
-  city = "همه شهر ها",
+  city = "",
   yearRange = { min: "", max: "" },
   kmRange = { min: "", max: "" },
   priceRange = { min: "", max: "" },
@@ -22,7 +22,7 @@ export const fetchAdsByFilter = async ({
     } else {
       const isInitialRequest =
         !brand &&
-        city === "همه شهر ها" &&
+        city === "" &&
         !yearRange.min &&
         !yearRange.max &&
         !kmRange.min &&
@@ -33,7 +33,7 @@ export const fetchAdsByFilter = async ({
         !order;
 
       url = isInitialRequest
-        ? `${BackendURL}/ads/?city=${city}&page=1`
+        ? `${BackendURL}/ads/?page=1`
         : `${BackendURL}/ads/?${new URLSearchParams({
             brand,
             city,
