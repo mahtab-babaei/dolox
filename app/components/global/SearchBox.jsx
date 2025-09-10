@@ -17,7 +17,7 @@ const SearchBox = () => {
     <div className="bg-primary py-3 md:px-0 px-16">
       <form
         onSubmit={handleSearch}
-        className="input h-11 flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content bg-base-300 rounded-3xl"
+        className="input h-11 flex items-center gap-2 md:max-w-screen-sm mx-auto placeholder-base-content text-black bg-base-300 rounded-3xl"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -149,7 +149,9 @@ body {
 }
 
 input:-webkit-autofill {
-  background-color: transparent !important;
+  -webkit-text-fill-color: #9ca3af !important; 
+  caret-color: #9ca3af !important;
+  box-shadow: 0 0 0px 1000px var(--background) inset !important;
   transition: background-color 5000s ease-in-out 0s !important;
 }
 
